@@ -2,28 +2,36 @@
 
 <form action="">
     <div class="field">
+        <label for="name">Name:</label>
+        <input type="text" name="name" id="name" value="<%= usuario.name%>">
+    </div>
+    <div class="field">
+        <label for="lastname">Lastname:</label>
+        <input type="text" name="lastname" id="lastname" value="<%= usuario.lastname%>">
+    </div>
+    <div class="field">
         <label for="nickname">Nickname:</label>
         <input type="text" name="nickname" id="nickname" value="<%= usuario.nickname%>">
     </div>
     <div class="field">
         <label for="email">Email:</label>
-        <input type="email" name="email" id="email">
+        <input type="email" name="email" id="email" value="<%= usuario.email%>">
     </div>
     <div class="field">
         <label for="password">Password:</label>
-        <input type="text" name="password" id="password">
+        <input type="text" name="password" id="password" value="<%= usuario.password%>">
     </div>
     <div class="field">
         <label for="foto">Foto de perfil</label>
-        <input type="text" name="foto" id="foto">
+        <input type="text" name="foto" id="foto" value="<%= usuario.foto%>">
     </div>
     <div class="field">
         <label for="pais">Pais: </label>
-        <input type="text" name="pais" id="pais">
+        <input type="text" name="pais" id="pais" value="<%= usuario.pais%>">
     </div>
     <div class="field">
         <label for="descripcion">Descripcion: </label>
-        <input type="text" name="descripcion" id="descripcion">
+        <input type="text" name="descripcion" id="descripcion" value="<%= usuario.descripcion%>">
     </div>
     <div class="field">
         <input type="submit" value="Create">
