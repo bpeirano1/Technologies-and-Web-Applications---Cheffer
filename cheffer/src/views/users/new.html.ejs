@@ -1,0 +1,39 @@
+<h2>Nuevo Usuario</h2>
+
+<form action="">
+    <div class="field">
+        <label for="name">Nombre:</label>
+        <input type="text" name="name" id="name" value="<%= user.name%>">
+    </div>
+    <div class="field">
+        <label for="lastname">Apellido:</label>
+        <input type="text" name="lastname" id="lastname" value="<%= user.lastname%>">
+    </div>
+    <div class="field">
+        <label for="username">username:</label>
+        <input type="text" name="username" id="username" value="<%= user.username%>">
+    </div>
+    <div class="field">
+        <label for="email">Email:</label>
+        <input type="email" name="email" id="email" value="<%= user.email%>">
+    </div>
+    <div class="field">
+        <label for="password">Password:</label>
+        <input type="text" name="password" id="password">
+    </div>
+    <div class="field">
+        <label for="picture">Foto de perfil</label>
+        <input type="file" name="picture" id="picture">
+    </div>
+    <div class="field">
+        <label for="country">Country (Pais): </label>
+        <input type="text" name="country" id="country">
+    </div>
+    <div class="field">
+        <label for="description">Descripcion: </label>
+        <input type="text" name="description" id="description">
+    </div>
+    <div class="field">
+        <input type="submit" value="Create">
+    </div>     
+</form>

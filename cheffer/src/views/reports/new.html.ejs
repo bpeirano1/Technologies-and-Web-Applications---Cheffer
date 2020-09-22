@@ -1,0 +1,21 @@
+<h2>Nueva denuncia</h2>
+
+<form action="">
+    <div class="field">
+        <label for="publicationId">publicationId:</label>
+        <input type="number" name="publicationId" id="publicationId" value="<%= report.publicationId%>">
+    </div>
+    <div class="field">
+        <label for="userId">userId:</label>
+        <input type="number" name="userId" id="userId" value="<%= report.userId %>">
+    </div>
+    <div class="field">
+        <label for="description">Descripcion:</label>
+        <input type="text" name="description" id="description" value="<%= report.description %>">
+    </div>
+    <div class="field">
+        <input type="submit" value="Crear Denuncia">
+    </div>
+    
+    
+</form>
