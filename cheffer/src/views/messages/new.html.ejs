@@ -1,21 +1,33 @@
 <h2>Nuevo Mensaje</h2>
 
-<form action="">
-    <div class="field">
-        <label for="senderId">Sender Id: </label>
-        <input type="number" name="senderId" id="senderId" value="<%= message.senderId %>">
-    </div>
-    <div class="field">
-        <label for="receiverId">Receiver Id: </label>
-        <input type="number" name="receiverId" id="receiverId" value="<%= message.receiverId %>">
-    </div>
-    <div class="field">
-        <label for="description">Descripcion: </label>
-        <input type="text" name="description" id="description" value="<%= message.description%>">
-    </div>
-    <div class="field">
-        <input type="submit" value="Enviar mensaje">
-    </div>
-    
-    
-</form>
+<div>
+    <% if (locals.errors) { %>
+        <div class="errors">
+            You need to fix the following errors:
+            <ul>
+                <% errors.forEach(error => { %>
+                    <li><%= error.message %></li>
+                    <% }); %>
+            </ul>
+        </div>
+        <% } %>
+
+
+    <form action="<%= submitMessagePath %>" method="POST">
+        <div class="field">
+            <label for="senderId">Sender Id: </label>
+            <input type="number" name="senderId" id="senderId" value="<%= message.senderId %>">
+        </div>
+        <div class="field">
+            <label for="receiverId">Receiver Id: </label>
+            <input type="number" name="receiverId" id="receiverId" value="<%= message.receiverId %>">
+        </div>
+        <div class="field">
+            <label for="description">Descripcion: </label>
+            <input type="text" name="description" id="description" value="<%= message.description%>">
+        </div>
+        <div class="field">
+            <input type="submit" value="Enviar mensaje">
+        </div>
+    </form>
+</div>
