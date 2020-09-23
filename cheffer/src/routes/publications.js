@@ -15,7 +15,7 @@ router.post("publications.create", "/", async (ctx) => {
     const publication = ctx.orm.publication.build(ctx.request.body);
     try {
         await publication.save({ fields: ["name", "ingredients", "time", "steps", "userId", "description", "ranking", "recipesPictures", "recipesVideos" , "stepsPictures"] });
-        ctx.redirect(ctx.router.url("publications.new"));
+        ctx.redirect(ctx.router.url("publications.show", {id: publication.id}));
     } catch (validationError) {
         await ctx.render("publications/new", {
          publication,
@@ -31,7 +31,16 @@ router.get("publications.index","/", async (ctx) => {
     await ctx.render("publications/index", {
         publications,
         newPublicationPath: ctx.router.url("publications.new"),
+        publicationPath: (publication) => ctx.router.url("publications.show", {id: publication.id}),
     })
+});
+
+router.get("publications.show", "/:id", async (ctx) => {
+    const publication = await ctx.orm.publication.findByPk(ctx.params.id);
+    await ctx.render("publications/show", {
+        publication,
+        publicationsPath: ctx.router.url("publications.index"),
+    });
 });
 
 module.exports = router

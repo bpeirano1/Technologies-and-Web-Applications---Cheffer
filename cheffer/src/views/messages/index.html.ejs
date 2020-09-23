@@ -2,7 +2,7 @@
 
 <div>
     <% messages.forEach(message => { %>
-        <p><%= message.description %> <%= message.senderId %> <%= message.receiverId %></p>
+        <p><a href="<%= messagePath(message) %>"><%= message.description %> <%= message.senderId %> <%= message.receiverId %></a></p>
     <% }); %>
 </div>
 

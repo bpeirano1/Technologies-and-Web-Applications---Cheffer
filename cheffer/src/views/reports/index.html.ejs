@@ -2,7 +2,7 @@
 
 <div>
     <% reports.forEach(report => { %>
-        <p><%= report.description %></p>
+        <p><a href="<%= reportPath(report) %>"><%= report.description %></a></p>
     <% }); %>
 </div>
 

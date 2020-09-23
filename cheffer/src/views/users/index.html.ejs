@@ -2,7 +2,7 @@
 
 <div>
     <% users.forEach(user => { %>
-        <p><%= user.name %></p>
+        <p><a href="<%= userPath(user) %>"><%= user.name %></a></p>
     <% }); %>
 </div>
 

@@ -2,7 +2,7 @@
 
 <div>
     <% comments.forEach(comment => { %>
-        <p><%= comment.description %> <%= comment.publicationId %></p>
+        <p><a href="<%= commentPath(comment) %>"><%= comment.description %> <%= comment.publicationId %></a></p>
     <% }); %>
 </div>
 

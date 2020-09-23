@@ -2,7 +2,7 @@
 
 <div>
     <% publications.forEach(publication => { %>
-        <p><%= publication.name %></p>
+        <p><a href="<%= publicationPath(publication) %>"><%= publication.name %></a></p>
     <% }); %>
 </div>
 
