@@ -1,0 +1,9 @@
+<h2>Reports</h2>
+
+<div>
+    <% reports.forEach(report => { %>
+        <p><%= report.description %></p>
+    <% }); %>
+</div>
+
+<a href=" <%= newReportPath %>" > New Report</a>

@@ -7,6 +7,7 @@ router.get("users.new", "/new", async (ctx) => {
     await ctx.render("users/new", {
         user,
         submitUserPath: ctx.router.url("users.create"),
+        usersPath: ctx.router.url("users.index")
     });
 });
 
@@ -24,6 +25,14 @@ router.post("users.create", "/", async (ctx) => {
         });
         
     }
+});
+
+router.get("users.index","/", async (ctx) => {
+    const users = await ctx.orm.user.findAll();
+    await ctx.render("users/index", {
+        users,
+        newUserPath: ctx.router.url("users.new"),
+    })
 });
 
 module.exports = router

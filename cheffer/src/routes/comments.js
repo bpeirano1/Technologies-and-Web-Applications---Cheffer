@@ -7,6 +7,7 @@ router.get("comments.new", "/new", async (ctx) => {
     await ctx.render("comments/new", {
         comment,
         submitCommentPath: ctx.router.url("comments.create"),
+        commentsPath: ctx.router.url("comments.index"),
     });
 });
 
@@ -24,4 +25,13 @@ router.post("comments.create", "/", async (ctx) => {
         
     }
 });
+
+router.get("comments.index","/", async (ctx) => {
+    const comments = await ctx.orm.comment.findAll();
+    await ctx.render("comments/index", {
+        comments,
+        newCommentPath: ctx.router.url("comments.new"),
+    })
+});
+
 module.exports = router

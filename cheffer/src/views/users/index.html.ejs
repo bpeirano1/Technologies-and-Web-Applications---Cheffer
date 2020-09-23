@@ -1,0 +1,9 @@
+<h2>Users</h2>
+
+<div>
+    <% users.forEach(user => { %>
+        <p><%= user.name %></p>
+    <% }); %>
+</div>
+
+<a href=" <%= newUserPath %>" > New User</a>

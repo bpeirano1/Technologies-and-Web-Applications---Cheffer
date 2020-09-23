@@ -7,6 +7,7 @@ router.get("publications.new", "/new", async (ctx) => {
     await ctx.render("publications/new", {
         publication,
         submitPublicationPath: ctx.router.url("publications.create"),
+        publicationsPath: ctx.router.url("publications.index"),
     });
 });
 
@@ -21,7 +22,16 @@ router.post("publications.create", "/", async (ctx) => {
          errors: validationError.erros, 
          submitPublicationPath: ctx.router.url("publications.create"),  
         });
-        
+           
     }
 });
+
+router.get("publications.index","/", async (ctx) => {
+    const publications = await ctx.orm.publication.findAll();
+    await ctx.render("publications/index", {
+        publications,
+        newPublicationPath: ctx.router.url("publications.new"),
+    })
+});
+
 module.exports = router

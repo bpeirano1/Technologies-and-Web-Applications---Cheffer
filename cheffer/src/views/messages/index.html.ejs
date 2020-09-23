@@ -1,0 +1,9 @@
+<h2>Messages</h2>
+
+<div>
+    <% messages.forEach(message => { %>
+        <p><%= message.description %> <%= message.senderId %> <%= message.receiverId %></p>
+    <% }); %>
+</div>
+
+<a href=" <%= newMessagePath %>" > New Message</a>

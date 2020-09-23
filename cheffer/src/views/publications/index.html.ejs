@@ -1,0 +1,9 @@
+<h2>Publications</h2>
+
+<div>
+    <% publications.forEach(publication => { %>
+        <p><%= publication.name %></p>
+    <% }); %>
+</div>
+
+<a href=" <%= newPublicationPath %>" > New publication</a>

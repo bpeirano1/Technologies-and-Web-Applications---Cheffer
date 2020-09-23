@@ -1,0 +1,9 @@
+<h2>Comments</h2>
+
+<div>
+    <% comments.forEach(comment => { %>
+        <p><%= comment.description %> <%= comment.publicationId %></p>
+    <% }); %>
+</div>
+
+<a href=" <%= newCommentPath %>" > New comment</a>

@@ -7,6 +7,7 @@ router.get("messages.new", "/new", async (ctx) => {
     await ctx.render("messages/new", {
         message,
         submitMessagePath: ctx.router.url("messages.create"),
+        messagesPath: ctx.router.url("messages.index"),
     });
 });
 
@@ -23,6 +24,14 @@ router.post("messages.create", "/", async (ctx) => {
         });
         
     }
+});
+
+router.get("messages.index","/", async (ctx) => {
+    const messages = await ctx.orm.message.findAll();
+    await ctx.render("messages/index", {
+        messages,
+        newMessagePath: ctx.router.url("messages.new"),
+    })
 });
 
 module.exports = router
