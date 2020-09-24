@@ -1,5 +1,7 @@
 <h2>Comments</h2>
 
+<p>Cantidad de Comments: <%= comments.length %></p>
+
 <div>
     <% comments.forEach(comment => { %>
         <p><a href="<%= commentPath(comment) %>"><%= comment.description %> <%= comment.publicationId %></a></p>

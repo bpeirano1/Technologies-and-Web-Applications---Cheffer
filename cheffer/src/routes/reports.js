@@ -24,9 +24,9 @@ router.post("reports.create", "/", async (ctx) => {
     } catch (validationError) {
         await ctx.render("reports/new", {
          report,
-         errors: validationError.erros, 
          submitReportPath: ctx.router.url("reports.create"),
-         reportsPath: ctx.router.url("reports.index"),  
+         reportsPath: ctx.router.url("reports.index"), 
+         errors: validationError.errors,  
         });
         
     }
@@ -56,6 +56,7 @@ router.get("reports.edit", "/:id/edit",loadReport, async (ctx) => {
         report,
         reportPath: ctx.router.url("reports.show",{id: report.id}),
         submitReportPath: ctx.router.url("reports.update", {id: report.id}),
+        deleteReportPath: ctx.router.url("reports.delete", {id: report.id}),
     });
 });
 
@@ -70,9 +71,16 @@ router.patch("reports.update","/:id", loadReport, async (ctx) => {
             report,
             reportPath: ctx.router.url("reports.show",{id: report.id}),
             submitReportPath: ctx.router.url("reports.update", {id: report.id}),
+            deleteReportPath: ctx.router.url("reports.delete", {id: report.id}),
             errors: validationError.errors
         })
     }
-})
+});
+
+router.del("reports.delete", "/:id", loadReport, async (ctx)=>{
+    const { report } = ctx.state;
+    await report.destroy();
+    ctx.redirect(ctx.router.url("reports.index"));
+});
 
 module.exports = router

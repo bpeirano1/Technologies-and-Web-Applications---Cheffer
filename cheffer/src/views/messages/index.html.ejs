@@ -1,5 +1,7 @@
 <h2>Messages</h2>
 
+<p>Cantidad de Messages: <%= messages.length %></p>
+
 <div>
     <% messages.forEach(message => { %>
         <p><a href="<%= messagePath(message) %>"><%= message.description %> <%= message.senderId %> <%= message.receiverId %></a></p>

@@ -1,5 +1,7 @@
 <h2>Reports</h2>
 
+<p>Cantidad de Reports: <%= reports.length %></p>
+
 <div>
     <% reports.forEach(report => { %>
         <p><a href="<%= reportPath(report) %>"><%= report.description %></a></p>

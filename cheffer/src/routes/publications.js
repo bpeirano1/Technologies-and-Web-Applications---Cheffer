@@ -24,9 +24,9 @@ router.post("publications.create", "/", async (ctx) => {
     } catch (validationError) {
         await ctx.render("publications/new", {
          publication,
-         errors: validationError.erros, 
          submitPublicationPath: ctx.router.url("publications.create"),
          publicationsPath: ctx.router.url("publications.index"),  
+         errors: validationError.errors, 
         });
            
     }
@@ -56,6 +56,7 @@ router.get("publications.edit", "/:id/edit",loadPublication, async (ctx) => {
         publication,
         publicationPath: ctx.router.url("publications.show",{id: publication.id}),
         submitPublicationPath: ctx.router.url("publications.update", {id: publication.id}),
+        deletePublicationPath: ctx.router.url("publications.delete", {id: publication.id}),
     });
 });
 
@@ -72,9 +73,16 @@ router.patch("publications.update","/:id", loadPublication, async (ctx) => {
             publication,
             publicationPath: ctx.router.url("publications.show",{id: publication.id}),
             submitPublicationPath: ctx.router.url("publications.update", {id: publication.id}),
+            deletePublicationPath: ctx.router.url("publications.delete", {id: publication.id}),
             errors: validationError.errors
         })
     }
+});
+
+router.del("publications.delete", "/:id", loadPublication, async (ctx)=>{
+    const { publication } = ctx.state;
+    await publication.destroy();
+    ctx.redirect(ctx.router.url("publications.index"));
 });
 
 module.exports = router

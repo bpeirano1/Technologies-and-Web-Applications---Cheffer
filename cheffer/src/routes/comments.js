@@ -24,9 +24,9 @@ router.post("comments.create", "/", async (ctx) => {
     } catch (validationError) {
         await ctx.render("comments/new", {
          comment,
-         errors: validationError.erros, 
          submitCommentPath: ctx.router.url("comments.create"),
-         commentsPath: ctx.router.url("comments.index"),  
+         commentsPath: ctx.router.url("comments.index"), 
+         errors: validationError.errors,  
         });
         
     }
@@ -56,6 +56,7 @@ router.get("comments.edit", "/:id/edit",loadComment, async (ctx) => {
         comment,
         commentPath: ctx.router.url("comments.show",{id: comment.id}),
         submitCommentPath: ctx.router.url("comments.update", {id: comment.id}),
+        deleteCommentPath: ctx.router.url("comments.delete", {id: comment.id}),
     });
 });
 
@@ -70,9 +71,16 @@ router.patch("comments.update","/:id", loadComment, async (ctx) => {
             comment,
             commentPath: ctx.router.url("comments.show",{id: comment.id}),
             submitCommentPath: ctx.router.url("comments.update", {id: comment.id}),
+            deleteCommentPath: ctx.router.url("comments.delete", {id: comment.id}),
             errors: validationError.errors
         })
     }
-})
+});
+
+router.del("comments.delete", "/:id", loadComment, async (ctx)=>{
+    const { comment } = ctx.state;
+    await comment.destroy();
+    ctx.redirect(ctx.router.url("comments.index"));
+});
 
 module.exports = router

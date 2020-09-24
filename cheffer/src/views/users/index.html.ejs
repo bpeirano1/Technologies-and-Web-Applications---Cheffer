@@ -1,5 +1,7 @@
 <h2>Users</h2>
 
+<p>Cantidad de Users: <%= users.length %></p>
+
 <div>
     <% users.forEach(user => { %>
         <p><a href="<%= userPath(user) %>"><%= user.name %></a></p>

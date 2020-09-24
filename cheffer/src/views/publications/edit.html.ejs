@@ -3,3 +3,8 @@
 <h2>Edit Publication</h2>
 
 <%- include("_form") %>
+
+<form action="<%= deletePublicationPath %>" method="POST">
+    <input type="hidden" name="_method" value="delete"/>
+    <input type="submit" value="Delete Publication">
+</form>

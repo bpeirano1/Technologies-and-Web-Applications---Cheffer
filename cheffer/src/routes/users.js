@@ -25,9 +25,9 @@ router.post("users.create", "/", async (ctx) => {
     } catch (validationError) {
         await ctx.render("users/new", {
          user,
-         errors: validationError.erros, 
          submitUserPath: ctx.router.url("users.create"),
-         usersPath: ctx.router.url("users.index"),  
+         usersPath: ctx.router.url("users.index"), 
+         errors: validationError.errors,  
         });
         
     }
@@ -57,6 +57,7 @@ router.get("users.edit", "/:id/edit",loadUser, async (ctx) => {
         user,
         userPath: ctx.router.url("users.show",{id: user.id}),
         submitUserPath: ctx.router.url("users.update", {id: user.id}),
+        deleteUserPath: ctx.router.url("users.delete", {id: user.id}),
     });
 });
 
@@ -72,9 +73,16 @@ router.patch("users.update","/:id", loadUser, async (ctx) => {
             user,
             userPath: ctx.router.url("users.show",{id: user.id}),
             submitUserPath: ctx.router.url("users.update", {id: user.id}),
+            deleteUserPath: ctx.router.url("users.delete", {id: user.id}),
             errors: validationError.errors
         })
     }
+});
+
+router.del("users.delete", "/:id", loadUser, async (ctx)=>{
+    const { user } = ctx.state;
+    await user.destroy();
+    ctx.redirect(ctx.router.url("users.index"));
 });
 
 module.exports = router

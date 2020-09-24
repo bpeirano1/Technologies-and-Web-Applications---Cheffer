@@ -24,9 +24,9 @@ router.post("messages.create", "/", async (ctx) => {
     } catch (validationError) {
         await ctx.render("messages/new", {
          message,
-         errors: validationError.erros, 
          submitMessagePath: ctx.router.url("messages.create"), 
-         messagesPath: ctx.router.url("messages.index"), 
+         messagesPath: ctx.router.url("messages.index"),
+         errors: validationError.errors,  
         });
         
     }
@@ -56,6 +56,7 @@ router.get("messages.edit", "/:id/edit",loadMessage, async (ctx) => {
         message,
         messagePath: ctx.router.url("messages.show",{id: message.id}),
         submitMessagePath: ctx.router.url("messages.update", {id: message.id}),
+        deleteMessagePath: ctx.router.url("messages.delete", {id: message.id}),
     });
 });
 
@@ -70,9 +71,16 @@ router.patch("messages.update","/:id", loadMessage, async (ctx) => {
             message,
             messagePath: ctx.router.url("messages.show",{id: message.id}),
             submitMessagePath: ctx.router.url("messages.update", {id: message.id}),
+            deleteMessagePath: ctx.router.url("messages.delete", {id: message.id}),
             errors: validationError.errors
         })
     }
+});
+
+router.del("messages.delete", "/:id", loadMessage, async (ctx)=>{
+    const { message } = ctx.state;
+    await message.destroy();
+    ctx.redirect(ctx.router.url("messages.index"));
 });
 
 module.exports = router
