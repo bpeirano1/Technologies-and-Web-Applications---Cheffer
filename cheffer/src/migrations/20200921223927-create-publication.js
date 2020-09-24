@@ -24,7 +24,14 @@ module.exports = {
         type: Sequelize.FLOAT
       },
       userId: {
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
+        references: {
+          model: "users",
+          key: "id",
+        },
+        oneDelete: "CASCADE",
+        oneUpdate: "CASCADE",
+        allowNull: false,
       },
       steps: {
         type: Sequelize.STRING

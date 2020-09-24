@@ -6,7 +6,18 @@ module.exports = (sequelize, DataTypes) => {
     description: DataTypes.TEXT
   }, {});
   message.associate = function(models) {
-    // associations can be defined here
+    models.message.belongsTo(models.user, {
+      as:"sender",
+      foreignKey:"senderId",
+      onDelete: "CASCADE",
+      onUpdate: "CASCADE",
+    });
+    models.message.belongsTo(models.user, {
+      as:"receiver",
+      foreignKey:"receiverId",
+      onDelete: "CASCADE",
+      onUpdate: "CASCADE",
+    });
   };
   return message;
 };

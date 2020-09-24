@@ -14,7 +14,22 @@ module.exports = (sequelize, DataTypes) => {
     blockedUsers: DataTypes.STRING
   }, {});
   user.associate = function(models) {
-    // associations can be defined here
+    models.user.hasMany(models.publication, {
+      onDelete: "CASCADE",
+      onUpdate: "CASCADE",
+    });
+    models.user.hasMany(models.message, {
+      as: "messageSent",
+      foreignKey:"senderId",
+      onDelete: "CASCADE",
+      onUpdate: "CASCADE",
+    });
+    models.user.hasMany(models.message, {
+      as: "messageRecived",
+      foreignKey:"receiverId",
+      onDelete: "CASCADE",
+      onUpdate: "CASCADE",
+    });
   };
   return user;
 };

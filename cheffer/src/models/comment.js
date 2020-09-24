@@ -6,7 +6,8 @@ module.exports = (sequelize, DataTypes) => {
     publicationId: DataTypes.INTEGER
   }, {});
   comment.associate = function(models) {
-    // associations can be defined here
+    models.comment.belongsTo(models.user);
+    models.comment.belongsTo(models.publication);
   };
   return comment;
 };

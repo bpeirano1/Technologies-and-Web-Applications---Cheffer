@@ -12,10 +12,24 @@ module.exports = {
         type: Sequelize.TEXT
       },
       userId: {
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
+        references: {
+          model: "users",
+          key: "id",
+        },
+        oneDelete: "CASCADE",
+        oneUpdate: "CASCADE",
+        allowNull: false,
       },
       publicationId: {
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
+        references: {
+          model: "publications",
+          key: "id",
+        },
+        oneDelete: "CASCADE",
+        oneUpdate: "CASCADE",
+        allowNull: false,
       },
       createdAt: {
         allowNull: false,

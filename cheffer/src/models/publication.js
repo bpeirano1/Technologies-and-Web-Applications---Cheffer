@@ -13,7 +13,7 @@ module.exports = (sequelize, DataTypes) => {
     description: DataTypes.TEXT
   }, {});
   publication.associate = function(models) {
-    // associations can be defined here
+    models.publication.belongsTo(models.user);
   };
   return publication;
 };

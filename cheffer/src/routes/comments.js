@@ -7,12 +7,23 @@ async function loadComment(ctx, next) {
     return next();
 };
 
-router.get("comments.new", "/new", async (ctx) => {
+async function loadUser(ctx, next) {
+    ctx.state.user = await ctx.orm.user.findByPk(ctx.params.userId);
+    return next();
+};
+
+router.get("comments.new", "/new",loadUser, async (ctx) => {
+    const { user } = ctx.state;
     const comment = ctx.orm.comment.build();
     await ctx.render("comments/new", {
+        user,
         comment,
-        submitCommentPath: ctx.router.url("comments.create"),
-        commentsPath: ctx.router.url("comments.index"),
+        submitCommentPath: ctx.router.url("comments.create", {
+            userId: user.id
+        }),
+        commentsPath: ctx.router.url("comments.index", {
+            userId: user.id
+        }),
     });
 });
 

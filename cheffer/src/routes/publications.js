@@ -7,25 +7,42 @@ async function loadPublication(ctx, next) {
     return next();
 };
 
-router.get("publications.new", "/new", async (ctx) => {
+async function loadUser(ctx, next) {
+    ctx.state.user = await ctx.orm.user.findByPk(ctx.params.userId);
+    return next();
+};
+
+router.get("publications.new", "/new", loadUser, async (ctx) => {
+    const { user } = ctx.state;
     const publication = ctx.orm.publication.build();
     await ctx.render("publications/new", {
+        user,
         publication,
-        submitPublicationPath: ctx.router.url("publications.create"),
-        publicationsPath: ctx.router.url("publications.index"),
+        submitPublicationPath: ctx.router.url("publications.create", {
+            userId: user.id
+        }),
+        publicationsPath: ctx.router.url("publications.index",{
+            userId: user.id
+        }),
     });
 });
 
-router.post("publications.create", "/", async (ctx) => {
+router.post("publications.create", "/", loadUser, async (ctx) => {
+    const { user } = ctx.state;
     const publication = ctx.orm.publication.build(ctx.request.body);
     try {
-        await publication.save({ fields: ["name", "ingredients", "time", "steps", "userId", "description", "ranking", "recipesPictures", "recipesVideos" , "stepsPictures"] });
-        ctx.redirect(ctx.router.url("publications.show", {id: publication.id}));
+        await user.createPublication(ctx.request.body);
+        ctx.redirect(ctx.router.url("publications.show", {userId: user.id}));
     } catch (validationError) {
         await ctx.render("publications/new", {
+         user,
          publication,
-         submitPublicationPath: ctx.router.url("publications.create"),
-         publicationsPath: ctx.router.url("publications.index"),  
+         submitPublicationPath: ctx.router.url("publications.create", {
+            userId: user.id
+        }),
+         publicationsPath: ctx.router.url("publications.index", {
+            userId: user.id
+        }),  
          errors: validationError.errors, 
         });
            

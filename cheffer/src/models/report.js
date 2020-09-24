@@ -6,7 +6,8 @@ module.exports = (sequelize, DataTypes) => {
     description: DataTypes.TEXT
   }, {});
   report.associate = function(models) {
-    // associations can be defined here
+    models.report.belongsTo(models.user);
+    models.report.belongsTo(models.publication);
   };
   return report;
 };
