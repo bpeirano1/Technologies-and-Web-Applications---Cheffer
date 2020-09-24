@@ -1,0 +1,37 @@
+<div>
+    <% if (locals.errors) { %>
+        <div class="errors">
+            You need to fix the following errors:
+            <ul>
+                <% errors.forEach(error => { %>
+                    <li><%= error.message %></li>
+                    <% }); %>
+            </ul>
+        </div>
+        <% } %>
+
+    <form action="<%= submitMessagePath %>" method="POST">
+        <% if (!message.isNewRecord) { %>
+        <input type="hidden" name="_method" value="PATCH">
+        <% } %>
+        <div class="field">
+            <label for="senderId">Sender Id: </label>
+            <input type="number" name="senderId" id="senderId" value="<%= message.senderId %>">
+        </div>
+        <div class="field">
+            <label for="receiverId">Receiver Id: </label>
+            <input type="number" name="receiverId" id="receiverId" value="<%= message.receiverId %>">
+        </div>
+        <div class="field">
+            <label for="description">Descripcion: </label>
+            <input type="text" name="description" id="description" value="<%= message.description%>">
+        </div>
+        <div class="field">
+            <% if (message.isNewRecord) { %>
+            <input type="submit" value="Send Message">
+            <% } else { %>
+            <input type="submit" value="Update Message">
+            <% } %>
+        </div>
+    </form>
+</div>

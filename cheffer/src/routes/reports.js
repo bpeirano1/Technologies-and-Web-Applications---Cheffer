@@ -2,6 +2,11 @@ const KoaRouter = require("koa-router");
 
 const router = new KoaRouter();
 
+async function loadReport(ctx, next) {
+    ctx.state.report = await ctx.orm.report.findByPk(ctx.params.id);
+    return next();
+};
+
 router.get("reports.new", "/new", async (ctx) => {
     const report = ctx.orm.report.build();
     await ctx.render("reports/new", {
@@ -20,7 +25,8 @@ router.post("reports.create", "/", async (ctx) => {
         await ctx.render("reports/new", {
          report,
          errors: validationError.erros, 
-         submitReportPath: ctx.router.url("reports.create"),  
+         submitReportPath: ctx.router.url("reports.create"),
+         reportsPath: ctx.router.url("reports.index"),  
         });
         
     }
@@ -35,12 +41,38 @@ router.get("reports.index","/", async (ctx) => {
     })
 });
 
-router.get("reports.show", "/:id", async (ctx) => {
-    const report = await ctx.orm.report.findByPk(ctx.params.id);
+router.get("reports.show", "/:id", loadReport, async (ctx) => {
+    const { report } = ctx.state;
     await ctx.render("reports/show", {
         report,
         reportsPath: ctx.router.url("reports.index"),
+        editReportPath: ctx.router.url("reports.edit", {id: report.id}),
     });
 });
+
+router.get("reports.edit", "/:id/edit",loadReport, async (ctx) => {
+    const { report } = ctx.state;
+    await ctx.render("reports/edit", {
+        report,
+        reportPath: ctx.router.url("reports.show",{id: report.id}),
+        submitReportPath: ctx.router.url("reports.update", {id: report.id}),
+    });
+});
+
+router.patch("reports.update","/:id", loadReport, async (ctx) => {
+    const { report }  = ctx.state;
+    try {
+        const {publicationId, description, userId} = ctx.request.body;
+        await report.update({publicationId, description, userId})
+        ctx.redirect(ctx.router.url("reports.show", {id: report.id}))
+    } catch (validationError) {
+        await ctx.render("reports/edit", {
+            report,
+            reportPath: ctx.router.url("reports.show",{id: report.id}),
+            submitReportPath: ctx.router.url("reports.update", {id: report.id}),
+            errors: validationError.errors
+        })
+    }
+})
 
 module.exports = router

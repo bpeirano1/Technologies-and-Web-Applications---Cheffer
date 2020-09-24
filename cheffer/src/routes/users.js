@@ -2,12 +2,17 @@ const KoaRouter = require("koa-router");
 
 const router = new KoaRouter();
 
+async function loadUser(ctx, next) {
+    ctx.state.user = await ctx.orm.user.findByPk(ctx.params.id);
+    return next();
+};
+
 router.get("users.new", "/new", async (ctx) => {
     const user = ctx.orm.user.build();
     await ctx.render("users/new", {
         user,
         submitUserPath: ctx.router.url("users.create"),
-        usersPath: ctx.router.url("users.index")
+        usersPath: ctx.router.url("users.index"),
     });
 });
 
@@ -21,7 +26,8 @@ router.post("users.create", "/", async (ctx) => {
         await ctx.render("users/new", {
          user,
          errors: validationError.erros, 
-         submitUserPath: ctx.router.url("users.create"),  
+         submitUserPath: ctx.router.url("users.create"),
+         usersPath: ctx.router.url("users.index"),  
         });
         
     }
@@ -36,13 +42,39 @@ router.get("users.index","/", async (ctx) => {
     })
 });
 
-router.get("users.show", "/:id", async (ctx) => {
-    const user = await ctx.orm.user.findByPk(ctx.params.id);
+router.get("users.show", "/:id",loadUser, async (ctx) => {
+    const { user } = ctx.state;
     await ctx.render("users/show", {
         user,
         usersPath: ctx.router.url("users.index"),
+        editUserPath: ctx.router.url("users.edit", {id: user.id}),
     });
 });
 
+router.get("users.edit", "/:id/edit",loadUser, async (ctx) => {
+    const { user }= ctx.state;
+    await ctx.render("users/edit", {
+        user,
+        userPath: ctx.router.url("users.show",{id: user.id}),
+        submitUserPath: ctx.router.url("users.update", {id: user.id}),
+    });
+});
+
+router.patch("users.update","/:id", loadUser, async (ctx) => {
+    const { user }  = ctx.state;
+    try {
+        const {name, lastname, username, email, password,
+             picture, country, description} = ctx.request.body;
+        await user.update({name, lastname, username, email, password, picture, country, description})
+        ctx.redirect(ctx.router.url("users.show", {id: user.id}))
+    } catch (validationError) {
+        await ctx.render("users/edit", {
+            user,
+            userPath: ctx.router.url("users.show",{id: user.id}),
+            submitUserPath: ctx.router.url("users.update", {id: user.id}),
+            errors: validationError.errors
+        })
+    }
+});
 
 module.exports = router

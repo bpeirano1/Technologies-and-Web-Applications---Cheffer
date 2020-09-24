@@ -1,0 +1,66 @@
+<div>
+    <% if (locals.errors) { %>
+        <div class="errors">
+            You need to fix the following errors:
+            <ul>
+                <% errors.forEach(error => { %>
+                    <li><%= error.message %></li>
+                    <% }); %>
+            </ul>
+        </div>
+        <% } %>
+
+    <form action="<%= submitPublicationPath %>" method="POST">
+        <% if (!publication.isNewRecord) { %>
+        <input type="hidden" name="_method" value="PATCH">
+        <% } %>
+        <div class="field">
+            <label for="name">Nombre:</label>
+            <input type="text" name="name" id="name" value="<%= publication.name %>">
+        </div>
+        <div class="field">
+            <label for="ingredients">Ingredientes:</label>
+            <input type="text" name="ingredients" id="ingredients" value="<%= publication.ingredients %>">
+        </div>
+        <div class="field">
+            <label for="time">Tiempo de preparacion:</label>
+            <input type="number" name="time" id="time" value="<%= publication.time %>">
+        </div>
+        <div class="field">
+            <label for="steps">Pasos a seguir:</label>
+            <input type="text" name="steps" id="steps" value="<%= publication.steps %>">
+        </div>
+        <div class="field">
+            <label for="userId">UserId: </label>
+            <input type="number" name="userId" id="userId" value="<%= publication.userId %>">
+        </div>
+        <div class="field">
+            <label for="description">Descripcion: </label>
+            <input type="text" name="description" id="description" value="<%= publication.description %>">
+        </div>
+        <div class="field">
+            <label for="ranking">Ranking: </label>
+            <input type="number" name="ranking" id="ranking" value="<%= publication.ranking %>">
+        </div>
+        <div class="field">
+            <label for="recipesPictures">Fotos de la receta </label>
+            <input type="file" name="recipesPictures" id="recipesPictures" value="<%= publication.recipesPictures %>">
+        </div>
+        <div class="field">
+            <label for="recipesVideos">Videos de la receta </label>
+            <input type="file" name="recipesVideos" id="recipesVideos" value="<%= publication.recipesVideos %>">
+        </div>
+        <div class="field">
+            <label for="stepsPictures">Fotos de los pasos </label>
+            <input type="file" name="stepsPictures" id="stepsPictures" value="<%= publication.stepsPictures %>">
+        </div>
+        <div class="field">
+            <% if (publication.isNewRecord) { %>
+            <input type="submit" value="Create Publication">
+            <% } else { %>
+            <input type="submit" value="Update Publication">
+            <% } %>
+        </div>  
+    </form>
+
+</div>

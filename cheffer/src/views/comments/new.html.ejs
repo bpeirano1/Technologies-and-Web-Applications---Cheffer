@@ -1,33 +1,4 @@
 <a href="<%= commentsPath %>">Back to Comments</a>
 <h2>Nuevo Comentario</h2>
 
-<div>
-    <% if (locals.errors) { %>
-        <div class="errors">
-            You need to fix the following errors:
-            <ul>
-                <% errors.forEach(error => { %>
-                    <li><%= error.message %></li>
-                    <% }); %>
-            </ul>
-        </div>
-        <% } %>
-
-    <form action="<%= submitCommentPath %>" method="POST">
-        <div class="field">
-            <label for="publicationId">publicationId:</label>
-            <input type="number" name="publicationId" id="publicationId" value="<%= comment.publicationId%>">
-        </div>
-        <div class="field">
-            <label for="userId">userId:</label>
-            <input type="number" name="userId" id="userId" value="<%= comment.userId%>">
-        </div>
-        <div class="field">
-            <label for="description">Descripcion:</label>
-            <input type="text" name="description" id="description" value="<%= comment.description %>">
-        </div>
-        <div class="field">
-            <input type="submit" value="Comentar">
-        </div>
-    </form>
-</div>
+<%- include("_form") %>

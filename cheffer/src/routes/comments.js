@@ -2,6 +2,11 @@ const KoaRouter = require("koa-router");
 
 const router = new KoaRouter();
 
+async function loadComment(ctx, next) {
+    ctx.state.comment = await ctx.orm.comment.findByPk(ctx.params.id);
+    return next();
+};
+
 router.get("comments.new", "/new", async (ctx) => {
     const comment = ctx.orm.comment.build();
     await ctx.render("comments/new", {
@@ -20,7 +25,8 @@ router.post("comments.create", "/", async (ctx) => {
         await ctx.render("comments/new", {
          comment,
          errors: validationError.erros, 
-         submitCommentPath: ctx.router.url("comments.create"),  
+         submitCommentPath: ctx.router.url("comments.create"),
+         commentsPath: ctx.router.url("comments.index"),  
         });
         
     }
@@ -35,12 +41,38 @@ router.get("comments.index","/", async (ctx) => {
     })
 });
 
-router.get("comments.show", "/:id", async (ctx) => {
-    const comment = await ctx.orm.comment.findByPk(ctx.params.id);
+router.get("comments.show", "/:id",loadComment, async (ctx) => {
+    const { comment } = ctx.state;
     await ctx.render("comments/show", {
         comment,
         commentsPath: ctx.router.url("comments.index"),
+        editCommentPath: ctx.router.url("comments.edit", {id: comment.id}),
     });
 });
+
+router.get("comments.edit", "/:id/edit",loadComment, async (ctx) => {
+    const { comment }= ctx.state;
+    await ctx.render("comments/edit", {
+        comment,
+        commentPath: ctx.router.url("comments.show",{id: comment.id}),
+        submitCommentPath: ctx.router.url("comments.update", {id: comment.id}),
+    });
+});
+
+router.patch("comments.update","/:id", loadComment, async (ctx) => {
+    const { comment }  = ctx.state;
+    try {
+        const {publicationId, userId, description} = ctx.request.body;
+        await comment.update({publicationId, userId, description})
+        ctx.redirect(ctx.router.url("comments.show", {id: comment.id}))
+    } catch (validationError) {
+        await ctx.render("comments/edit", {
+            comment,
+            commentPath: ctx.router.url("comments.show",{id: comment.id}),
+            submitCommentPath: ctx.router.url("comments.update", {id: comment.id}),
+            errors: validationError.errors
+        })
+    }
+})
 
 module.exports = router

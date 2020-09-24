@@ -1,35 +1,4 @@
 <a href="<%= reportsPath %>">Back to Reports</a>
 <h2>Nueva denuncia</h2>
 
-<div>
-
-    <% if (locals.errors) { %>
-        <div class="errors">
-            You need to fix the following errors:
-            <ul>
-                <% errors.forEach(error => { %>
-                    <li><%= error.message %></li>
-                    <% }); %>
-            </ul>
-        </div>
-        <% } %>
-
-    <form action="<%= submitReportPath %>" method="POST">
-        <div class="field">
-            <label for="publicationId">publicationId:</label>
-            <input type="number" name="publicationId" id="publicationId" value="<%= report.publicationId%>">
-        </div>
-        <div class="field">
-            <label for="userId">userId:</label>
-            <input type="number" name="userId" id="userId" value="<%= report.userId %>">
-        </div>
-        <div class="field">
-            <label for="description">Descripcion:</label>
-            <input type="text" name="description" id="description" value="<%= report.description %>">
-        </div>
-        <div class="field">
-            <input type="submit" value="Crear Denuncia">
-        </div>
-    </form>
-
-</div>
+<%- include("_form") %>
