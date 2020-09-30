@@ -12,71 +12,91 @@ async function loadUser(ctx, next) {
     return next();
 };
 
-router.get("comments.new", "/new",loadUser, async (ctx) => {
-    const { user } = ctx.state;
+async function loadPublication(ctx, next) {
+    ctx.state.publication = await ctx.orm.publication.findByPk(ctx.params.publicationId);
+    return next();
+};
+
+router.get("comments.new", "/new", loadUser, loadPublication, async (ctx) => {
+    const { user, publication } = ctx.state;
     const comment = ctx.orm.comment.build();
     await ctx.render("comments/new", {
         user,
         comment,
+        publication,
         submitCommentPath: ctx.router.url("comments.create", {
-            userId: user.id
+            userId: user.id, publicationId: publication.id
         }),
         commentsPath: ctx.router.url("comments.index", {
-            userId: user.id
+            userId: user.id, publicationId: publication.id
         }),
     });
 });
 
-router.post("comments.create", "/", async (ctx) => {
+router.post("comments.create", "/", loadUser, loadComment, loadPublication, async (ctx) => {
     const comment = ctx.orm.comment.build(ctx.request.body);
+    const { user, publication } = ctx.state;
     try {
         await comment.save({ fields: ["publicationId", "userId", "description"] });
-        ctx.redirect(ctx.router.url("comments.show", {id: comment.id}));
+        ctx.redirect(ctx.router.url("comments.show", {id: comment.id, userId: user.id, publicationId: publication.id}));
     } catch (validationError) {
         await ctx.render("comments/new", {
          comment,
-         submitCommentPath: ctx.router.url("comments.create"),
-         commentsPath: ctx.router.url("comments.index"), 
+         user,
+         publication,
+         submitCommentPath: ctx.router.url("comments.create", {
+            userId: user.id, publicationId: publication.id
+        }),
+         commentsPath: ctx.router.url("comments.index", {
+            userId: user.id, publicationId: publication.id
+        }), 
          errors: validationError.errors,  
         });
         
     }
 });
 
-router.get("comments.index","/", async (ctx) => {
+router.get("comments.index","/", loadUser, loadComment, loadPublication, async (ctx) => {
     const comments = await ctx.orm.comment.findAll();
+    const { user, comment, publication } = ctx.state;
     await ctx.render("comments/index", {
         comments,
-        newCommentPath: ctx.router.url("comments.new"),
-        commentPath: (comment) => ctx.router.url("comments.show", {id: comment.id}),
+        user,
+        publication,
+        comment,
+        newCommentPath: ctx.router.url("comments.new", {userId: user.id, publicationId: publication.id}),
+        commentPath: (comment) => ctx.router.url("comments.show", {id: comment.id, userId: user.id, publicationId: publication.id}),
     })
 });
 
-router.get("comments.show", "/:id",loadComment, async (ctx) => {
-    const { comment } = ctx.state;
+router.get("comments.show", "/:id", loadUser, loadComment, loadPublication, async (ctx) => {
+    const { comment, user, publication } = ctx.state;
     await ctx.render("comments/show", {
         comment,
-        commentsPath: ctx.router.url("comments.index"),
-        editCommentPath: ctx.router.url("comments.edit", {id: comment.id}),
+        user,
+        commentsPath: ctx.router.url("comments.index", {id: comment.id, userId: user.id, publicationId: publication.id}),
+        editCommentPath: ctx.router.url("comments.edit", {id: comment.id, userId: user.id, publicationId: publication.id}),
     });
 });
 
-router.get("comments.edit", "/:id/edit",loadComment, async (ctx) => {
-    const { comment }= ctx.state;
+router.get("comments.edit", "/:id/edit",loadComment, loadUser, loadPublication, async (ctx) => {
+    const { comment, user, publication }= ctx.state;
     await ctx.render("comments/edit", {
         comment,
-        commentPath: ctx.router.url("comments.show",{id: comment.id}),
-        submitCommentPath: ctx.router.url("comments.update", {id: comment.id}),
-        deleteCommentPath: ctx.router.url("comments.delete", {id: comment.id}),
+        user,
+        publication,
+        commentPath: ctx.router.url("comments.show",{id: comment.id, userId: user.id, publicationId: publication.id}),
+        submitCommentPath: ctx.router.url("comments.update", {id: comment.id, userId: user.id, publicationId: publication.id}),
+        deleteCommentPath: ctx.router.url("comments.delete", {id: comment.id, userId: user.id, publicationId: publication.id}),
     });
 });
 
-router.patch("comments.update","/:id", loadComment, async (ctx) => {
-    const { comment }  = ctx.state;
+router.patch("comments.update","/:id", loadComment, loadUser, loadPublication, async (ctx) => {
+    const { comment, user, publication }  = ctx.state;
     try {
         const {publicationId, userId, description} = ctx.request.body;
         await comment.update({publicationId, userId, description})
-        ctx.redirect(ctx.router.url("comments.show", {id: comment.id}))
+        ctx.redirect(ctx.router.url("comments.show", {id: comment.id, userId: user.id, publicationId: publication.id}))
     } catch (validationError) {
         await ctx.render("comments/edit", {
             comment,
@@ -88,10 +108,10 @@ router.patch("comments.update","/:id", loadComment, async (ctx) => {
     }
 });
 
-router.del("comments.delete", "/:id", loadComment, async (ctx)=>{
-    const { comment } = ctx.state;
+router.del("comments.delete", "/:id", loadComment, loadUser, loadPublication, async (ctx)=>{
+    const { comment, user, publication } = ctx.state;
     await comment.destroy();
-    ctx.redirect(ctx.router.url("comments.index"));
+    ctx.redirect(ctx.router.url("comments.index", {userId: user.id, publicationId: publication.id}));
 });
 
 module.exports = router

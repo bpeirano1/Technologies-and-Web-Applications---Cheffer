@@ -16,6 +16,7 @@ router.use('/users', users.routes());
 router.use('/users/:userId/publications', publications.routes());
 router.use('/users/:userId/publications/:publicationId/comments', comments.routes());
 router.use('/users/:userId/publications/:publicationId/reports', reports.routes());
+router.use('/users/:userId/messages', messages.routes());
 
 
 module.exports = router;
