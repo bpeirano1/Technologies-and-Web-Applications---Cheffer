@@ -7,4 +7,18 @@
     <p>Created At : <%= publication.createdAt %></p>
 </div>
 
-<a href="<%= editPublicationPath %>">Edit</a>
+<p><a href="<%= editPublicationPath %>">Edit</a></p>
+
+<h2>Comentarios</h2>
+
+<div>
+    <% comments.forEach(comment => { %>
+        <p><%= comment.description %> <%= comment.publicationId %></p>
+    <% }); %>
+</div>
+
+<h2>Crear comentario</h2>
+
+<%- include("../comments/_form") %>
+
+<p><a href="<%= reportsPath %>">Denuncias</a></p>

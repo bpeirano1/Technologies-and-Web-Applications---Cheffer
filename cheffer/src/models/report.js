@@ -6,8 +6,14 @@ module.exports = (sequelize, DataTypes) => {
     description: DataTypes.TEXT
   }, {});
   report.associate = function(models) {
-    models.report.belongsTo(models.user);
-    models.report.belongsTo(models.publication);
+    models.report.belongsTo(models.user,{
+      onDelete: "CASCADE",
+      onUpdate: "CASCADE",
+    });
+    models.report.belongsTo(models.publication, {
+      onDelete: "CASCADE",
+      onUpdate: "CASCADE",
+    });
   };
   return report;
 };

@@ -6,8 +6,14 @@ module.exports = (sequelize, DataTypes) => {
     publicationId: DataTypes.INTEGER
   }, {});
   comment.associate = function(models) {
-    models.comment.belongsTo(models.user);
-    models.comment.belongsTo(models.publication);
+    models.comment.belongsTo(models.user, {
+      onDelete: "CASCADE",
+      onUpdate: "CASCADE",
+    });
+    models.comment.belongsTo(models.publication,{
+      onDelete: "CASCADE",
+      onUpdate: "CASCADE",
+    });
   };
   return comment;
 };

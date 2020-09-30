@@ -14,6 +14,14 @@ module.exports = (sequelize, DataTypes) => {
   }, {});
   publication.associate = function(models) {
     models.publication.belongsTo(models.user);
+    models.publication.hasMany(models.comment,{
+      onDelete: "CASCADE",
+      onUpdate: "CASCADE",
+    });
+    models.publication.hasMany(models.report,{
+        onDelete: "CASCADE",
+        onUpdate: "CASCADE",
+      });
   };
   return publication;
 };

@@ -33,12 +33,13 @@ router.get("comments.new", "/new", loadUser, loadPublication, async (ctx) => {
     });
 });
 
-router.post("comments.create", "/", loadUser, loadComment, loadPublication, async (ctx) => {
+router.post("comments.create", "/", loadUser, loadPublication, async (ctx) => {
     const comment = ctx.orm.comment.build(ctx.request.body);
     const { user, publication } = ctx.state;
+    comment.publicationId = publication.id
     try {
         await comment.save({ fields: ["publicationId", "userId", "description"] });
-        ctx.redirect(ctx.router.url("comments.show", {id: comment.id, userId: user.id, publicationId: publication.id}));
+        ctx.redirect(ctx.router.url("publications.show", {id: publication.id, userId: user.id}));
     } catch (validationError) {
         await ctx.render("comments/new", {
          comment,
@@ -56,7 +57,7 @@ router.post("comments.create", "/", loadUser, loadComment, loadPublication, asyn
     }
 });
 
-router.get("comments.index","/", loadUser, loadComment, loadPublication, async (ctx) => {
+router.get("comments.index","/", loadUser, loadPublication, async (ctx) => {
     const comments = await ctx.orm.comment.findAll();
     const { user, comment, publication } = ctx.state;
     await ctx.render("comments/index", {

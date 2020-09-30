@@ -12,6 +12,11 @@ async function loadUser(ctx, next) {
     return next();
 };
 
+async function loadComment(ctx, next) {
+    ctx.state.comment = await ctx.orm.comment.findByPk(ctx.params.id);
+    return next();
+};
+
 router.get("publications.new", "/new", loadUser, async (ctx) => {
     const { user } = ctx.state;
     const publication = ctx.orm.publication.build();
@@ -62,10 +67,24 @@ router.get("publications.index","/", loadUser, loadPublication, async (ctx) => {
 
 router.get("publications.show", "/:id", loadPublication, loadUser, async (ctx) => {
     const { publication, user } = ctx.state;
+    const comment = ctx.orm.comment.build();
+    const comments = await publication.getComments();
     await ctx.render("publications/show", {
         publication,
         publicationsPath: ctx.router.url("publications.index", {userId: user.id}),
         editPublicationPath: ctx.router.url("publications.edit", {userId: user.id, id: publication.id}),
+        
+        // para que los comentarios aparezcan en publicacion
+        comment,
+        commentsPath: ctx.router.url("comments.index", {
+            userId: user.id, publicationId: publication.id}),
+        submitCommentPath: ctx.router.url("comments.create", {
+            userId: user.id, publicationId: publication.id
+        }),
+        user,
+        comments,
+        // falta hacer lo mismo con report pero por mientras lo vamos a redireccionar para la navegabilidad
+        reportsPath: ctx.router.url("reports.index", {userId: user.id, publicationId: publication.id}),
     });
 });
 
@@ -103,5 +122,8 @@ router.del("publications.delete", "/:id", loadPublication, async (ctx)=>{
     await publication.destroy();
     ctx.redirect(ctx.router.url("publications.index"));
 });
+
+//comentarios routes
+
 
 module.exports = router

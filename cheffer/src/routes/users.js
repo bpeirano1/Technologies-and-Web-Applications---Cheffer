@@ -48,6 +48,11 @@ router.get("users.show", "/:id",loadUser, async (ctx) => {
         user,
         usersPath: ctx.router.url("users.index"),
         editUserPath: ctx.router.url("users.edit", {id: user.id}),
+
+        // para irse a comentarios
+        publicationsPath: ctx.router.url("publications.index", {userId: user.id}),
+        //para irse a mensajes
+        messagesPath: ctx.router.url("messages.index", {userId: user.id}),
     });
 });
 
