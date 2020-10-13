@@ -1,4 +1,7 @@
 const KoaRouter = require('koa-router');
+const Hashids = require('hashids/cjs');
+
+
 
 const hello = require('./routes/hello');
 const index = require('./routes/index');
@@ -9,6 +12,17 @@ const messages = require('./routes/messages');
 const reports = require('./routes/reports');
 
 const router = new KoaRouter();
+const hashids = new Hashids();
+
+router.use(async (ctx, next) => {
+    decodedId = hashids.decode(ctx.session.userId, process.env.HASH_SECRET)
+    Object.assign(ctx.state, {
+        currentUser: ctx.session.userId && await ctx.orm.user.findByPk(decodedId[0]),
+        signInPath: ctx.router.url("users.session.new"),
+        signOutPath: ctx.router.url("users.session.destroy"),
+    });
+    return next();
+});
 
 router.use('/', index.routes());
 router.use('/hello', hello.routes());

@@ -89,9 +89,10 @@ router.get("publications.show", "/:id", loadPublication, loadUser, async (ctx) =
 });
 
 router.get("publications.edit", "/:id/edit",loadPublication, loadUser, async (ctx) => {
-    const { publication }= ctx.state;
+    const { publication, user }= ctx.state;
     await ctx.render("publications/edit", {
         publication,
+        user,
         publicationPath: ctx.router.url("publications.show",{id: publication.id, userId: user.id}),
         submitPublicationPath: ctx.router.url("publications.update", {id: publication.id, userId: user.id}),
         deletePublicationPath: ctx.router.url("publications.delete", {id: publication.id, userId: user.id}),
@@ -99,7 +100,7 @@ router.get("publications.edit", "/:id/edit",loadPublication, loadUser, async (ct
 });
 
 router.patch("publications.update","/:id", loadPublication, loadUser, async (ctx) => {
-    const { publication}  = ctx.state;
+    const { publication, user}  = ctx.state;
     try {
         const {name, ingredients, time, steps, userId, 
             description, ranking, recipesPictures, recipesVideos , stepsPictures} = ctx.request.body;

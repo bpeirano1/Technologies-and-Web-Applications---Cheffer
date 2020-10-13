@@ -1,0 +1,21 @@
+<h1>Sign In</h1>
+<% if (locals.error) { %>
+    <div>
+        <%= error %>
+    </div>
+<% } %>
+<form action="<%= createSessionPath %>" method="post">
+    <input type="hidden" name="_method" value="put" />
+    <div class="field">
+        <label for="email">Email</label>
+        <input type="email" name="email" />
+    </div>
+    <div class="field">
+        <label for="password">Password</label>
+        <input type="password" name="password" />
+    </div>
+    <div class="field">
+        <input type="submit" name="sign-in" value="Sign In">
+    </div>
+</form>
+<p>Don't have an account? <a href="<%= createUserFormPath %>">Sign Up</a></p>
