@@ -1,47 +1,53 @@
-<h1>Sign Up</h1>
-<% if (locals.error) { %>
-    <div>
-        <%= error %>
+<div class="main">
+    <div class="alignment">
+        <div style="display:inline-block;vertical-align:top;">
+            <img src="<%= assetPath('bandera-lateral.png') %>" width="40" height="570">
+        </div>
+        <div style="display:inline-block;">
+            <div class="box">
+                <h1 style="text-align:center"> <img src="<%= assetPath('cheffer-inicio.png') %>" width="100" height="50"></h1>
+                <% if (locals.error) { %>
+                    <div>
+                        <%= error %>
+                    </div>
+                <% } %>
+                <form action="<%= createUserPath %>" method="post">
+                    <div class = "field-alignment">
+                        <label for="name">Nombre:</label>
+                        <input class="insert-text" type="name" name="name" id="name"  />
+                    
+                        <label for="lastname">Apellido:</label>
+                        <input class="insert-text" type="text" name="lastname" id="lastname"  />
+                    
+                        <label for="username">Username:</label>
+                        <input class="insert-text" type="text" name="username" id="username"  />
+                    
+                        <label for="email">Email:</label>
+                        <input class="insert-text" type="email" name="email" id="email"  />
+                    
+                        <label for="password">Password:</label>
+                        <input class="insert-text" type="password" name="password" id="password" />
+                    
+                        <label for="confirmPassword">Confirm Password:</label>
+                        <input class="insert-text" type="password" name="confirmPassword" />
+                    
+                        <label for="picture">Foto de perfil:</label>
+                        <input class="insert-text" type="file" name="picture" id="picture"  />
+                    
+                        <label for="country">País: </label>
+                        <input class="insert-text" type="text" name="country" id="country"  />
+                    
+                        <label for="description">Descripción: </label>
+                        <input class="insert-text" type="text" name="description" id="description"  />
+                    </div>
+                    <div class="field" style="text-align:center">
+                        <input type="submit" name="sign-up" value="Sign Up">
+                    </div>
+                </form>
+            </div>
+            <br>
+        </div>
+        <div class=filler></div>
     </div>
-<% } %>
-<form action="<%= createUserPath %>" method="post">
-    <div class="field">
-        <label for="name">Nombre</label>
-        <input type="name" name="name" id="name"  />
-    </div>
-    <div class="field">
-        <label for="lastname">Apellido:</label>
-        <input type="text" name="lastname" id="lastname"  />
-    </div>
-    <div class="field">
-        <label for="username">Username:</label>
-        <input type="text" name="username" id="username"  />
-    </div>
-    <div class="field">
-        <label for="email">Email</label>
-        <input type="email" name="email" id="email"  />
-    </div>
-    <div class="field">
-        <label for="password">Password</label>
-        <input type="password" name="password" id="password" />
-    </div>
-    <div class="field">
-        <label for="confirmPassword">Confirm Password</label>
-        <input type="password" name="confirmPassword" />
-    </div>
-    <div class="field">
-        <label for="picture">Foto de perfil</label>
-        <input type="file" name="picture" id="picture"  />
-    </div>
-    <div class="field">
-        <label for="country">País: </label>
-        <input type="text" name="country" id="country"  />
-    </div>
-    <div class="field">
-        <label for="description">Descripcion: </label>
-        <input type="text" name="description" id="description"  />
-    </div>
-    <div class="field">
-        <input type="submit" name="sign-up" value="Sign Up">
-    </div>
-</form>
+</div>
+<div class="grey-backround"></div>

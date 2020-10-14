@@ -1,2 +1,56 @@
 @import './layout';
 @import './hello';
+@import './boxes';
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
+
+* {
+    font-family: 'Roboto', sans-serif;
+}
+
+.background {
+    position: absolute;
+    z-index: 0;
+    top: 0;
+    left: 0;
+    width: 100%;
+    opacity: 0.8;
+}
+.grey-backround{
+    position: absolute;
+    z-index: 0;
+    top: 0;
+    left: 0;
+    width: 100%;
+    opacity: 0.7;
+    background-color: #e7e5e1;
+}
+.main {
+    position: relative;
+    z-index: 1;
+}
+header {
+    position: relative;
+    z-index: 1;
+}
+.sign-in-button{
+        color: black;
+        background-color: #f0ebe4;
+        border: 1px solid #7c7469;
+        padding: 4px 15px;
+        border-radius: 5px;
+        text-decoration: none;
+        width: 200px;
+        height: 100px;
+        cursor: pointer;
+        &:hover {
+            background-color: white;
+            color: black;
+            transition: 0.3s;
+        }	
+}
+.welcome {
+    display: flex;
+    justify-content: center;
+    flex-direction: row;
+    z-index: 1;
+}

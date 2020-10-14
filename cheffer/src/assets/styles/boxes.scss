@@ -1,0 +1,45 @@
+@import './layout';
+.box {
+    color: black;
+    background-color: white;
+    border: 1px solid #63615e;
+    padding: 4px 15px;
+    border-radius: 10px;
+    text-decoration: none;
+    z-index: 1;
+}
+.insert-text {
+    color: #63615e;
+    background-color: #e7e4e0;
+    border: 1px solid #63615e;
+    padding: 4px 15px;
+    border-radius: 5px;
+    text-decoration: none;
+    z-index: 1;
+}
+.filler{
+    background-color: transparent;
+}
+.alignment{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.alignment-cheffer{
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 30%;
+    align-items: center;
+    flex-direction: column;
+}
+.alignment-button{
+    display: flex;
+    justify-content: space-between;
+    margin-top: 30%;
+    align-items: center;
+    flex-direction: column;
+}
+.field-alignment{
+    display: flex;
+    flex-direction: column;
+}

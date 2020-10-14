@@ -15,14 +15,7 @@
         <a href="/"> <img src="<%= assetPath('logo.png') %>" alt="Logo" width="50" height="50"/> </a>
       </div>
     </header>
-    <% if (currentUser) { %>
-      <form action="<%= signOutPath %>" method="post">
-        <input type="hidden" name="_method" value="delete" />
-        <input type="submit" value="Sign Out" />
-      </form>
-      <% } else { %>
-        <a href="<%= signInPath %>">Sign In</a>
-      <% } %>
+    
     <%- body %>
     <script src="<%= assetPath('app.js') %>"></script>
   </body>

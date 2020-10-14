@@ -31,7 +31,7 @@ router.put("users.session.create", "/", async (ctx) => {
     const { email, password } = ctx.request.body;
     const user = await ctx.orm.user.findOne({ where: { email } });
     const isPasswordCorrect = user && await user.checkPassword(password);
-
+    
     if (isPasswordCorrect){
         const encodedId = hashids.encode(user.id, process.env.HASH_SECRET);
         ctx.session.userId = encodedId;
@@ -40,6 +40,7 @@ router.put("users.session.create", "/", async (ctx) => {
     }
     return ctx.render("users/signin", {
         createSessionPath: ctx.router.url("users.session.create"),
+        createUserFormPath: ctx.router.url("users.new"),
         usersPath: ctx.router.url("users.index"),
         error: "Incorrect Email or Password",
     });
