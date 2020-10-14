@@ -12,14 +12,50 @@ async function buildPasswordHash(instance) {
 
 module.exports = (sequelize, DataTypes) => {
   const user = sequelize.define('user', {
-    name: DataTypes.STRING,
-    lastname: DataTypes.STRING,
-    username: DataTypes.STRING,
-    email: DataTypes.STRING,
-    password: DataTypes.STRING,
-    picture: DataTypes.STRING,
-    country: DataTypes.STRING,
-    description: DataTypes.TEXT,
+    name: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      validate: {
+        notEmpty: true,
+      }, 
+    },
+    lastname: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      validate: {
+        notEmpty: true,
+      }, 
+    },
+    username: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      validate: {
+        notEmpty: true,
+      }, 
+    },
+    email: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      validate: {
+        notEmpty: true,
+      }, 
+    },
+    password: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      validate: {
+        notEmpty: true,
+      }, },
+    picture: {
+      type: DataTypes.STRING,},
+    country: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      validate: {
+        notEmpty: true,
+      }, },
+    description: {
+      type: DataTypes.TEXT,},
     savedRecipes: DataTypes.STRING,
     followers: DataTypes.STRING,
     blockedUsers: DataTypes.STRING

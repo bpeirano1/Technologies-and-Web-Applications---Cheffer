@@ -1,13 +1,13 @@
 <div>
-    <% if (locals.errors) { %>
-        <div class="errors">
-            You need to fix the following errors:
-            <ul>
-                <% errors.forEach(error => { %>
-                    <li><%= error.message %></li>
-                    <% }); %>
-            </ul>
-        </div>
+      <% if (locals.errors) { %>
+            <div class="errors">
+                <p> La publicacion no se puede crear debido a:</p>
+                <ul>
+                    <% errors.forEach(validationError => { %>
+                        <li> <%= validationError.path %>: <%= validationError.message %></li>
+                        <% }); %>
+                </ul>
+            </div>
         <% } %>
 
     <form action="<%= submitPublicationPath %>" method="POST">

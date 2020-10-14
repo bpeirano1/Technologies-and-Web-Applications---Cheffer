@@ -21,35 +21,62 @@ async function loadUser(ctx, next) {
     //});
 //});
 
-router.get("users.session.new", "/signin", (ctx) => ctx.render("users/signin", {
-    createSessionPath: ctx.router.url("users.session.create"),
-    createUserFormPath: ctx.router.url("users.new"),
-    usersPath: ctx.router.url("users.index"),
-}));
+router.get("users.session.new", "/signin", (ctx) => {
+    const user = ctx.orm.user.build();
+    return ctx.render("users/signin", {
+        user,
+        createSessionPath: ctx.router.url("users.session.create"),
+        createUserFormPath: ctx.router.url("users.new"),
+        usersPath: ctx.router.url("users.index"),
+    });
+});
 
 router.put("users.session.create", "/", async (ctx) => {
     const { email, password } = ctx.request.body;
     const user = await ctx.orm.user.findOne({ where: { email } });
     const isPasswordCorrect = user && await user.checkPassword(password);
+    console.log("AAAA")
+    //try {
+        if (isPasswordCorrect){
+            const encodedId = hashids.encode(user.id, process.env.HASH_SECRET);
+            ctx.session.userId = encodedId;
+            // encriptar userId
+            return ctx.redirect(ctx.router.url("users.show", {id: user.id}));
+        }
+        return ctx.render("users/signin", {
+            user,
+            createUserFormPath: ctx.router.url("users.new"),
+            createSessionPath: ctx.router.url("users.session.create"),
+            usersPath: ctx.router.url("users.index"),
+            //errors: validationError.errors,  
+            errors: "Incorrect Email or Password",
+        });
 
-    if (isPasswordCorrect){
-        const encodedId = hashids.encode(user.id, process.env.HASH_SECRET);
-        ctx.session.userId = encodedId;
-        // encriptar userId
-        return ctx.redirect(ctx.router.url("users.show", {id: user.id}));
-    }
-    return ctx.render("users/signin", {
-        createSessionPath: ctx.router.url("users.session.create"),
+    //} catch (validationError) {
+      //  console.log("CCCCC")
+       // await ctx.render("users/signin", {
+       //  user,
+       //  createUserFormPath: ctx.router.url("users.new"),
+       //  createSessionPath: ctx.router.url("users.session.create"),
+       //  usersPath: ctx.router.url("users.index"),
+       //  errors: validationError.errors,  
+       // });
+        
+    //}
+    
+
+
+}); 
+
+router.get("users.new", "/signup", loadUser, (ctx) => {
+    const user = ctx.orm.user.build();
+    return ctx.render("users/signup", {
+        user,
+        createUserPath: ctx.router.url("users.create"),
+        createUserFormPath: ctx.router.url("users.new"),
         usersPath: ctx.router.url("users.index"),
-        error: "Incorrect Email or Password",
     });
 });
-
-router.get("users.new", "/signup", loadUser, (ctx) => ctx.render("users/signup", {
-    createUserPath: ctx.router.url("users.create"),
-    createUserFormPath: ctx.router.url("users.new"),
-    usersPath: ctx.router.url("users.index"),
-}));
 
 router.post("users.create", "/", async (ctx) => {
     const user = ctx.orm.user.build(ctx.request.body);

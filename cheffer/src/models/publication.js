@@ -1,13 +1,37 @@
 'use strict';
 module.exports = (sequelize, DataTypes) => {
   const publication = sequelize.define('publication', {
-    name: DataTypes.STRING,
+    name: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      validate: {
+        notEmpty: true,
+      },
+    }, 
     recipesPictures: DataTypes.STRING,
-    ingredients: DataTypes.STRING,
+    ingredients: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      validate: {
+        notEmpty: true,
+      },
+    }, 
     recipesVideos: DataTypes.STRING,
-    time: DataTypes.FLOAT,
+    time: {
+      type: DataTypes.FLOAT,
+      allowNull: false,
+      validate: {
+        notEmpty: true,
+      },
+    }, 
     userId: DataTypes.INTEGER,
-    steps: DataTypes.STRING,
+    steps: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      validate: {
+        notEmpty: true,
+      },
+    },
     ranking: DataTypes.FLOAT,
     stepsPictures: DataTypes.STRING,
     description: DataTypes.TEXT
@@ -24,4 +48,4 @@ module.exports = (sequelize, DataTypes) => {
       });
   };
   return publication;
-};
+}; 

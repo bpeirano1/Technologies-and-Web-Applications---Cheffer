@@ -1,18 +1,19 @@
 <h1>Sign In</h1>
-<% if (locals.error) { %>
-    <div>
-        <%= error %>
+
+<% if (locals.errors) { %>
+    <div class="errors">
+        <p> Debes ingresar todos los campos </p>
     </div>
 <% } %>
 <form action="<%= createSessionPath %>" method="post">
     <input type="hidden" name="_method" value="put" />
     <div class="field">
         <label for="email">Email</label>
-        <input type="email" name="email" />
+        <input type="email" name="email" value="<%= user.email%>"/>
     </div>
     <div class="field">
         <label for="password">Password</label>
-        <input type="password" name="password" />
+        <input type="password" name="password"  />
     </div>
     <div class="field">
         <input type="submit" name="sign-in" value="Sign In">

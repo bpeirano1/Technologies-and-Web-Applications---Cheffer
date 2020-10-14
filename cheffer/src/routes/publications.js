@@ -38,6 +38,7 @@ router.post("publications.create", "/", loadUser, loadPublication, async (ctx) =
         const publication = await user.createPublication(ctx.request.body);
         ctx.redirect(ctx.router.url("publications.show", {userId: user.id, id: publication.id}));
     } catch (validationError) {
+        const publication = ctx.orm.publication.build(ctx.request.body);
         await ctx.render("publications/new", {
          user,
          publication,
