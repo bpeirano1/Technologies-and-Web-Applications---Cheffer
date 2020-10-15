@@ -1,6 +1,7 @@
 @import './layout';
 @import './hello';
 @import './boxes';
+@import './navbar';
 @import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
 
 * {
@@ -22,7 +23,7 @@
     left: 0;
     width: 100%;
     opacity: 0.7;
-    background-color: #e7e5e1;
+    background-color: #d6d5d1;
 }
 .main {
     position: relative;
