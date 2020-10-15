@@ -43,7 +43,7 @@ router.post("messages.create", "/", loadUser, async (ctx) => {
         
     }
 });
-
+ 
 router.get("messages.index","/", loadUser, loadMessage, async (ctx) => {
     const messages = await ctx.orm.message.findAll();
     const { user, message} = ctx.state;
@@ -57,6 +57,7 @@ router.get("messages.index","/", loadUser, loadMessage, async (ctx) => {
         message,
         messages,
         newMessagePath: ctx.router.url("messages.new", {userId: user.id}),
+        userPath: (user) => ctx.router.url("users.show", {id: user.id}),
         messagePath: (message) => ctx.router.url("messages.show", {id: message.id, userId: user.id}),
     })
 });

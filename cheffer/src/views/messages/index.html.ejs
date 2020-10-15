@@ -5,7 +5,8 @@
 <div>
     <% messages.forEach(message => { %>
         <% if (currentUser.id === message.senderId){ %>
-            <p>Mensaje para <%= message.user.username %>: <a href="<%= messagePath(message) %>"><%= message.description %> </a></p>
+            <p> <%= message.user %> </p>
+            <p>Mensaje para <a href="<%= userPath(message.user) %>"><%= message.user.username %> </a>: <a href="<%= messagePath(message) %>"><%= message.description %> </a></p>
             <!-- <p><a href="<%= messagePath(message) %>"><%= message.description %> </a></p> -->
         <% }%>
     <% }); %>
