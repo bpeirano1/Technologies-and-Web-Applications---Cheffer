@@ -38,19 +38,36 @@ router.put("users.session.create", "/", async (ctx) => {
     console.log("AAAA")
     //try {
         if (isPasswordCorrect){
+            console.log("BBBB")
             const encodedId = hashids.encode(user.id, process.env.HASH_SECRET);
             ctx.session.userId = encodedId;
             // encriptar userId
             return ctx.redirect(ctx.router.url("users.show", {id: user.id}));
         }
-        return ctx.render("users/signin", {
-            user,
-            createUserFormPath: ctx.router.url("users.new"),
-            createSessionPath: ctx.router.url("users.session.create"),
-            usersPath: ctx.router.url("users.index"),
-            //errors: validationError.errors,  
-            errors: "Incorrect Email or Password",
-        });
+
+        else if ( password != "" && email != ""){
+            console.log("CCCCCCC")
+            return ctx.render("users/signin", {
+                user,
+                createUserFormPath: ctx.router.url("users.new"),
+                createSessionPath: ctx.router.url("users.session.create"),
+                usersPath: ctx.router.url("users.index"),
+                //errors: validationError.errors,  
+                errors: "A",
+            });
+        }
+        else{
+            console.log("DDDDDD")
+            return ctx.render("users/signin", {
+                user,
+                createUserFormPath: ctx.router.url("users.new"),
+                createSessionPath: ctx.router.url("users.session.create"),
+                usersPath: ctx.router.url("users.index"),
+                //errors: validationError.errors,  
+                errors: "B",
+            });
+        }
+    //}
 
     //} catch (validationError) {
       //  console.log("CCCCC")
@@ -88,25 +105,30 @@ router.post("users.create", "/", async (ctx) => {
         ctx.session.userId = encodedId;
         ctx.redirect(ctx.router.url("users.show", {id: user.id}));
         }
-        await ctx.render("users/signup", {
-            createSessionPath: ctx.router.url("users.create"),
-            usersPath: ctx.router.url("users.index"),
+        if (password != confirmPassword){
+            console.log("FLOLOOOOOOOO")
+            await ctx.render("users/signup", {
+                createSessionPath: ctx.router.url("users.create"),
+                usersPath: ctx.router.url("users.index"),
+                createUserPath: ctx.router.url("users.create"),
+                createUserFormPath: ctx.router.url("users.new"),
+                errors: "C",
+            });
+        }
+        
+    } catch (validationError) {
+        console.log("MAIDA")
+            await ctx.render("users/signup", {
+            user,
+            //submitUserPath: ctx.router.url("users.create"),
+            //usersPath: ctx.router.url("users.index"), 
             createUserPath: ctx.router.url("users.create"),
             createUserFormPath: ctx.router.url("users.new"),
-            error: "Passwords don\'t match",
-        });
-    } catch (validationError) {
-        await ctx.render("users/signup", {
-         user,
-         //submitUserPath: ctx.router.url("users.create"),
-         //usersPath: ctx.router.url("users.index"), 
-         createUserPath: ctx.router.url("users.create"),
-         createUserFormPath: ctx.router.url("users.new"),
-         usersPath: ctx.router.url("users.index"),
-         errors: validationError.errors,  
-        });
-        
-    }
+            usersPath: ctx.router.url("users.index"),
+            errors: validationError.errors,  
+            });
+        }
+
 });
 
 router.get("users.index","/", async (ctx) => {
