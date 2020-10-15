@@ -40,6 +40,7 @@ router.put("users.session.create", "/", async (ctx) => {
         if (isPasswordCorrect){
             console.log("BBBB")
             const encodedId = hashids.encode(user.id, process.env.HASH_SECRET);
+            console.log(encodedId)
             ctx.session.userId = encodedId;
             // encriptar userId
             return ctx.redirect(ctx.router.url("users.show", {id: user.id}));
@@ -147,7 +148,7 @@ router.get("users.show", "/:id",loadUser, async (ctx) => {
         user,
         usersPath: ctx.router.url("users.index"),
         editUserPath: ctx.router.url("users.edit", {id: user.id}),
-
+        newMessagePath: ctx.router.url("messages.new", {userId: user.id}),
         // para irse a comentarios
         publicationsPath: ctx.router.url("publications.index", {userId: user.id}),
         //para irse a mensajes

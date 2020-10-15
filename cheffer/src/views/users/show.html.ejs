@@ -13,6 +13,15 @@
     <li>Activity</li>
     <li>Messages</li>
   </ul>
-<p><a href="<%= editUserPath %>">Edit</a></p>
+
+<% if (currentUser.id === user.id){ %>
+  <p><a href="<%= editUserPath %>">Edit</a></p>
+  <p><a href="<%= messagesPath %>">Mensajes</a></p>
+<% }%> 
+
 <p><a href="<%= publicationsPath %>">Publicaciones</a></p>
-<p><a href="<%= messagesPath %>">Mensajes</a></p>
+
+<% if (currentUser.id != user.id){ %>
+  <p><a href="<%= newMessagePath %>">Enviar mensaje a <%= user.username %> </a></p> 
+<% }%> 
+ 
