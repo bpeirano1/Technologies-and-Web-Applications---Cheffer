@@ -21,6 +21,8 @@ router.get("messages.new", "/new", loadUser, async (ctx) => {
         submitMessagePath: ctx.router.url("messages.create", {userId: user.id}),
         publicationsPath: ctx.router.url("publications.index", {userId: user.id}),
         newPublicationPath: ctx.router.url("publications.new", {userId: user.id}),
+        userPath: (user) => ctx.router.url("users.show", {id: user.id}),
+        editUserPath: ctx.router.url("users.edit", {id: user.id}),
         messagesPath: ctx.router.url("messages.index" , {userId: user.id}),
     });
 });
@@ -79,6 +81,7 @@ router.get("messages.show", "/:id",loadMessage, loadUser, async (ctx) => {
         newPublicationPath: ctx.router.url("publications.new", {userId: user.id}),
         messagesPath: ctx.router.url("messages.index", {userId: user.id}),
         editUserPath: ctx.router.url("users.edit", {id: user.id}),
+        userPath: (user) => ctx.router.url("users.show", {id: user.id}),
         editMessagePath: ctx.router.url("messages.edit", {id: message.id, userId: user.id}),
     });
 });

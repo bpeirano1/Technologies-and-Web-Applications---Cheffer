@@ -11,7 +11,7 @@
           <li class="item"><a href="<%= newPublicationPath %>"><img src="<%= assetPath('upload.png') %>" alt="upload" width="25" height="20"/></a></li>
           <li class="item"><a href="<%= messagesPath %>"><img src="<%= assetPath('messages.png') %>" alt="mssgs" width="25" height="20"/></a></li>
           <li class="item"><a href="#"><img src="<%= assetPath('explore.JPG') %>" alt="explore" width="25" height="20"/></a></li>
-          <li class="item"><a href="#">Profile</a></li>
+          <li class="item"><a href=" <%= userPath(currentUser) %>">Profile</a></li>
           <li class="item"><a href="<%= editUserPath %>">Edit</a></li>
         </div>
     </ul>
