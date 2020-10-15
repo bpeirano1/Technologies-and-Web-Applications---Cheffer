@@ -5,5 +5,6 @@
         <p><a href="<%= publicationPath(publication) %>"><%= publication.name %></a></p>
     <% }); %>
 </div>
-
-<a href=" <%= newPublicationPath %>" > New publication</a>
+<% if (currentUser.id === user.id){ %>
+    <a href=" <%= newPublicationPath %>" > New publication</a>
+<% }%> 

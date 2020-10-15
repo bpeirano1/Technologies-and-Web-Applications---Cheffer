@@ -1,11 +1,16 @@
 <h2>Messages</h2>
 
-<p>Cantidad de Messages: <%= messages.length %></p>
+<!-- <p>Cantidad de Messages: <%= messages.length %></p> -->
 
 <div>
     <% messages.forEach(message => { %>
-        <p><a href="<%= messagePath(message) %>"><%= message.description %> <%= message.senderId %> <%= message.receiverId %></a></p>
+        <% if (currentUser.id === message.senderId){ %>
+            <p> <%= message.user %> </p>
+            <p>Mensaje para <a href="<%= userPath(message.user) %>"><%= message.user.username %> </a>: <a href="<%= messagePath(message) %>"><%= message.description %> </a></p>
+            <!-- <p><a href="<%= messagePath(message) %>"><%= message.description %> </a></p> -->
+        <% }%>
     <% }); %>
 </div>
 
-<a href=" <%= newMessagePath %>" > New Message</a>
+<!-- <a href=" <%= newMessagePath %>" > New Message</a>   -->
+

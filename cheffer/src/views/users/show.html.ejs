@@ -8,15 +8,22 @@
       <div class="options-alignment">
         <li class="item"><a href="#"><img src="<%= assetPath('activity.png') %>" alt="act" width="25" height="20"/></a></li>
         <li class="item"><a href="#"><img src="<%= assetPath('upload.png') %>" alt="upload" width="25" height="20"/></a></li>
-        <li class="item"><a href="<%= messagesPath %>"><img src="<%= assetPath('messages.png') %>" alt="mssgs" width="25" height="20"/></a></li>
+        <% if (currentUser.id === user.id){ %>
+          <li class="item"><a href="<%= messagesPath %>"><img src="<%= assetPath('messages.png') %>" alt="mssgs" width="25" height="20"/></a></li>
+        <% }%> 
         <li class="item"><a href="#"><img src="<%= assetPath('explore.JPG') %>" alt="explore" width="25" height="20"/></a></li>
         <li class="item"><a href="#">Profile</a></li>
-        <li class="item"><a href="<%= editUserPath %>">Edit</a></li>
+        <% if (currentUser.id === user.id){ %>
+          <li class="item"><a href="<%= editUserPath %>">Edit</a></li>
+        <% }%> 
       </div>
   </ul>
 </nav>
-
+<% if (currentUser.id != user.id){ %>
+  <p><a href="<%= newMessagePath %>">Enviar mensaje a <%= user.username %> </a></p> 
+<% }%> 
 </div>
+
 <div class="main">
   <div class="alignment">
       <div id="bandera">
@@ -53,3 +60,4 @@
   </div>
 </div>
 <div class="grey-backround"></div>
+

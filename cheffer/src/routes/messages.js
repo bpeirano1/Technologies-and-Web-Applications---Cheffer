@@ -26,6 +26,9 @@ router.get("messages.new", "/new", loadUser, async (ctx) => {
 router.post("messages.create", "/", loadUser, async (ctx) => {
     const { user } = ctx.state;
     const message = ctx.orm.message.build(ctx.request.body);
+    message.senderId = ctx.state.currentUser.id
+    message.receiverId = user.id
+    message.ReceiverUsername = user.username
     try {
         await message.save({ fields: ["senderId", "receiverId", "description"] });
         ctx.redirect(ctx.router.url("messages.show", {id: message.id, userId: user.id}));
@@ -40,22 +43,30 @@ router.post("messages.create", "/", loadUser, async (ctx) => {
         
     }
 });
-
+ 
 router.get("messages.index","/", loadUser, loadMessage, async (ctx) => {
     const messages = await ctx.orm.message.findAll();
     const { user, message} = ctx.state;
+    for (const message of messages) {
+        const user = await message.getReceiver()
+        message.user = user
+    }
     await ctx.render("messages/index", {
+        //userR,
         user,
         message,
         messages,
         newMessagePath: ctx.router.url("messages.new", {userId: user.id}),
+        userPath: (user) => ctx.router.url("users.show", {id: user.id}),
         messagePath: (message) => ctx.router.url("messages.show", {id: message.id, userId: user.id}),
     })
 });
-
+  
 router.get("messages.show", "/:id",loadMessage, loadUser, async (ctx) => {
     const { message, user } = ctx.state;
+    const userR = await message.getReceiver()
     await ctx.render("messages/show", {
+        userR,
         message,
         messagesPath: ctx.router.url("messages.index", {userId: user.id}),
         editMessagePath: ctx.router.url("messages.edit", {id: message.id, userId: user.id}),
