@@ -36,14 +36,22 @@ router.get("reports.new", "/new", loadUser, loadPublication, async (ctx) => {
 router.post("reports.create", "/", loadUser, loadReport, loadPublication, async (ctx) => {
     const report = ctx.orm.report.build(ctx.request.body);
     const { user, publication } = ctx.state;
+    report.publicationId = publication.id
+    report.userId = ctx.state.currentUser.id
     try {
         await report.save({ fields: ["publicationId","description", "userId"] });
         ctx.redirect(ctx.router.url("reports.show", {id: report.id, userId: user.id, publicationId: publication.id}));
     } catch (validationError) {
+        const reports = await publication.getReports()
+        for (const report of reports) {
+            const user = await report.getUser()
+            report.user = user
+        }
         await ctx.render("reports/new", {
          user,
          publication,
          report,
+         reports,
          submitReportPath: ctx.router.url("reports.create", {userId: user.id, publicationId: publication.id}),
          reportsPath: ctx.router.url("reports.index", {userId: user.id, publicationId: publication.id}), 
          errors: validationError.errors,  

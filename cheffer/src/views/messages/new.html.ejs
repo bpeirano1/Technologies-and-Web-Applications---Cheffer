@@ -10,9 +10,7 @@
         <div class="options-alignment">
           <li class="item"><a href="#"><img src="<%= assetPath('activity.png') %>" alt="act" width="25" height="20"/></a></li>
           <li class="item"><a href="<%= newPublicationPath %>"><img src="<%= assetPath('upload.png') %>" alt="upload" width="25" height="20"/></a></li>
-          <% if (currentUser.id === user.id){ %>
-            <li class="item"><a href="<%= messagesPath %>"><img src="<%= assetPath('messages.png') %>" alt="mssgs" width="25" height="20"/></a></li>
-          <% }%> 
+          <li class="item"><a href="<%= messagesPath %>"><img src="<%= assetPath('messages.png') %>" alt="mssgs" width="25" height="20"/></a></li>
           <li class="item"><a href="#"><img src="<%= assetPath('explore.JPG') %>" alt="explore" width="25" height="20"/></a></li>
           <li class="item"><a href="#">Profile</a></li>
           <% if (currentUser.id === user.id){ %>

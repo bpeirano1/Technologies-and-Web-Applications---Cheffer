@@ -160,6 +160,7 @@ router.get("users.show", "/:id",loadUser, async (ctx) => {
         //para irse a mensajes
         newPublicationPath: ctx.router.url("publications.new", {userId: user.id}),
         messagesPath: ctx.router.url("messages.index", {userId: user.id}),
+        publicationPath: (publication) => ctx.router.url("publications.show", {id: publication.id, userId: user.id}),
     }); 
 });
 
