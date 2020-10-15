@@ -1,7 +1,7 @@
 const KoaRouter = require('koa-router');
 const Hashids = require('hashids/cjs');
-require("dotenv").config()
 
+require("dotenv").config();
 
 const hello = require('./routes/hello');
 const index = require('./routes/index');
@@ -10,6 +10,7 @@ const publications = require('./routes/publications');
 const comments = require('./routes/comments');
 const messages = require('./routes/messages');
 const reports = require('./routes/reports');
+const feed = require('./routes/feed');
 
 const router = new KoaRouter();
 const hashids = new Hashids();
@@ -22,6 +23,8 @@ router.use(async (ctx, next) => {
         signInPath: ctx.router.url("users.session.new"),
         signOutPath: ctx.router.url("users.session.destroy"),
     });
+    console.log("aaaaaaaaaaaaaaaaa");
+    console.log(ctx.state.currentUser);
     return next();
 });
 
@@ -32,6 +35,7 @@ router.use('/users/:userId/publications', publications.routes());
 router.use('/users/:userId/publications/:publicationId/comments', comments.routes());
 router.use('/users/:userId/publications/:publicationId/reports', reports.routes());
 router.use('/users/:userId/messages', messages.routes());
+router.use('/feed', feed.routes());
 
 
 module.exports = router;
