@@ -32,7 +32,7 @@ router.get("comments.new", "/new", loadUser, loadPublication, async (ctx) => {
         }),
     });
 });
-
+ 
 router.post("comments.create", "/", loadUser, loadPublication, async (ctx) => {
     const comment = ctx.orm.comment.build(ctx.request.body);
     const { user, publication } = ctx.state;
