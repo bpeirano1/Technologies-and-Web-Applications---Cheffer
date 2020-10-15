@@ -68,6 +68,8 @@ router.get("messages.show", "/:id",loadMessage, loadUser, async (ctx) => {
     await ctx.render("messages/show", {
         userR,
         message,
+        publicationsPath: ctx.router.url("publications.index", {userId: user.id}),
+        newPublicationPath: ctx.router.url("publications.new", {userId: user.id}),
         messagesPath: ctx.router.url("messages.index", {userId: user.id}),
         editMessagePath: ctx.router.url("messages.edit", {id: message.id, userId: user.id}),
     });

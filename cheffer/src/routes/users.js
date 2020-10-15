@@ -11,6 +11,8 @@ async function loadUser(ctx, next) {
     return next();
 };
 
+
+
 //router.get("users.new", "/new", async (ctx) => {
   //  const user = ctx.orm.user.build();
     //await ctx.render("users/new", {
@@ -144,16 +146,21 @@ router.get("users.index","/", async (ctx) => {
 
 router.get("users.show", "/:id",loadUser, async (ctx) => {
     const { user } = ctx.state;
+    const publication = ctx.orm.comment.build();
+    const publications = await user.getPublications();
     await ctx.render("users/show", {
         user,
+        publication,
+        publications,
         usersPath: ctx.router.url("users.index"),
         editUserPath: ctx.router.url("users.edit", {id: user.id}),
         newMessagePath: ctx.router.url("messages.new", {userId: user.id}),
         // para irse a comentarios
         publicationsPath: ctx.router.url("publications.index", {userId: user.id}),
         //para irse a mensajes
+        newPublicationPath: ctx.router.url("publications.new", {userId: user.id}),
         messagesPath: ctx.router.url("messages.index", {userId: user.id}),
-    });
+    }); 
 });
 
 router.get("users.edit", "/:id/edit", loadUser, async (ctx) => {

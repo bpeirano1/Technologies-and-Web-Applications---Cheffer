@@ -70,6 +70,8 @@ router.get("publications.show", "/:id", loadPublication, loadUser, async (ctx) =
     const { publication, user } = ctx.state;
     const comment = ctx.orm.comment.build();
     const comments = await publication.getComments();
+    // console.log("Comemtarios")
+    // console.log(comments)
     for (const comment of comments) {
         const user = await comment.getUser()
         comment.user = user
