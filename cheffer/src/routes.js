@@ -1,7 +1,7 @@
 const KoaRouter = require('koa-router');
 const Hashids = require('hashids/cjs');
-require("dotenv").config();
 
+require("dotenv").config();
 
 const hello = require('./routes/hello');
 const index = require('./routes/index');
@@ -17,6 +17,7 @@ const hashids = new Hashids();
 
 router.use(async (ctx, next) => {
     decodedId = hashids.decode(ctx.session.userId, process.env.HASH_SECRET)
+    console.log(decodedId)
     Object.assign(ctx.state, {
         currentUser: ctx.session.userId && await ctx.orm.user.findByPk(decodedId[0]),
         signInPath: ctx.router.url("users.session.new"),

@@ -1,5 +1,27 @@
 <a href="<%= messagesPath %>">Back to Messages</a>
 
+<nav>
+    <ul class="menu">
+        <li class="logo"><a href="<%= publicationsPath %>"><img src="<%= assetPath('logo.png') %>" alt="Logo" width="40" height="40"/></a></li>
+        <div class="search-alignment">
+          <li class="item"><input class="insert-text" type="text" name="search" id="search"></li>
+          <li class="item"><a href="#"><img src="<%= assetPath('lupa.png') %>" alt="lupa" width="25" height="20"/></a></li>
+        </div>
+        <div class="options-alignment">
+          <li class="item"><a href="#"><img src="<%= assetPath('activity.png') %>" alt="act" width="25" height="20"/></a></li>
+          <li class="item"><a href="<%= newPublicationPath %>"><img src="<%= assetPath('upload.png') %>" alt="upload" width="25" height="20"/></a></li>
+          <% if (currentUser.id === user.id){ %>
+            <li class="item"><a href="<%= messagesPath %>"><img src="<%= assetPath('messages.png') %>" alt="mssgs" width="25" height="20"/></a></li>
+          <% }%> 
+          <li class="item"><a href="#"><img src="<%= assetPath('explore.JPG') %>" alt="explore" width="25" height="20"/></a></li>
+          <li class="item"><a href="#">Profile</a></li>
+          <% if (currentUser.id === user.id){ %>
+            <li class="item"><a href="<%= editUserPath %>">Edit</a></li>
+          <% }%> 
+        </div>
+    </ul>
+  </nav>
+
 <h2>Nuevo Mensaje</h2>
 
 <%- include("_form") %>
