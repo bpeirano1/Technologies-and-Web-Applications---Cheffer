@@ -11,6 +11,8 @@ async function loadUser(ctx, next) {
     return next();
 };
 
+
+
 //router.get("users.new", "/new", async (ctx) => {
   //  const user = ctx.orm.user.build();
     //await ctx.render("users/new", {
@@ -38,19 +40,37 @@ router.put("users.session.create", "/", async (ctx) => {
     console.log("AAAA")
     //try {
         if (isPasswordCorrect){
+            console.log("BBBB")
             const encodedId = hashids.encode(user.id, process.env.HASH_SECRET);
+            console.log(encodedId)
             ctx.session.userId = encodedId;
             // encriptar userId
             return ctx.redirect(ctx.router.url("users.show", {id: user.id}));
         }
-        return ctx.render("users/signin", {
-            user,
-            createUserFormPath: ctx.router.url("users.new"),
-            createSessionPath: ctx.router.url("users.session.create"),
-            usersPath: ctx.router.url("users.index"),
-            //errors: validationError.errors,  
-            errors: "Incorrect Email or Password",
-        });
+
+        else if ( password != "" && email != ""){
+            console.log("CCCCCCC")
+            return ctx.render("users/signin", {
+                user,
+                createUserFormPath: ctx.router.url("users.new"),
+                createSessionPath: ctx.router.url("users.session.create"),
+                usersPath: ctx.router.url("users.index"),
+                //errors: validationError.errors,  
+                errors: "A",
+            });
+        }
+        else{
+            console.log("DDDDDD")
+            return ctx.render("users/signin", {
+                user,
+                createUserFormPath: ctx.router.url("users.new"),
+                createSessionPath: ctx.router.url("users.session.create"),
+                usersPath: ctx.router.url("users.index"),
+                //errors: validationError.errors,  
+                errors: "B",
+            });
+        }
+    //}
 
     //} catch (validationError) {
       //  console.log("CCCCC")
@@ -88,25 +108,30 @@ router.post("users.create", "/", async (ctx) => {
         ctx.session.userId = encodedId;
         ctx.redirect(ctx.router.url("users.show", {id: user.id}));
         }
-        await ctx.render("users/signup", {
-            createSessionPath: ctx.router.url("users.create"),
-            usersPath: ctx.router.url("users.index"),
+        if (password != confirmPassword){
+            console.log("FLOLOOOOOOOO")
+            await ctx.render("users/signup", {
+                createSessionPath: ctx.router.url("users.create"),
+                usersPath: ctx.router.url("users.index"),
+                createUserPath: ctx.router.url("users.create"),
+                createUserFormPath: ctx.router.url("users.new"),
+                errors: "C",
+            });
+        }
+        
+    } catch (validationError) {
+        console.log("MAIDA")
+            await ctx.render("users/signup", {
+            user,
+            //submitUserPath: ctx.router.url("users.create"),
+            //usersPath: ctx.router.url("users.index"), 
             createUserPath: ctx.router.url("users.create"),
             createUserFormPath: ctx.router.url("users.new"),
-            error: "Passwords don\'t match",
-        });
-    } catch (validationError) {
-        await ctx.render("users/signup", {
-         user,
-         //submitUserPath: ctx.router.url("users.create"),
-         //usersPath: ctx.router.url("users.index"), 
-         createUserPath: ctx.router.url("users.create"),
-         createUserFormPath: ctx.router.url("users.new"),
-         usersPath: ctx.router.url("users.index"),
-         errors: validationError.errors,  
-        });
-        
-    }
+            usersPath: ctx.router.url("users.index"),
+            errors: validationError.errors,  
+            });
+        }
+
 });
 
 router.get("users.index","/", async (ctx) => {
@@ -121,17 +146,27 @@ router.get("users.index","/", async (ctx) => {
 
 router.get("users.show", "/:id",loadUser, async (ctx) => {
     const { user } = ctx.state;
+    const publication = ctx.orm.comment.build();
+    const publications = await user.getPublications();
     await ctx.render("users/show", {
         user,
+        publication,
+        publications,
         usersPath: ctx.router.url("users.index"),
         editUserPath: ctx.router.url("users.edit", {id: user.id}),
-
+        newMessagePath: ctx.router.url("messages.new", {userId: user.id}),
         // para irse a comentarios
         publicationsPath: ctx.router.url("publications.index", {userId: user.id}),
         //para irse a mensajes
+        newPublicationPath: ctx.router.url("publications.new", {userId: user.id}),
         messagesPath: ctx.router.url("messages.index", {userId: user.id}),
+        userPath: (user) => ctx.router.url("users.show", {id: user.id}),
+        publicationPath: (publication) => ctx.router.url("publications.show", {id: publication.id, userId: user.id}),
+        feedPath: ctx.router.url("feed.show", {userId: user.id}),
     });
-});
+    }); 
+
+// });
 
 router.get("users.edit", "/:id/edit", loadUser, async (ctx) => {
     const { user }= ctx.state;

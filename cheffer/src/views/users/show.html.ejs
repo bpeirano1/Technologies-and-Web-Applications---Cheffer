@@ -1,18 +1,69 @@
-<a href="<%= usersPath  %>"> Back to Users</a>
-
-
-<div>
-    <h2><%= user.name %> <%= user.lastname %></h2>
-    <p><%= user.username %></p>
+<nav>
+  <ul class="menu">
+      <li class="logo"><a href="<%= feedPath %>"><img src="<%= assetPath('logo.png') %>" alt="Logo" width="40" height="40"/></a></li>
+      <div class="search-alignment">
+        <li class="item"><input class="insert-text" type="text" name="search" id="search"></li>
+        <li class="item"><a href="#"><img src="<%= assetPath('lupa.png') %>" alt="lupa" width="25" height="20"/></a></li>
+      </div>
+      <div class="options-alignment">
+        <li class="item"><a href="#"><img src="<%= assetPath('activity.png') %>" alt="act" width="25" height="20"/></a></li>
+        <li class="item"><a href="<%= newPublicationPath %>"><img src="<%= assetPath('upload.png') %>" alt="upload" width="25" height="20"/></a></li>
+        <li class="item"><a href="<%= messagesPath %>"><img src="<%= assetPath('messages.png') %>" alt="mssgs" width="25" height="20"/></a></li>
+        <li class="item"><a href="#"><img src="<%= assetPath('explore.JPG') %>" alt="explore" width="25" height="20"/></a></li>
+        <li class="item"><a href=" <%= userPath(currentUser) %>">Profile</a></li>
+        <li class="item"><a href="<%= editUserPath %>">Edit</a></li>
+      </div>
+  </ul>
+</nav>
 
 </div>
-<ul> 
-    <li>Profile</li>
-    <li>Feed</li>
-    <li>Explore</li>
-    <li>Activity</li>
-    <li>Messages</li>
-  </ul>
-<p><a href="<%= editUserPath %>">Edit</a></p>
-<p><a href="<%= publicationsPath %>">Publicaciones</a></p>
-<p><a href="<%= messagesPath %>">Mensajes</a></p>
+
+<div class="main">
+  <div class="alignment">
+      <div id="bandera">
+          <img src="<%= assetPath('bandera-lateral.png') %>" width="40" height="498">
+      </div>
+      <div id="recuadro">
+          <div class="box-feed">
+              <div class="field-alignment">
+                <div class="box-separator">
+                  <div class="field-alignment-row">
+                    <div class="round-pic">
+                      <img src="<%= assetPath('no-pic.png') %>" width="60" height="60">
+                    </div>
+                    <div class="field-alignment-column-sp">
+                      <p><%= user.username %></p>
+                      <p><%= user.name %> <%= user.lastname %></p>
+                    </div>
+                  </div>
+                </div>
+                <% if (currentUser.id != user.id){ %>
+                  <p><a href="<%= newMessagePath %>">Enviar mensaje a <%= user.username %> </a></p> 
+                <% }%> 
+                <div class="field-alignment-row-sp">
+                  <a href="#"><img src="<%= assetPath('posts.png') %>" alt="posts" width="25" height="20"/>Posts</a>
+                  <a href="#"><img src="<%= assetPath('saved.png') %>" alt="saved" width="25" height="20"/>Saved</a>
+                  <a href="#"><img src="<%= assetPath('tagged.png') %>" alt="tagged" width="25" height="20"/>Tagged</a>
+                </div>
+                <% publications.forEach(publication => { %>
+                  <h1> <a href="<%= publicationPath(publication) %>"> <%= publication.name %></a></h1>
+                  <p> Ingredientes: <%= publication.ingredients %></p>
+                  <p> Tiempo de Preparación: <%= publication.time %></p>
+                  <p> Pasos: <%= publication.steps %></p>
+                  <p> Ranking: <%= publication.ranking %></p>
+                  <p> Fotos: <%= publication.recipesPictures %></p>
+                  <p> Video: <%= publication.recipesVideos %></p>
+                  <p>Descripcion: <%= publication.description %></p>
+                <% }); %>
+                <!-- Publicaciones hacia abajo  hacer un fieldalign column sp y para el lado un for que haga fieldalign row sp-->
+                <div class="filler"></div>
+                <div class="filler"></div>
+            </div>
+          </div>
+          <br>
+      </div>
+      <div class=filler></div>
+  </div>
+</div>
+<div class="grey-backround"></div>
+

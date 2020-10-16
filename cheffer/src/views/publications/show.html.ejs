@@ -1,10 +1,17 @@
-<a href="<%= publicationsPath  %>"> Back to Publications</a>
+<a href="<%= feedPath  %>"> Back to Feed</a>
 
 
-<div>
+<div> 
     <h2><%= publication.name %></h2>
-    <p>Description: <%= publication.description %></p>
-    <p>Created At : <%= publication.createdAt %></p>
+    <p> Ingredientes: <%= publication.ingredients %></p>
+    <p> Tiempo de Preparación: <%= publication.time %></p>
+    <p> Pasos: <%= publication.steps %></p>
+    <p> Ranking: <%= publication.ranking %></p>
+    <p> Fotos: <%= publication.recipesPictures %></p>
+    <p> Video: <%= publication.recipesVideos %></p>
+    <p>Descripcion: <%= publication.description %></p>
+
+    <!-- <p>Created At : <%= publication.createdAt %></p> -->
 </div>
 
 <p><a href="<%= editPublicationPath %>">Edit</a></p>
@@ -13,7 +20,7 @@
 
 <div>
     <% comments.forEach(comment => { %>
-        <p><%= comment.description %> <%= comment.publicationId %></p>
+        <p><%= comment.user.username %>: <%= comment.description %></p>
     <% }); %>
 </div>
 
@@ -21,4 +28,5 @@
 
 <%- include("../comments/_form") %>
 
-<p><a href="<%= reportsPath %>">Denuncias</a></p>
+<!-- <p><a href="<%= reportsPath %>">Denuncias</a></p> -->
+<a href=" <%= newReportPath %>" > New Report</a>

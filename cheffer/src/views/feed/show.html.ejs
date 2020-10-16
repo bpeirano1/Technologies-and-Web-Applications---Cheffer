@@ -1,4 +1,4 @@
-<!-- <a href="<%= messagesPath  %>"> Back to Messages</a> -->
+
 <nav>
     <ul class="menu">
         <li class="logo"><a href="<%= publicationsPath %>"><img src="<%= assetPath('logo.png') %>" alt="Logo" width="40" height="40"/></a></li>
@@ -16,10 +16,31 @@
         </div>
     </ul>
   </nav>
-
-<div>
-    <h2>Message from: <%= currentUser.username %>, to: <%= userR.username %> </h2>
-    <p>Description: <%= message.description %></p>
-</div>
-
-<a href="<%= editMessagePath %>">Edit</a>  
+  
+  </div>
+  <div class="main">
+    <div class="alignment">
+        <div id="bandera">
+            <img src="<%= assetPath('bandera-lateral.png') %>" width="40" height="498">
+        </div>
+        <div id="recuadro">
+            <div class="box-feed">
+                <div>
+                    <% publications.forEach(publication => { %>
+                        <h1><a href="<%= publicationPath(publication) %>"><%= publication.name %></a></h1>
+                        <p> Ingredientes: <%= publication.ingredients %></p>
+                        <p> Tiempo de Preparación: <%= publication.time %></p>
+                        <p> Pasos: <%= publication.steps %></p>
+                        <p> Ranking: <%= publication.ranking %></p>
+                        <p> Fotos: <%= publication.recipesPictures %></p>
+                        <p> Video: <%= publication.recipesVideos %></p>
+                        <p>Descripcion: <%= publication.description %></p>
+                    <% }); %>
+                </div>
+            </div>
+            <br>
+        </div>
+        <div class=filler></div>
+    </div>
+  </div>
+  <div class="grey-backround"></div>

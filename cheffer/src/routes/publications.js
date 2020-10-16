@@ -23,6 +23,7 @@ router.get("publications.new", "/new", loadUser, async (ctx) => {
     await ctx.render("publications/new", {
         user,
         publication,
+        feedPath: ctx.router.url("feed.show", {userId: user.id}),
         submitPublicationPath: ctx.router.url("publications.create", {
             userId: user.id
         }),
@@ -65,14 +66,22 @@ router.get("publications.index","/", loadUser, loadPublication, async (ctx) => {
         publicationPath: (publication) => ctx.router.url("publications.show", {id: publication.id, userId: user.id}),
     })
 });
-
+ 
 router.get("publications.show", "/:id", loadPublication, loadUser, async (ctx) => {
     const { publication, user } = ctx.state;
     const comment = ctx.orm.comment.build();
     const comments = await publication.getComments();
+    // console.log("Comemtarios")
+    // console.log(comments)
+    for (const comment of comments) {
+        const user = await comment.getUser()
+        comment.user = user
+    }
     await ctx.render("publications/show", {
         publication,
         publicationsPath: ctx.router.url("publications.index", {userId: user.id}),
+        feedPath: ctx.router.url("feed.show", {userId: user.id}),
+        newReportPath: ctx.router.url("reports.new", {userId: user.id, publicationId: publication.id}),
         editPublicationPath: ctx.router.url("publications.edit", {userId: user.id, id: publication.id}),
         
         // para que los comentarios aparezcan en publicacion
