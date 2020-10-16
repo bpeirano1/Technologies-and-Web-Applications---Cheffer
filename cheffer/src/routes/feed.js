@@ -8,6 +8,11 @@ async function loadPublications(ctx, next) {
     return next();
 };
 
+async function loadPublication2(ctx, next) {
+    ctx.state.publication = await ctx.orm.publication.findByPk(ctx.params.publicationId);
+    return next();
+};
+
 router.get("feed.show", "/", loadPublications, async (ctx) => {
     const { currentUser, publications } = ctx.state;
     await ctx.render("feed/show", {
@@ -20,7 +25,25 @@ router.get("feed.show", "/", loadPublications, async (ctx) => {
         publicationPath: (publication) => ctx.router.url("publications.show", {id: publication.id, userId: publication.userId}),
         //para irse a mensajes
         messagesPath: ctx.router.url("messages.index", {userId: currentUser.id}),
+        likePublicationPath: (publication) => ctx.router.url("publications.like", {publicationId: publication.id}),
+        unlikePublicationPath: (publication) => ctx.router.url("publications.unlike", {publicationId: publication.id}),
     });
 });
+
+router.put("publications.like","/:publicationId/like",loadPublication2,async (ctx) =>{
+    const {currentUser,publication} = ctx.state;
+    await currentUser.addLikedPublication(publication)
+    ctx.redirect(ctx.router.url("feed.show",{}))
+
+});
+
+router.del("publications.unlike","/:publicationId/unlike",loadPublication2,async (ctx) =>{
+    const {currentUser,publication} = ctx.state;
+    await currentUser.removeLikedPublication(publication)
+    ctx.redirect(ctx.router.url("feed.show",{}))
+
+})
+
+
 
 module.exports = router

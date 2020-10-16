@@ -56,6 +56,22 @@
                   <p>Descripcion: <%= publication.description %></p>
                 <% }); %>
                 <!-- Publicaciones hacia abajo  hacer un fieldalign column sp y para el lado un for que haga fieldalign row sp-->
+                <div>
+                  <form action="<%= followPath %>" method="POST">
+                    <% if (currentUser.id != user.id){ %>
+                    <input type="hidden" name="_method" value="PUT">
+                    <input type="submit" value="seguir">
+                    <% }%> 
+                  </form>
+                </div>
+                <div>
+                  <form action="<%= unfollowPath %>" method="POST">
+                    <% if (currentUser.id != user.id){ %>
+                    <input type="hidden" name="_method" value="DELETE">
+                    <input type="submit" value="unseguir">
+                    <% }%> 
+                  </form>
+                </div>
                 <div class="filler"></div>
                 <div class="filler"></div>
             </div>

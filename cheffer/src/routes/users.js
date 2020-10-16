@@ -145,9 +145,13 @@ router.get("users.index","/", async (ctx) => {
 });
 
 router.get("users.show", "/:id",loadUser, async (ctx) => {
-    const { user } = ctx.state;
+    const { user, currentUser } = ctx.state;
     const publication = ctx.orm.comment.build();
     const publications = await user.getPublications();
+    const followingList = await currentUser.getFollowed();
+    console.log("Aqui viendo los que sigue");
+    console.log(followingList);
+    console.log(followingList.includes(user,0))
     await ctx.render("users/show", {
         user,
         publication,
@@ -163,6 +167,10 @@ router.get("users.show", "/:id",loadUser, async (ctx) => {
         userPath: (user) => ctx.router.url("users.show", {id: user.id}),
         publicationPath: (publication) => ctx.router.url("publications.show", {id: publication.id, userId: user.id}),
         feedPath: ctx.router.url("feed.show", {userId: user.id}),
+        followPath: ctx.router.url("users.follow", {id: user.id}),
+        unfollowPath: ctx.router.url("users.unfollow", {id: user.id}),
+
+        following: followingList.includes(user),
     });
     }); 
 
@@ -207,6 +215,17 @@ router.del("users.session.destroy", "/", (ctx) => {
     ctx.session.userId = null;
     ctx.redirect(ctx.router.url("users.session.new"));
 }); 
+router.put("users.follow","/:id/follow",loadUser,async (ctx) => {
+    const { user, currentUser} = ctx.state;
+    await currentUser.addFollowed(user)
+    ctx.redirect(ctx.router.url("users.show",{id: user.id}))
 
+})
+router.del("users.unfollow","/:id/unfollow",loadUser,async (ctx) => {
+    const { user, currentUser} = ctx.state;
+    await currentUser.removeFollowed(user)
+    ctx.redirect(ctx.router.url("users.show",{id: user.id}))
+
+})
 
 module.exports = router

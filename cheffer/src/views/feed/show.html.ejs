@@ -35,6 +35,19 @@
                         <p> Fotos: <%= publication.recipesPictures %></p>
                         <p> Video: <%= publication.recipesVideos %></p>
                         <p>Descripcion: <%= publication.description %></p>
+
+                        <div>
+                            <form action="<%= likePublicationPath(publication) %>" method="POST">
+                              <input type="hidden" name="_method" value="PUT">
+                              <input type="submit" value="like">
+                            </form>
+                        </div>
+                        <div>
+                            <form action="<%= unlikePublicationPath(publication) %>" method="POST">
+                              <input type="hidden" name="_method" value="DELETE">
+                              <input type="submit" value="unlike">
+                            </form>
+                        </div>
                     <% }); %>
                 </div>
             </div>

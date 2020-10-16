@@ -46,6 +46,13 @@ module.exports = (sequelize, DataTypes) => {
         onDelete: "CASCADE",
         onUpdate: "CASCADE",
       });
+
+    models.publication.belongsToMany(models.user,{
+      through: "likes",
+      as: "likedUsers",
+      foreignKey: "publicationId",
+
+    });
   };
   return publication;
 }; 

@@ -77,7 +77,27 @@ module.exports = (sequelize, DataTypes) => {
       onDelete: "CASCADE",
       onUpdate: "CASCADE",
     });
+    models.user.belongsToMany(models.user,{
+      through: "user_followers",
+      as: "follows",
+      foreignKey: "userFollowedId",
+    });
+
+    models.user.belongsToMany(models.user,{
+      through: "user_followers",
+      as: "followed",
+      foreignKey: "userFollowsId",
+
+    });
+
+    models.user.belongsToMany(models.publication,{
+      through: "likes",
+      as: "likedPublication",
+      foreignKey: "userId",
+
+    });
   };
+
 
   user.beforeCreate(buildPasswordHash);
   user.beforeUpdate(buildPasswordHash);
