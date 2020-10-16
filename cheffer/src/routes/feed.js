@@ -41,6 +41,7 @@ router.del("publications.unlike","/:publicationId/unlike",loadPublication2,async
     const {currentUser,publication} = ctx.state;
     await currentUser.removeLikedPublication(publication)
     ctx.redirect(ctx.router.url("feed.show",{}))
+    
 
 })
 
