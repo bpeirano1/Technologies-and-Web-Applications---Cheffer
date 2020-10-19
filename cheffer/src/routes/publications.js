@@ -68,7 +68,7 @@ router.get("publications.index","/", loadUser, loadPublication, async (ctx) => {
 });
  
 router.get("publications.show", "/:id", loadPublication, loadUser, async (ctx) => {
-    const { publication, user } = ctx.state;
+    const { publication, user, currentUser } = ctx.state;
     const comment = ctx.orm.comment.build();
     const comments = await publication.getComments();
     // console.log("Comemtarios")
@@ -77,6 +77,18 @@ router.get("publications.show", "/:id", loadPublication, loadUser, async (ctx) =
         const user = await comment.getUser()
         comment.user = user
     }
+
+    //aqui para los likes
+    publication.currentUserLikedPublication = false;
+    const likes= await publication.getLikedUsers();
+    publication.likes = likes.length;
+    for (let us of likes){
+        if (us.id===currentUser.id){
+            publication.currentUserLikedPublication = true
+        }
+    }
+
+
     await ctx.render("publications/show", {
         publication,
         publicationsPath: ctx.router.url("publications.index", {userId: user.id}),
@@ -95,6 +107,8 @@ router.get("publications.show", "/:id", loadPublication, loadUser, async (ctx) =
         comments,
         // falta hacer lo mismo con report pero por mientras lo vamos a redireccionar para la navegabilidad
         reportsPath: ctx.router.url("reports.index", {userId: user.id, publicationId: publication.id}),
+        likePath: ctx.router.url("publications.like", {userId: user.id, id: publication.id}),
+        unlikePath: ctx.router.url("publications.unlike", {userId: user.id,id: publication.id}),
     });
 });
 
@@ -128,11 +142,27 @@ router.patch("publications.update","/:id", loadPublication, loadUser, async (ctx
     }
 });
 
-router.del("publications.delete", "/:id", loadPublication, async (ctx)=>{
+router.del("publications.delete", "/:id",loadPublication, async (ctx)=>{
     const { publication } = ctx.state;
     await publication.destroy();
     ctx.redirect(ctx.router.url("publications.index"));
 });
+
+//like routes
+router.put("publications.like","/:id/like", loadUser, loadPublication,async (ctx) =>{
+    const {currentUser,publication,user} = ctx.state;
+    await currentUser.addLikedPublication(publication)
+    ctx.redirect(ctx.router.url("publications.show",{userId: user.id,id: publication.id}))
+
+});
+
+router.del("publications.unlike","/:id/unlike", loadUser,loadPublication,async (ctx) =>{
+    const {currentUser,publication,user} = ctx.state;
+    await currentUser.removeLikedPublication(publication)
+    ctx.redirect(ctx.router.url("publications.show",{userId: user.id, id: publication.id}))
+    
+
+})
 
 //comentarios routes
 
