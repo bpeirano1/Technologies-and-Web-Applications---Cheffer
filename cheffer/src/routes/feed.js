@@ -26,6 +26,7 @@ router.get("feed.show", "/", loadPublications, async (ctx) => {
         }
         
     }
+    
     await ctx.render("feed/show", {
         publications,
         usersPath: ctx.router.url("users.index"),

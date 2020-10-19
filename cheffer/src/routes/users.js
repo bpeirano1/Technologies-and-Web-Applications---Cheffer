@@ -178,6 +178,7 @@ router.get("users.show", "/:id",loadUser, async (ctx) => {
             }
         }      
     }
+    
     await ctx.render("users/show", {
         user,
         publication,
