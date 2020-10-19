@@ -12,6 +12,22 @@
     <p>Descripcion: <%= publication.description %></p>
 
     <!-- <p>Created At : <%= publication.createdAt %></p> -->
+
+    <p>Likes: <%= publication.likes %> </p>
+
+    <div>
+      <% if (publication.currentUserLikedPublication){ %>
+        <form action="<%= unlikePath %>" method="POST">
+          <input type="hidden" name="_method" value="DELETE">
+          <input type="submit" value="unlike">
+        </form>
+        <% } else {%> 
+        <form action="<%= likePath %>" method="POST">
+          <input type="hidden" name="_method" value="PUT">
+          <input type="submit" value="like">
+        </form>
+        <% }%>  
+    </div>
 </div>
 
 <p><a href="<%= editPublicationPath %>">Edit</a></p>
