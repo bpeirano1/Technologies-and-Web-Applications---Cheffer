@@ -87,6 +87,7 @@ router.get("publications.show", "/:id", loadPublication, loadUser, async (ctx) =
             publication.currentUserLikedPublication = true
         }
     }
+    
 
 
     await ctx.render("publications/show", {
