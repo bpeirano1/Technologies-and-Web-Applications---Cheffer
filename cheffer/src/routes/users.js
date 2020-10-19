@@ -12,6 +12,12 @@ async function loadUser(ctx, next) {
 };
 
 
+async function loadPublication2(ctx, next) {
+    ctx.state.publication = await ctx.orm.publication.findByPk(ctx.params.publicationId);
+    return next();
+};
+
+
 
 //router.get("users.new", "/new", async (ctx) => {
   //  const user = ctx.orm.user.build();
@@ -145,9 +151,33 @@ router.get("users.index","/", async (ctx) => {
 });
 
 router.get("users.show", "/:id",loadUser, async (ctx) => {
-    const { user } = ctx.state;
+    const { user, currentUser } = ctx.state;
     const publication = ctx.orm.comment.build();
     const publications = await user.getPublications();
+    const followingList = await currentUser.getFollowed();
+    const userFollowingData = {beingFollowed:false}
+    console.log("Aqui viendo los que sigue");
+    //Aquì armamos un objeto pa mandar la informaciòn de los seguidores
+    for (let usuario of followingList){
+        if (usuario.id === user.id){
+            userFollowingData.beingFollowed = true;
+        };
+    };
+    userFollowingData.following = (await user.getFollowed()).length;
+    userFollowingData.followedBy = (await user.getFollows()).length;
+    console.log("INFO de sguir")
+    console.log(userFollowingData)
+    // esto es para los likes
+    for (let pub of publications){
+        let likes= await pub.getLikedUsers()
+        pub.likes = likes.length;
+        pub.currentUserLikedPublication = false;
+        for (let us of likes){
+            if (us.id===currentUser.id){
+                pub.currentUserLikedPublication = true
+            }
+        }      
+    }
     await ctx.render("users/show", {
         user,
         publication,
@@ -163,6 +193,11 @@ router.get("users.show", "/:id",loadUser, async (ctx) => {
         userPath: (user) => ctx.router.url("users.show", {id: user.id}),
         publicationPath: (publication) => ctx.router.url("publications.show", {id: publication.id, userId: user.id}),
         feedPath: ctx.router.url("feed.show", {userId: user.id}),
+        followPath: ctx.router.url("users.follow", {id: user.id}),
+        unfollowPath: ctx.router.url("users.unfollow", {id: user.id}),
+        userFollowingData,
+        likePublicationPath: (publication2) => ctx.router.url("publicationsUser.like", {publicationId: publication2.id, id: user.id}),
+        unlikePublicationPath: (publication2) => ctx.router.url("publicationsUser.unlike", {publicationId: publication2.id, id:user.id}),
     });
     }); 
 
@@ -207,6 +242,32 @@ router.del("users.session.destroy", "/", (ctx) => {
     ctx.session.userId = null;
     ctx.redirect(ctx.router.url("users.session.new"));
 }); 
+router.put("users.follow","/:id/follow",loadUser,async (ctx) => {
+    const { user, currentUser} = ctx.state;
+    await currentUser.addFollowed(user)
+    ctx.redirect(ctx.router.url("users.show",{id: user.id}))
 
+})
+router.del("users.unfollow","/:id/unfollow",loadUser,async (ctx) => {
+    const { user, currentUser} = ctx.state;
+    await currentUser.removeFollowed(user)
+    ctx.redirect(ctx.router.url("users.show",{id: user.id}))
+
+});
+
+router.put("publicationsUser.like","/:id/:publicationId/like", loadUser,loadPublication2,async (ctx) =>{
+    const {currentUser,publication,user} = ctx.state;
+    await currentUser.addLikedPublication(publication)
+    ctx.redirect(ctx.router.url("users.show",{id: user.id}))
+
+});
+
+router.del("publicationsUser.unlike","/:id/:publicationId/unlike",loadUser,loadPublication2,async (ctx) =>{
+    const {currentUser,publication,user} = ctx.state;
+    await currentUser.removeLikedPublication(publication)
+    ctx.redirect(ctx.router.url("users.show",{id: user.id}))
+    
+
+})
 
 module.exports = router

@@ -34,6 +34,24 @@
                     <div class="field-alignment-column-sp">
                       <p><%= user.username %></p>
                       <p><%= user.name %> <%= user.lastname %></p>
+                      <p> Following <%= userFollowingData.following %></p>
+                      <p> Followed <%= userFollowingData.followedBy %></p>
+                      <!-- En el siguiente div se hace el boton para seguir y no seguir-->
+                      <div>
+                        <% if (currentUser.id != user.id){ %>
+                        <% if (userFollowingData.beingFollowed){ %>
+                        <form action="<%= unfollowPath %>" method="POST">
+                          <input type="hidden" name="_method" value="DELETE">
+                          <input type="submit" value="unseguir">
+                        </form>
+                        <% } else { %>
+                        <form action="<%= followPath %>" method="POST">   
+                          <input type="hidden" name="_method" value="PUT">
+                          <input type="submit" value="seguir">  
+                        </form>
+                        <% }%>
+                        <% }%> 
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -54,8 +72,24 @@
                   <p> Fotos: <%= publication.recipesPictures %></p>
                   <p> Video: <%= publication.recipesVideos %></p>
                   <p>Descripcion: <%= publication.description %></p>
+                  <p>Likes: <%= publication.likes %> </p>
+
+                  <div>
+                    <% if (publication.currentUserLikedPublication){ %>
+                      <form action="<%= unlikePublicationPath(publication) %>" method="POST">
+                        <input type="hidden" name="_method" value="DELETE">
+                        <input type="submit" value="unlike">
+                      </form>
+                      <% } else {%> 
+                      <form action="<%= likePublicationPath(publication) %>" method="POST">
+                        <input type="hidden" name="_method" value="PUT">
+                        <input type="submit" value="like">
+                      </form>
+                      <% }%>  
+                  </div>
                 <% }); %>
                 <!-- Publicaciones hacia abajo  hacer un fieldalign column sp y para el lado un for que haga fieldalign row sp-->
+              
                 <div class="filler"></div>
                 <div class="filler"></div>
             </div>
