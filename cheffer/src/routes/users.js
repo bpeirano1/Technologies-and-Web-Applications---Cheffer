@@ -36,6 +36,7 @@ router.get("users.session.new", "/signin", (ctx) => {
         createSessionPath: ctx.router.url("users.session.create"),
         createUserFormPath: ctx.router.url("users.new"),
         usersPath: ctx.router.url("users.index"),
+        //userPath: (user) => ctx.router.url("users.show", {id: user.id})
     });
 });
 
@@ -61,6 +62,7 @@ router.put("users.session.create", "/", async (ctx) => {
                 createUserFormPath: ctx.router.url("users.new"),
                 createSessionPath: ctx.router.url("users.session.create"),
                 usersPath: ctx.router.url("users.index"),
+                //userPath: (user) => ctx.router.url("users.show", {id: user.id}),
                 //errors: validationError.errors,  
                 errors: "A",
             });
@@ -72,6 +74,7 @@ router.put("users.session.create", "/", async (ctx) => {
                 createUserFormPath: ctx.router.url("users.new"),
                 createSessionPath: ctx.router.url("users.session.create"),
                 usersPath: ctx.router.url("users.index"),
+                //userPath: (user) => ctx.router.url("users.show", {id: user.id}),
                 //errors: validationError.errors,  
                 errors: "B",
             });
@@ -181,7 +184,7 @@ router.get("users.show", "/:id",loadUser, async (ctx) => {
     
     await ctx.render("users/show", {
         user,
-        publication,
+        publication, 
         publications,
         usersPath: ctx.router.url("users.index"),
         editUserPath: ctx.router.url("users.edit", {id: user.id}),
@@ -208,7 +211,8 @@ router.get("users.edit", "/:id/edit", loadUser, async (ctx) => {
     const { user }= ctx.state;
     await ctx.render("users/edit", {
         user,
-        userPath: ctx.router.url("users.show",{id: user.id}),
+        //userPath: ctx.router.url("users.show",{id: user.id}),
+        userPath: (user) => ctx.router.url("users.show", {id: user.id}),
         submitUserPath: ctx.router.url("users.update", {id: user.id}),
         deleteUserPath: ctx.router.url("users.delete", {id: user.id}),
     });

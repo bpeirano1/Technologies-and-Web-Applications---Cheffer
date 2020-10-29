@@ -81,6 +81,8 @@ router.get("publications.show", "/:id", loadPublication, loadUser, async (ctx) =
     //aqui para los likes
     publication.currentUserLikedPublication = false;
     const likes= await publication.getLikedUsers();
+    const userP = await publication.getUser()
+    publication.user = userP
     publication.likes = likes.length;
     for (let us of likes){
         if (us.id===currentUser.id){
@@ -106,10 +108,13 @@ router.get("publications.show", "/:id", loadPublication, loadUser, async (ctx) =
         }),
         user,
         comments,
+        userPath: (user) => ctx.router.url("users.show", {id: user.id}),
         // falta hacer lo mismo con report pero por mientras lo vamos a redireccionar para la navegabilidad
         reportsPath: ctx.router.url("reports.index", {userId: user.id, publicationId: publication.id}),
         likePath: ctx.router.url("publications.like", {userId: user.id, id: publication.id}),
         unlikePath: ctx.router.url("publications.unlike", {userId: user.id,id: publication.id}),
+        likePublicationPath: (publication) => ctx.router.url("publicationsFeed.like", {publicationId: publication.id}),
+        unlikePublicationPath: (publication) => ctx.router.url("publicationsFeed.unlike", {publicationId: publication.id}),
     });
 });
 

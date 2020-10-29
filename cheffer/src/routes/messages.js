@@ -53,7 +53,10 @@ router.get("messages.index","/", loadUser, loadMessage, async (ctx) => {
     const { user, message} = ctx.state;
     for (const message of messages) {
         const user = await message.getReceiver()
+        const sender = await message.getSender()
         message.user = user
+        message.sender = sender
+        //message.SenderUsername = user.username
     }
     await ctx.render("messages/index", {
         //userR,

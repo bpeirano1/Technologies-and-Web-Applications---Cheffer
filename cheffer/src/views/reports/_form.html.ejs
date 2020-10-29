@@ -1,39 +1,78 @@
-<div>
-    <% if (locals.errors) { %>
-        <div class="errors">
-            You need to fix the following errors:
-            <ul>
-                <% errors.forEach(error => { %>
-                    <li><%= error.message %></li>
-                    <% }); %>
-            </ul>
-        </div>
-        <% } %>
-
-    <form action="<%= submitReportPath %>" method="POST">
-        <% if (!report.isNewRecord) { %>
-        <input type="hidden" name="_method" value="PATCH">
-        <% } %>
-        <!-- <div class="field">
-            <label for="publicationId">publicationId:</label>
-            <input type="number" name="publicationId" id="publicationId" value="<%= report.publicationId%>">
-        </div>
-        <div class="field">
-            <label for="userId">userId:</label>
-            <input type="number" name="userId" id="userId" value="<%= report.userId %>">
-        </div> -->
-        <div class="field">
-            <label for="description">Descripcion:</label>
-            <input type="text" name="description" id="description" value="<%= report.description %>">
-        </div>
-        <div class="field">
-            <% if (report.isNewRecord) { %>
-            <input type="submit" value="Report">
-            <% } else { %>
-            <input type="submit" value="Update Report">
-            <% } %>
-            
-        </div>
-    </form>
-
 </div>
+<div class="main">
+  <div class="alignment">
+      <div id="bandera">
+          <img src="<%= assetPath('bandera-lateral.png') %>" width="40" height="498">
+      </div>
+      <div id="recuadro">
+          <div class="box-feed">
+            <div class="field-alignment">
+              <div class="box-separator">
+                <h2> New Report </h2>
+              </div>
+                                
+                
+
+
+                <div>
+                    <% if (locals.errors) { %>
+                        <div class="errors">
+                            You need to fix the following errors:
+                            <ul>
+                                <% errors.forEach(error => { %>
+                                    <li><%= error.message %></li>
+                                    <% }); %>
+                            </ul>
+                        </div>
+                        <% } %>
+
+                    <form action="<%= submitReportPath %>" method="POST">
+                        <% if (!report.isNewRecord) { %>
+                        <input type="hidden" name="_method" value="PATCH">
+                        <% } %>
+                        <!-- <div class="field">
+                            <label for="publicationId">publicationId:</label>
+                            <input type="number" name="publicationId" id="publicationId" value="<%= report.publicationId%>">
+                        </div>
+                        <div class="field">
+                            <label for="userId">userId:</label>
+                            <input type="number" name="userId" id="userId" value="<%= report.userId %>">
+                        </div> -->
+                        <div class="field">
+                            <label for="description">Descripcion:</label>
+                            <input type="text" name="description" id="description" value="<%= report.description %>">
+                        </div>
+                        <div class="field">
+                            <% if (report.isNewRecord) { %>
+                            <input type="submit" value="Report">
+                            <% } else { %>
+                            <input type="submit" value="Update Report">
+                            <% } %>
+                            
+                        </div>
+                    </form>
+
+                </div>
+
+
+
+
+
+              <div class="filler"></div>
+              <div class="filler"></div>
+
+             </div>
+
+          </div>
+          <br>
+      </div>
+      <div class=filler></div>
+  </div>
+</div>
+<div class="grey-backround"></div>
+
+
+
+
+
+
