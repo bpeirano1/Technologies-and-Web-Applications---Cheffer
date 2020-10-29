@@ -1,25 +1,50 @@
 <!-- <a href="<%= messagesPath  %>"> Back to Messages</a> -->
-<nav>
-    <ul class="menu">
-        <li class="logo"><a href="<%= publicationsPath %>"><img src="<%= assetPath('logo.png') %>" alt="Logo" width="40" height="40"/></a></li>
-        <div class="search-alignment">
-          <li class="item"><input class="insert-text" type="text" name="search" id="search"></li>
-          <li class="item"><a href="#"><img src="<%= assetPath('lupa.png') %>" alt="lupa" width="25" height="20"/></a></li>
-        </div>
-        <div class="options-alignment">
-          <li class="item"><a href="#"><img src="<%= assetPath('activity.png') %>" alt="act" width="25" height="20"/></a></li>
-          <li class="item"><a href="<%= newPublicationPath %>"><img src="<%= assetPath('upload.png') %>" alt="upload" width="25" height="20"/></a></li>
-          <li class="item"><a href="<%= messagesPath %>"><img src="<%= assetPath('messages.png') %>" alt="mssgs" width="25" height="20"/></a></li>
-          <li class="item"><a href="#"><img src="<%= assetPath('explore.JPG') %>" alt="explore" width="25" height="20"/></a></li>
-          <li class="item"><a href=" <%= userPath(currentUser) %>">Profile</a></li>
-          <li class="item"><a href="<%= editUserPath %>">Edit</a></li>
-        </div>
-    </ul>
-  </nav>
+ 
 
-<div>
+<!-- <div>
     <h2>Message from: <%= currentUser.username %>, to: <%= userR.username %> </h2>
     <p>Description: <%= message.description %></p>
+</div> -->
+
+
+
+ 
 </div>
 
-<a href="<%= editMessagePath %>">Edit</a>  
+<div class="main">
+  <div class="alignment">
+      <div id="bandera">
+          <img src="<%= assetPath('bandera-lateral.png') %>" width="40" height="498">
+      </div>
+      <div id="recuadro">
+          <div class="box-feed">
+              <div class="field-alignment">
+                <div class="box-separator">
+                  <div class="field-alignment-row-sp">
+                    <div class="round-pic">
+                        <img src="<%= assetPath('no-pic.png') %>" width="60" height="60">
+                    </div>
+                    <div class="search-alignment">
+                        <h3> To <%= userR.username %> </h3>
+                    </div>
+                    <div class="filler"></div>     
+                  </div>
+                </div>
+                <p> <%= message.description %></p>
+                <% if (currentUser.id === message.senderId) { %>
+                  <a href="<%= editMessagePath %>">Edit</a>  
+                  <% }  %>
+                
+               
+                <!-- Publicaciones hacia abajo  hacer un fieldalign column sp y para el lado un for que haga fieldalign row sp-->
+              
+                <div class="filler"></div>
+                <div class="filler"></div>
+            </div>
+          </div>
+          <br>
+      </div>
+      <div class=filler></div>
+  </div>
+</div>
+<div class="grey-backround"></div>

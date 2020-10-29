@@ -2,7 +2,7 @@ const KoaRouter = require('koa-router');
 const Hashids = require('hashids/cjs');
 
 require("dotenv").config();
-
+ 
 const hello = require('./routes/hello');
 const index = require('./routes/index');
 const users = require('./routes/users');
@@ -14,7 +14,7 @@ const feed = require('./routes/feed');
 const admins = require('./routes/admins');
 
 const router = new KoaRouter();
-const hashids = new Hashids();
+const hashids = new Hashids(); 
 
 router.use(async (ctx, next) => {
     decodedId = hashids.decode(ctx.session.userId, process.env.HASH_SECRET)
@@ -22,7 +22,14 @@ router.use(async (ctx, next) => {
         currentUser: ctx.session.userId && await ctx.orm.user.findByPk(decodedId[0]),
         signInPath: ctx.router.url("users.session.new"),
         signOutPath: ctx.router.url("users.session.destroy"),
+        feedPath: ctx.router.url("feed.show"),
+        newPublicationPath: ctx.session.userId && ctx.router.url("publications.new", {userId: decodedId[0]}),
+        messagesPath: ctx.session.userId && ctx.router.url("messages.index", {userId: decodedId[0]}),
+        userPath: (user) => ctx.router.url("users.show", {id: decodedId[0]}),
+        editUserPath: ctx.session.userId && ctx.router.url("users.edit", {id: decodedId[0]}),
+        
     });
+
     return next();
 });
 
@@ -33,6 +40,9 @@ router.use(async (ctx, next) => {
         signInPath: ctx.router.url("admins.session.new"),
         signOutPath: ctx.router.url("admins.session.destroy"),
     });
+=======
+    console.log(ctx.state.currentUser);
+
     return next();
 });
 

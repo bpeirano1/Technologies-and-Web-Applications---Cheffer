@@ -1,32 +1,77 @@
-<h2>Messages</h2>
+<!-- <h2>Messages</h2> -->
 
 <!-- <p>Cantidad de Messages: <%= messages.length %></p> -->
-<nav>
-    <ul class="menu">
-        <li class="logo"><a href="<%= publicationsPath %>"><img src="<%= assetPath('logo.png') %>" alt="Logo" width="40" height="40"/></a></li>
-        <div class="search-alignment">
-          <li class="item"><input class="insert-text" type="text" name="search" id="search"></li>
-          <li class="item"><a href="#"><img src="<%= assetPath('lupa.png') %>" alt="lupa" width="25" height="20"/></a></li>
-        </div>
-        <div class="options-alignment">
-          <li class="item"><a href="#"><img src="<%= assetPath('activity.png') %>" alt="act" width="25" height="20"/></a></li>
-          <li class="item"><a href="<%= newPublicationPath %>"><img src="<%= assetPath('upload.png') %>" alt="upload" width="25" height="20"/></a></li>
-          <li class="item"><a href="<%= messagesPath %>"><img src="<%= assetPath('messages.png') %>" alt="mssgs" width="25" height="20"/></a></li>
-          <li class="item"><a href="#"><img src="<%= assetPath('explore.JPG') %>" alt="explore" width="25" height="20"/></a></li>
-          <li class="item"><a href=" <%= userPath(currentUser) %>">Profile</a></li>
-          <li class="item"><a href="<%= editUserPath %>">Edit</a></li>
-        </div>
-    </ul>
-  </nav>
+ 
 
-<div>
+<!-- <div>
     <% messages.forEach(message => { %>
         <% if (currentUser.id === message.senderId){ %>
             <p>Mensaje para <a href="<%= userPath(message.user) %>"><%= message.user.username %> </a>: <a href="<%= messagePath(message) %>"><%= message.description %> </a></p>
-            <!-- <p><a href="<%= messagePath(message) %>"><%= message.description %> </a></p> -->
+            
+        <% }%>
+        <% if (currentUser.id === message.receiverId){ %>
+            <p>Mensaje de <%= message.sender.username %>  %> : <%= message.description %> </p>
+            
         <% }%>
     <% }); %>
+</div> -->
 </div>
 
+<div class="main">
+  <div class="alignment">
+      <div id="bandera">
+          <img src="<%= assetPath('bandera-lateral.png') %>" width="40" height="498">
+      </div>
+      <div id="recuadro">
+          <div class="box-feed">
+              <div class="field-alignment">
+                <div class="box-separator">
+                  <div class="field-alignment-row">
+                    <a href="#"><img src="<%= assetPath('mymessages.jpeg') %>"  width="45" height="40"/></a>
+                    <div class="search-alignment">
+                        <h1> Messages </h1>
+                    </div>
+                    
+                  </div>
+                </div>
+                <% messages.forEach(message => { %>
+                    <% if (currentUser.id === message.senderId){ %>
+                        <div class="field-alignment-row-sp">
+                            <div class="round-pic">
+                                <img src="<%= assetPath('no-pic.png') %>" width="60" height="60">
+                            </div>
+                            <div class="field-alignment-column">
+                                <h3> To <a href="<%= userPath(message.user) %>"><%= message.user.username %> </a></h3>
+                                <p> <a href="<%= messagePath(message) %>"><%= message.description %> </a></p>
+                            </div> 
+                            <div class="filler"></div>         
+                        </div>
+                    <% }%>
+                    <% if (currentUser.id === message.receiverId){ %>
+                        <div class="field-alignment-row-sp">
+                            <div class="round-pic">
+                                <img src="<%= assetPath('no-pic.png') %>" width="60" height="60">
+                            </div>
+                            <div class="field-alignment-column">
+                                <h3> From <a href="<%= userPath(message.sender) %>"><%= message.sender.username %> </a></h3>
+                                <p> <a href="<%= messagePath(message) %>"><%= message.description %> </a></p>
+                            </div> 
+                            <div class="filler"></div>         
+                        </div>                        
+                    <% }%>
+                <% }); %>
+               
+                <!-- Publicaciones hacia abajo  hacer un fieldalign column sp y para el lado un for que haga fieldalign row sp-->
+              
+                <div class="filler"></div>
+                <div class="filler"></div>
+            </div>
+          </div>
+          <br>
+      </div>
+      <div class=filler></div>
+  </div>
+</div>
+<div class="grey-backround"></div>
 <!-- <a href=" <%= newMessagePath %>" > New Message</a>   -->
 

@@ -1,7 +1,87 @@
-<a href="<%= feedPath  %>"> Back to Feed</a>
+</div>
+<div class="main">
+  <div class="alignment">
+      <div id="bandera">
+          <img src="<%= assetPath('bandera-lateral.png') %>" width="40" height="498">
+      </div>
+      <div id="recuadro">
+          <div class="box-feed">
+            <div class="field-alignment">
+              <div class="box-separator">
+                <div class="field-alignment-row-sp">
+                  <div class="round-pic">
+                    <img src="<%= assetPath('no-pic.png') %>" width="60" height="60">
+                  </div>
+                  <div class="search-alignment">
+                      <h3> <%= publication.user.username %> </h3>
+                  </div>
+                  <div class="filler"></div>
+                  
+                </div>
+              </div>
+            
+              <div class="filler"></div>
+              <div class="filler"></div>
+
+             </div>
+                <div class="box-separator">
+                  <div class="box-separator">
+                    <div class="search-alignment">
+                      <h2> <%= publication.name %></a></h2>
+                    </div>
+                  </div>
+                      <p> Foto: <%= publication.recipesPictures %></p>
+                      <p> Ingredientes: <%= publication.ingredients %></p>
+                      <p> Tiempo de Preparación: <%= publication.time %></p>
+                      <p> Pasos: <%= publication.steps %></p>
+                      <!-- <p> Ranking: <%= publication.ranking %></p> -->
+                      
+                      <!-- <p> Video: <%= publication.recipesVideos %></p> -->
+                      <p>Descripcion: <%= publication.description %></p>
+                </div>
+                    <div class="field-alignment-row-sp">
+                      <p>Likes: <%= publication.likes %> </p>
+                      <div>
+                        <% if (publication.currentUserLikedPublication){ %>
+                          <form action="<%= unlikePublicationPath(publication) %>" method="POST">
+                            <input type="hidden" name="_method" value="DELETE">
+                            <input type="submit" value="unlike">
+                          </form>
+                          <% } else {%> 
+                          <form action="<%= likePublicationPath(publication) %>" method="POST">
+                            <input type="hidden" name="_method" value="PUT">
+                            <input type="submit" value="like">
+                          </form>
+                          <% }%>  
+                      </div>  
+                      </div>
+                      <div>
+                        <% comments.forEach(comment => { %>
+                          <p>  <a href="<%= userPath(comment.user) %>"><%= comment.user.username %> </a> : <%= comment.description %></p>
+                            <!-- <p><%= comment.user.username %>: <%= comment.description %></p> -->
+                        <% }); %>
+                      </div>
+                      <%- include("../comments/_form") %>
 
 
-<div> 
+                      <div class="box-separator"></div>
+                      <a href=" <%= newReportPath %>" > New Report</a>
+                      <% if (currentUser.id == publication.userId){ %>
+                          <p><a href="<%= editPublicationPath %>">Edit Publication</a></p>
+                      <% }; %> 
+                      </div>
+                 
+          </div>
+          <br>
+      </div>
+      <div class=filler></div>
+  </div>
+</div>
+<div class="grey-backround"></div>
+
+
+
+<!-- <div> 
     <h2><%= publication.name %></h2>
     <p> Ingredientes: <%= publication.ingredients %></p>
     <p> Tiempo de Preparación: <%= publication.time %></p>
@@ -11,7 +91,7 @@
     <p> Video: <%= publication.recipesVideos %></p>
     <p>Descripcion: <%= publication.description %></p>
 
-    <!-- <p>Created At : <%= publication.createdAt %></p> -->
+    
 
     <p>Likes: <%= publication.likes %> </p>
 
@@ -29,21 +109,6 @@
         
         <% }%>  
     </div>
-</div>
+</div> -->
 
-<p><a href="<%= editPublicationPath %>">Edit</a></p>
 
-<h2>Comentarios</h2>
-
-<div>
-    <% comments.forEach(comment => { %>
-        <p><%= comment.user.username %>: <%= comment.description %></p>
-    <% }); %>
-</div>
-
-<h2>Crear comentario</h2>
-
-<%- include("../comments/_form") %>
-
-<!-- <p><a href="<%= reportsPath %>">Denuncias</a></p> -->
-<a href=" <%= newReportPath %>" > New Report</a>
