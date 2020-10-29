@@ -43,10 +43,8 @@ router.put("users.session.create", "/", async (ctx) => {
     const { email, password } = ctx.request.body;
     const user = await ctx.orm.user.findOne({ where: { email } });
     const isPasswordCorrect = user && await user.checkPassword(password);
-    console.log("AAAA")
     //try {
         if (isPasswordCorrect){
-            console.log("BBBB")
             const encodedId = hashids.encode(user.id, process.env.HASH_SECRET);
             console.log(encodedId)
             ctx.session.userId = encodedId;
@@ -55,7 +53,6 @@ router.put("users.session.create", "/", async (ctx) => {
         }
 
         else if ( password != "" && email != ""){
-            console.log("CCCCCCC")
             return ctx.render("users/signin", {
                 user,
                 createUserFormPath: ctx.router.url("users.new"),
@@ -66,7 +63,6 @@ router.put("users.session.create", "/", async (ctx) => {
             });
         }
         else{
-            console.log("DDDDDD")
             return ctx.render("users/signin", {
                 user,
                 createUserFormPath: ctx.router.url("users.new"),
@@ -115,7 +111,6 @@ router.post("users.create", "/", async (ctx) => {
         ctx.redirect(ctx.router.url("users.show", {id: user.id}));
         }
         if (password != confirmPassword){
-            console.log("FLOLOOOOOOOO")
             await ctx.render("users/signup", {
                 createSessionPath: ctx.router.url("users.create"),
                 usersPath: ctx.router.url("users.index"),
@@ -126,7 +121,6 @@ router.post("users.create", "/", async (ctx) => {
         }
         
     } catch (validationError) {
-        console.log("MAIDA")
             await ctx.render("users/signup", {
             user,
             //submitUserPath: ctx.router.url("users.create"),
@@ -139,6 +133,15 @@ router.post("users.create", "/", async (ctx) => {
         }
 
 });
+
+router.del("users.delete", "/:id/delete", loadUser, async (ctx)=>{
+    const { user } = ctx.state;
+    await user.destroy();
+    console.log("bartooooooooooo");
+    ctx.redirect(ctx.router.url("admins.users"))
+    
+});
+
 
 router.get("users.index","/", async (ctx) => {
     const users = await ctx.orm.user.findAll();
@@ -232,11 +235,7 @@ router.patch("users.update","/:id", loadUser, async (ctx) => {
     }
 });
 
-router.del("users.delete", "/:id", loadUser, async (ctx)=>{
-    const { user } = ctx.state;
-    await user.destroy();
-    ctx.redirect(ctx.router.url("users.index"));
-});
+
 
 //cerrar sesión
 router.del("users.session.destroy", "/", (ctx) => {
