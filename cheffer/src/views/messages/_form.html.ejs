@@ -1,37 +1,86 @@
-<div>
-    <% if (locals.errors) { %>
-        <div class="errors">
-            You need to fix the following errors:
-            <ul>
-                <% errors.forEach(error => { %>
-                    <li><%= error.message %></li>
-                    <% }); %>
-            </ul>
-        </div>
-        <% } %>
- 
-    <form action="<%= submitMessagePath %>" method="POST">
-        <% if (!message.isNewRecord) { %>
-        <input type="hidden" name="_method" value="PATCH">
-        <% } %>
-        <!-- <div class="field">
-            <label for="senderId">Sender Id: </label>
-            <input type="number" name="senderId" id="senderId" value="<%= message.senderId %>">
-        </div>
-        <div class="field">
-            <label for="receiverId">Receiver Id: </label>
-            <input type="number" name="receiverId" id="receiverId" value="<%= message.receiverId %>">
-        </div> -->
-        <div class="field">
-            <label for="description">Descripcion: </label>
-            <input type="text" name="description" id="description" value="<%= message.description%>">
-        </div>
-        <div class="field">
-            <% if (message.isNewRecord) { %>
-            <input type="submit" value="Send Message">
-            <% } else { %>
-            <input type="submit" value="Update Message">
-            <% } %>
-        </div>
-    </form>
-</div> 
+</div>
+<div class="main">
+  <div class="alignment">
+      <div id="bandera">
+          <img src="<%= assetPath('bandera-lateral.png') %>" width="40" height="498">
+      </div>
+      <div id="recuadro">
+          <div class="box-feed">
+            <div class="field-alignment">
+              <div class="box-separator">
+                <h2> Edit Message </h2>
+              </div>
+                                
+                <div>
+                    <% if (locals.errors) { %>
+                        <div class="errors">
+                            You need to fix the following errors:
+                            <ul>
+                                <% errors.forEach(error => { %>
+                                    <li><%= error.message %></li>
+                                    <% }); %>
+                            </ul>
+                        </div>
+                        <% } %>
+                
+                    <form action="<%= submitMessagePath %>" method="POST">
+                        <% if (!message.isNewRecord) { %>
+                        <input type="hidden" name="_method" value="PATCH">
+                        <% } %>
+                        <!-- <div class="field">
+                            <label for="senderId">Sender Id: </label>
+                            <input type="number" name="senderId" id="senderId" value="<%= message.senderId %>">
+                        </div>
+                        <div class="field">
+                            <label for="receiverId">Receiver Id: </label>
+                            <input type="number" name="receiverId" id="receiverId" value="<%= message.receiverId %>">
+                        </div> -->
+                        <div class="field">
+                            <label for="description">Descripcion: </label>
+                            <input type="text" name="description" id="description" value="<%= message.description%>">
+                        </div>
+                        <div class="field">
+                            <% if (message.isNewRecord) { %>
+                            <input type="submit" value="Send Message">
+                            <% } else { %>
+                            <div class="field-alignment-column-sp">
+                                <div class="field-alignment-row-sp">
+                                    <div>
+                                        <input type="submit" value="Update Message">
+                                    </div>
+                                    <div>
+                                        <form action="<%= deleteMessagePath %>" method="POST">
+                                            <input type="hidden" name="_method" value="delete"/>
+                                            <input type="submit" value="Delete Message">
+                                        </form>
+                                    </div>
+                                    <div class="filler"></div>
+                                </div>
+                                <div class="filler"></div>
+                                <div>
+                                    <a href="<%= messagePath %>"> Back to Message <%= message.description %></a> 
+                                </div>
+                            </div>  
+                            <% } %>
+                        </div>
+                    </form>
+                </div> 
+
+
+
+
+              <div class="filler"></div>
+              <div class="filler"></div>
+
+             </div>
+
+          </div>
+          <br>
+      </div>
+      <div class=filler></div>
+  </div>
+</div>
+<div class="grey-backround"></div>
+
+
+
