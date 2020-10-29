@@ -18,8 +18,7 @@
                     <div class="field-alignment-column-sp">
                       <p><%= user.username %></p>
                       <p><%= user.name %> <%= user.lastname %></p>
-                      <p> Following <%= userFollowingData.following %></p>
-                      <p> Followed <%= userFollowingData.followedBy %></p>
+                      <p> Following <%= userFollowingData.following %> Followed <%= userFollowingData.followedBy %></p>
                       <!-- En el siguiente div se hace el boton para seguir y no seguir-->
                       <div>
                         <% if (currentUser.id != user.id){ %>

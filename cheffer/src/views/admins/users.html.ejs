@@ -1,0 +1,11 @@
+<div>
+    <% users.forEach(user => { %>
+    <p> Username: <%= user.username %></p>
+    <form action="<%= adminDeleteUserPath(user) %>" method="POST">   
+        <input type="hidden" name="_method" value="DELETE">
+        <input type="submit" value="Delete">  
+      </form>
+    <!-- <a data-method="delete" hresf="<%=adminDeleteUserPath(user)%>">Delete</a> -->
+    <% }); %>
+
+<div>
