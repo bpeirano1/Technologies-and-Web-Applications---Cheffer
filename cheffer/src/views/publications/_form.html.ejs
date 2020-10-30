@@ -63,8 +63,9 @@
                             <label for="stepsPictures">Fotos de los pasos </label>
                             <input type="file" name="stepsPictures" id="stepsPictures" value="<%= publication.stepsPictures %>">
                         </div> -->
-                        <div class="field">
+                        <div class="field" >
                             <% if (publication.isNewRecord) { %>
+                            
                             <input type="submit" value="Create Publication">
                             <% } else { %>
                             <input type="submit" value="Update Publication">
@@ -73,9 +74,6 @@
                     </form>
 
                     </div>
-
-
-
 
                 <div class="filler"></div>
                 <div class="filler"></div>

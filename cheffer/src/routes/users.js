@@ -1,6 +1,7 @@
 const KoaRouter = require("koa-router");
 
 const Hashids = require('hashids/cjs');
+const { or } = require("sequelize");
 
 const router = new KoaRouter();
 
@@ -45,56 +46,61 @@ router.put("users.session.create", "/", async (ctx) => {
     const user = await ctx.orm.user.findOne({ where: { email } });
     const isPasswordCorrect = user && await user.checkPassword(password);
     console.log("AAAA")
-    //try {
         if (isPasswordCorrect){
             console.log("BBBB")
             const encodedId = hashids.encode(user.id, process.env.HASH_SECRET);
             console.log(encodedId)
             ctx.session.userId = encodedId;
-            // encriptar userId
             return ctx.redirect(ctx.router.url("users.show", {id: user.id}));
         }
 
         else if ( password != "" && email != ""){
             console.log("CCCCCCC")
+            const { user } = ctx.request.body;
             return ctx.render("users/signin", {
                 user,
                 createUserFormPath: ctx.router.url("users.new"),
                 createSessionPath: ctx.router.url("users.session.create"),
                 usersPath: ctx.router.url("users.index"),
-                //userPath: (user) => ctx.router.url("users.show", {id: user.id}),
-                //errors: validationError.errors,  
                 errors: "A",
             });
         }
-        else{
+        else if (  email == "") {
             console.log("DDDDDD")
+            const { user } = ctx.request.body;
             return ctx.render("users/signin", {
                 user,
                 createUserFormPath: ctx.router.url("users.new"),
                 createSessionPath: ctx.router.url("users.session.create"),
-                usersPath: ctx.router.url("users.index"),
-                //userPath: (user) => ctx.router.url("users.show", {id: user.id}),
-                //errors: validationError.errors,  
+                usersPath: ctx.router.url("users.index"), 
                 errors: "B",
             });
         }
-    //}
 
-    //} catch (validationError) {
-      //  console.log("CCCCC")
-       // await ctx.render("users/signin", {
-       //  user,
-       //  createUserFormPath: ctx.router.url("users.new"),
-       //  createSessionPath: ctx.router.url("users.session.create"),
-       //  usersPath: ctx.router.url("users.index"),
-       //  errors: validationError.errors,  
-       // });
-        
-    //}
-    
+        else if ( user && isPasswordCorrect != true) {
+            console.log("FFFF")
+            const { user } = ctx.request.body;
+            return ctx.render("users/signin", {
+                user,
+                createUserFormPath: ctx.router.url("users.new"),
+                createSessionPath: ctx.router.url("users.session.create"),
+                usersPath: ctx.router.url("users.index"), 
+                errors: "A",
+            });
+        }
 
-
+        else {
+            console.log("EEEEE")
+            const { user } = ctx.request.body;
+            return ctx.render("users/signin", {
+                user,
+                createUserFormPath: ctx.router.url("users.new"),
+                createSessionPath: ctx.router.url("users.session.create"),
+                usersPath: ctx.router.url("users.index"), 
+                errors: "C",
+            });
+        }
+   
 }); 
 
 router.get("users.new", "/signup", loadUser, (ctx) => {
