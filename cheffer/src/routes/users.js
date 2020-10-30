@@ -68,9 +68,6 @@ router.put("users.session.create", "/", async (ctx) => {
         else if (  email == "") {
             console.log("DDDDDD")
             const { user } = ctx.request.body;
-
-        else{
-
             return ctx.render("users/signin", {
                 user,
                 createUserFormPath: ctx.router.url("users.new"),
