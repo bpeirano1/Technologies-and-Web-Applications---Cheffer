@@ -141,7 +141,7 @@ router.del("users.delete", "/:id/delete", loadUser, async (ctx)=>{
     const { user } = ctx.state;
     await user.destroy();
     console.log("bartooooooooooo");
-    ctx.redirect(ctx.router.url("admins.users"))
+    ctx.redirect(ctx.router.url("users.session.new"))
     
 });
 
@@ -171,8 +171,6 @@ router.get("users.show", "/:id",loadUser, async (ctx) => {
     };
     userFollowingData.following = (await user.getFollowed()).length;
     userFollowingData.followedBy = (await user.getFollows()).length;
-    console.log("INFO de sguir")
-    console.log(userFollowingData)
     // esto es para los likes
     for (let pub of publications){
         let likes= await pub.getLikedUsers()
