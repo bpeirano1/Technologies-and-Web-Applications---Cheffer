@@ -34,15 +34,12 @@ router.use(async (ctx, next) => {
 });
 
 router.use(async (ctx, next) => {
-    decodedId = hashids.decode(ctx.session.adminId, process.env.HASH_SECRET)
+    adminDecodedId = hashids.decode(ctx.session.adminId, process.env.HASH_SECRET)
     Object.assign(ctx.state, {
-        currentAdmin: ctx.session.adminId && await ctx.orm.admin.findByPk(decodedId[0]),
-        signInPath: ctx.router.url("admins.session.new"),
-        signOutPath: ctx.router.url("admins.session.destroy"),
+        currentAdmin: ctx.session.adminId && await ctx.orm.admin.findByPk(adminDecodedId[0]),
+        adminsignInPath: ctx.router.url("admins.session.new"),
+        adminsignOutPath: ctx.router.url("admins.session.destroy"),
     });
-=======
-    console.log(ctx.state.currentUser);
-
     return next();
 });
 
