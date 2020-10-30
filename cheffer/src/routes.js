@@ -11,13 +11,13 @@ const comments = require('./routes/comments');
 const messages = require('./routes/messages');
 const reports = require('./routes/reports');
 const feed = require('./routes/feed');
+const admins = require('./routes/admins');
 
 const router = new KoaRouter();
 const hashids = new Hashids(); 
 
 router.use(async (ctx, next) => {
     decodedId = hashids.decode(ctx.session.userId, process.env.HASH_SECRET)
-    console.log(decodedId)
     Object.assign(ctx.state, {
         currentUser: ctx.session.userId && await ctx.orm.user.findByPk(decodedId[0]),
         signInPath: ctx.router.url("users.session.new"),
@@ -29,7 +29,17 @@ router.use(async (ctx, next) => {
         editUserPath: ctx.session.userId && ctx.router.url("users.edit", {id: decodedId[0]}),
         
     });
-    console.log(ctx.state.currentUser);
+
+    return next();
+});
+
+router.use(async (ctx, next) => {
+    adminDecodedId = hashids.decode(ctx.session.adminId, process.env.HASH_SECRET)
+    Object.assign(ctx.state, {
+        currentAdmin: ctx.session.adminId && await ctx.orm.admin.findByPk(adminDecodedId[0]),
+        adminsignInPath: ctx.router.url("admins.session.new"),
+        adminsignOutPath: ctx.router.url("admins.session.destroy"),
+    });
     return next();
 });
 
@@ -41,6 +51,7 @@ router.use('/users/:userId/publications/:publicationId/comments', comments.route
 router.use('/users/:userId/publications/:publicationId/reports', reports.routes());
 router.use('/users/:userId/messages', messages.routes());
 router.use('/feed', feed.routes());
+router.use('/admins', admins.routes());
 
 
 module.exports = router;

@@ -1,0 +1,62 @@
+<nav>
+  <ul class="menu">
+          <li class="logo"><a href="#"><img src="<%= assetPath('logo.png') %>" alt="Logo" width="40" height="40"/></a></li>
+          <li class="item"><a href="#"><%= admin.username %></a></li>
+      <div class="options-alignment">
+        <li class="item"><a href="<%= allUsersPath %>">Users</a></li>
+        <li class="item"><a href="<%= allCommentsPath %>">Comments</a></li>
+        <li class="item"><a href="<%= allPublicationsPath %>">Publications</a></li>
+        <li class="item"><a href="#">Reports</a></li>
+        <li><form action="<%= adminsignOutPath %>" method="post">
+          <input type="hidden" name="_method" value="delete" />
+          <input class="delete-button" type="submit" value="Sign Out" />
+        </form> </li>
+      </div>
+  </ul>
+</nav>
+<div class="main">
+  <div class="alignment-admin">
+    <div id="bandera">
+      <img src="<%= assetPath('bandera-lateral.png') %>" width="40" height="100%">
+    </div>
+    <div class="">
+      <table class="content-table" style="width:100%">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Lastname</th>
+            <th>Username</th>
+            <th>Email</th>
+            <th>Country</th>
+            <th>Description</th>
+            <th>Created At</th>
+            <th>Updated At</th>
+            <th>Delete</th>
+          </tr>
+        </thead>
+        <% users.forEach(user => { %>
+        <tbody>
+          <tr>
+            <td><%= user.name %></td>
+            <td><%= user.lastname %></td>
+            <td><%= user.username %></td>
+            <td><%= user.email %></td>
+            <td><%= user.country %></td>
+            <td><%= user.description %></td>
+            <td><%= user.createdAt %></td>
+            <td><%= user.updatedAt %></td>
+            <td>
+              <form action="<%= adminDeleteUserPath(user) %>" method="POST">   
+                <input type="hidden" name="_method" value="DELETE">
+                <input class="delete-button" type="submit" value="Delete">  
+              </form>
+            </td>
+          </tr>
+        <% }); %>
+        </tbody>
+      </table>
+    </div>
+    <div class=filler> </div>
+  </div>
+</div>
+<div class="grey-backround"></div>
