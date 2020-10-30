@@ -10,8 +10,10 @@
                     <div class="errors">
                         <% if (errors == "A") { %>
                             <p> Incorrect Password </p>
-                        <% } else { %>
-                            <p> Missing Fields </p>
+                        <% } if (errors == "B") { %>
+                            <p> Missing Fields </p>    
+                        <% } if (errors == "C") { %>
+                            <p> This email does not exist </p>
                             <% } %>
                     </div>
                 <% } %>
@@ -19,7 +21,7 @@
                     <input type="hidden" name="_method" value="put" />
                     <div class = "field-alignment">
                         <label for="email">Email</label>
-                        <input class="insert-text" type="email" name="email" value="<%= user.email%>" />
+                        <input class="insert-text" type="email" name="email"  />
                         <label for="password">Password</label>
                         <input class="insert-text" type="password" name="password" />
                         <br>
