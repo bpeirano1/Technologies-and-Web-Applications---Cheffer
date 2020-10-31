@@ -23,6 +23,7 @@
         <table class="content-table" style="width:100%">
           <thead>
             <tr>
+              <th>ID</th>
               <th>Name</th>
               <th>Ingredients</th>
               <th>Time</th>
@@ -32,12 +33,14 @@
               <th>Description</th>
               <th>Created At</th>
               <th>Updated At</th>
+              <th>Reports</th>
               <th>Delete</th>
             </tr>
           </thead>
           <% publications.forEach(publication => { %>
           <tbody>
             <tr>
+              <td><%= publication.id %></td>
               <td><%= publication.name %></td>
               <td><%= publication.ingredients %></td>
               <td><%= publication.time %></td>
@@ -47,6 +50,12 @@
               <td><%= publication.description %></td>
               <td><%= publication.createdAt %></td>
               <td><%= publication.updatedAt %></td>
+              <% r = 0 %>
+              <% reports.forEach(report => {
+                if (report.publicationId === publication.id){ 
+                    r += 1
+                }}) %>
+              <td><a href="<%= adminAccessReportPath %>"><%= r %></a></td>
               <td>
                 <form action="<%= adminDeletePublicationPath(publication) %>" method="POST">   
                   <input type="hidden" name="_method" value="DELETE">

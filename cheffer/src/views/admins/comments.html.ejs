@@ -23,6 +23,7 @@
         <table class="content-table" style="width:100%">
           <thead>
             <tr>
+              <th>ID</th>
               <th>Description</th>
               <th>UserId</th>
               <th>PublicationId</th>
@@ -34,6 +35,7 @@
           <% comments.forEach(comment => { %>
           <tbody>
             <tr>
+              <td><%= comment.id %></td>
               <td><%= comment.description %></td>
               <td><%= comment.userId %></td>
               <td><%= comment.publicationId%></td>

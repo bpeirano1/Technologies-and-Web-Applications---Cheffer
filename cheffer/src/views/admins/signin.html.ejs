@@ -8,10 +8,12 @@
                 <h1 style="text-align:center"> <img src="<%= assetPath('cheffer-inicio.png') %>" width="100" height="50"></h1>
                 <% if (locals.errors) { %>
                     <div class="errors">
-                        <% if (errors == "A") { %>
+                        <% if (errors == "a") { %>
                             <p> Incorrect Password </p>
-                        <% } else { %>
-                            <p> Missing Fields </p>
+                        <% } if (errors == "b") { %>
+                            <p> Missing Fields </p>    
+                        <% } if (errors == "c") { %>
+                            <p> This email does not exist </p>
                             <% } %>
                     </div>
                 <% } %>
@@ -19,7 +21,7 @@
                     <input type="hidden" name="_method" value="put" />
                     <div class = "field-alignment">
                         <label for="email">Email</label>
-                        <input class="insert-text" type="email" name="email" value="<%= admin.email%>" />
+                        <input class="insert-text" type="email" name="email" />
                         <label for="password">Password</label>
                         <input class="insert-text" type="password" name="password" />
                         <br>
