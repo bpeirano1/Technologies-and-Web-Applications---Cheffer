@@ -40,7 +40,7 @@ router.post("reports.create", "/", loadUser, loadReport, loadPublication, async 
     report.userId = ctx.state.currentUser.id
     try {
         await report.save({ fields: ["publicationId","description", "userId"] });
-        ctx.redirect(ctx.router.url("reports.show", {id: report.id, userId: user.id, publicationId: publication.id}));
+        ctx.redirect(ctx.router.url("publications.show", {id: report.id, userId: user.id, publicationId: publication.id}));
     } catch (validationError) {
         const reports = await publication.getReports()
         for (const report of reports) {

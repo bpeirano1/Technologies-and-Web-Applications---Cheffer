@@ -1,3 +1,16 @@
+</div>
+<div class="main">
+  <div class="alignment">
+      <div id="bandera">
+          <img src="<%= assetPath('bandera-lateral.png') %>" width="40" height="498">
+      </div>
+      <div id="recuadro">
+          <div class="box-feed">
+            <div class="field-alignment">
+              <div class="box-separator">
+                <h2> Edit User </h2>
+              </div>
+               
 <div>
     <% if (locals.errors) { %>
         <div class="errors">
@@ -55,8 +68,30 @@
                 <input type="submit" value="Create User">
                 <% } else { %>
                 <input type="submit" value="Update User">
+                <form action="<%= deleteUserPath %>" method="POST">
+                    <input type="hidden" name="_method" value="delete"/>
+                    <input type="submit" value="Delete User">
+                </form>
                 <% } %>
             </div>     
         </form>
+</div> 
+
+
+
+
+              <div class="filler"></div>
+              <div class="filler"></div>
+
+             </div>
+
+          </div>
+          <br>
+      </div>
+      <div class=filler></div>
+  </div>
 </div>
- 
+<div class="grey-backround"></div>
+
+
+

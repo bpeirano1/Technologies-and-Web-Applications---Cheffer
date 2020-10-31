@@ -1,0 +1,21 @@
+<nav>
+    <ul class="menu">
+            <li class="logo"><a href="#"><img src="<%= assetPath('logo.png') %>" alt="Logo" width="40" height="40"/></a></li>
+            <li class="item"><a href="#"><%= admin.username%></a></li>
+        <div class="options-alignment">
+          <li class="item"><a href="<%= allUsersPath %>">Users</a></li>
+          <li class="item"><a href="<%= allCommentsPath %>">Comments</a></li>
+          <li class="item"><a href="<%=allPublicationsPath%>">Publications</a></li>
+          <li class="item"><a href="#">Reports</a></li>
+          <li><form action="<%= adminsignOutPath %>" method="post">
+            <input type="hidden" name="_method" value="delete" />
+            <input class="delete-button" type="submit" value="Sign Out" />
+          </form> </li>
+        </div>
+    </ul>
+  </nav>
+  <div id="bandera">
+    <img src="<%= assetPath('bandera-lateral.png') %>" width="40" height="100%">
+  </div>
+
+  <div class="grey-backround"></div>

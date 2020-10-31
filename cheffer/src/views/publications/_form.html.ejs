@@ -1,4 +1,102 @@
-<div>
+
+  </div>
+  <div class="main">
+    <div class="alignment">
+        <div id="bandera">
+            <img src="<%= assetPath('bandera-lateral.png') %>" width="40" height="498">
+        </div>
+        <div id="recuadro">
+            <div class="box-feed">
+              <div class="field-alignment">
+                <div class="box-separator">
+                  <h2> Nueva publicación </h2>
+                </div>
+                    <div>
+                    <% if (locals.errors) { %>
+                            <div class="errors">
+                                <p> La publicacion no se puede crear debido a:</p>
+                                <ul>
+                                    <% errors.forEach(validationError => { %>
+                                        <li> <%= validationError.path %>: <%= validationError.message %></li>
+                                        <% }); %>
+                                </ul>
+                            </div>
+                        <% } %>
+
+                    <form action="<%= submitPublicationPath %>" method="POST">
+                        <% if (!publication.isNewRecord) { %>
+                        <input type="hidden" name="_method" value="PATCH">
+                        <% } %>
+                        <div class="field">
+                            <label for="name">Nombre:</label>
+                            <input type="text" name="name" id="name" value="<%= publication.name %>">
+                        </div>
+                        <div class="field">
+                            <label for="ingredients">Ingredientes:</label>
+                            <input type="text" name="ingredients" id="ingredients" value="<%= publication.ingredients %>">
+                        </div>
+                        <div class="field">
+                            <label for="time">Tiempo de preparacion:</label>
+                            <input type="number" name="time" id="time" value="<%= publication.time %>">
+                        </div>
+                        <div class="field">
+                            <label for="steps">Pasos a seguir:</label>
+                            <input type="text" name="steps" id="steps" value="<%= publication.steps %>">
+                        </div>
+                        <div class="field">
+                            <label for="description">Descripcion: </label>
+                            <input type="text" name="description" id="description" value="<%= publication.description %>">
+                        </div>
+                        <!-- <div class="field">
+                            <label for="ranking">Ranking: </label>
+                            <input type="number" name="ranking" id="ranking" value="<%= publication.ranking %>">
+                        </div> -->
+                        <div class="field">
+                            <label for="recipesPictures">Fotos de la receta </label>
+                            <input type="file" name="recipesPictures" id="recipesPictures" value="<%= publication.recipesPictures %>">
+                        </div>
+                        <div class="field">
+                            <label for="recipesVideos">Videos de la receta </label>
+                            <input type="file" name="recipesVideos" id="recipesVideos" value="<%= publication.recipesVideos %>">
+                        </div>
+                        <!-- <div class="field">
+                            <label for="stepsPictures">Fotos de los pasos </label>
+                            <input type="file" name="stepsPictures" id="stepsPictures" value="<%= publication.stepsPictures %>">
+                        </div> -->
+                        <div class="field" >
+                            <% if (publication.isNewRecord) { %>
+                            
+                            <input type="submit" value="Create Publication">
+                            <% } else { %>
+                            <input type="submit" value="Update Publication">
+                            <% } %>
+                        </div>  
+                    </form>
+
+                    </div>
+
+                <div class="filler"></div>
+                <div class="filler"></div>
+
+               </div>
+
+            </div>
+            <br>
+        </div>
+        <div class=filler></div>
+    </div>
+  </div>
+  <div class="grey-backround"></div>
+
+       
+
+
+
+  
+
+
+
+<!-- <div>
       <% if (locals.errors) { %>
             <div class="errors">
                 <p> La publicacion no se puede crear debido a:</p>
@@ -34,10 +132,7 @@
             <label for="description">Descripcion: </label>
             <input type="text" name="description" id="description" value="<%= publication.description %>">
         </div>
-        <div class="field">
-            <label for="ranking">Ranking: </label>
-            <input type="number" name="ranking" id="ranking" value="<%= publication.ranking %>">
-        </div>
+        
         <div class="field">
             <label for="recipesPictures">Fotos de la receta </label>
             <input type="file" name="recipesPictures" id="recipesPictures" value="<%= publication.recipesPictures %>">
@@ -46,10 +141,7 @@
             <label for="recipesVideos">Videos de la receta </label>
             <input type="file" name="recipesVideos" id="recipesVideos" value="<%= publication.recipesVideos %>">
         </div>
-        <!-- <div class="field">
-            <label for="stepsPictures">Fotos de los pasos </label>
-            <input type="file" name="stepsPictures" id="stepsPictures" value="<%= publication.stepsPictures %>">
-        </div> -->
+       
         <div class="field">
             <% if (publication.isNewRecord) { %>
             <input type="submit" value="Create Publication">
@@ -59,4 +151,4 @@
         </div>  
     </form>
 
-</div>
+</div>  -->

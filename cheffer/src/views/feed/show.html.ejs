@@ -1,21 +1,5 @@
 
-<nav>
-    <ul class="menu">
-        <li class="logo"><a href="<%= publicationsPath %>"><img src="<%= assetPath('logo.png') %>" alt="Logo" width="40" height="40"/></a></li>
-        <div class="search-alignment">
-          <li class="item"><input class="insert-text" type="text" name="search" id="search"></li>
-          <li class="item"><a href="#"><img src="<%= assetPath('lupa.png') %>" alt="lupa" width="25" height="20"/></a></li>
-        </div>
-        <div class="options-alignment">
-          <li class="item"><a href="#"><img src="<%= assetPath('activity.png') %>" alt="act" width="25" height="20"/></a></li>
-          <li class="item"><a href="<%= newPublicationPath %>"><img src="<%= assetPath('upload.png') %>" alt="upload" width="25" height="20"/></a></li>
-          <li class="item"><a href="<%= messagesPath %>"><img src="<%= assetPath('messages.png') %>" alt="mssgs" width="25" height="20"/></a></li>
-          <li class="item"><a href="#"><img src="<%= assetPath('explore.JPG') %>" alt="explore" width="25" height="20"/></a></li>
-          <li class="item"><a href=" <%= userPath(currentUser) %>">Profile</a></li>
-          <li class="item"><a href="<%= editUserPath %>">Edit</a></li>
-        </div>
-    </ul>
-  </nav>
+ 
   
   </div>
   <div class="main">
@@ -25,16 +9,40 @@
         </div>
         <div id="recuadro">
             <div class="box-feed">
-                <div>
-                    <% publications.forEach(publication => { %>
-                        <h1><a href="<%= publicationPath(publication) %>"><%= publication.name %></a></h1>
+              <% publications.forEach(publication => { %>
+              <div class="field-alignment">
+                <div class="box-separator">
+                  <div class="field-alignment-row-sp">
+                    <div class="round-pic">
+                      <img src="<%= assetPath('no-pic.png') %>" width="60" height="60">
+                    </div>
+                    <div class="search-alignment">
+                        <h2> <a href="<%= userPath(publication.user) %>"><%= publication.user.username %> </a> </h2>
+                    </div>
+                    
+                  </div>
+                </div>
+              
+                <div class="filler"></div>
+                <div class="filler"></div>
+
+               </div>
+                      <div class="box-separator">
+                        <div class="search-alignment">
+                          <h3> <a href="<%= publicationPath(publication) %>"><%= publication.name %></a></h3>
+                        </div>
+                      </div>
+
+                        
+                        <p> Fotos: <%= publication.recipesPictures %></p>
                         <p> Ingredientes: <%= publication.ingredients %></p>
                         <p> Tiempo de Preparación: <%= publication.time %></p>
                         <p> Pasos: <%= publication.steps %></p>
-                        <p> Ranking: <%= publication.ranking %></p>
-                        <p> Fotos: <%= publication.recipesPictures %></p>
-                        <p> Video: <%= publication.recipesVideos %></p>
+                        <!-- <p> Ranking: <%= publication.ranking %></p> -->
+                        
+                        <!-- <p> Video: <%= publication.recipesVideos %></p> -->
                         <p>Descripcion: <%= publication.description %></p>
+                        <div class="field-alignment-row-sp">
                         <p>Likes: <%= publication.likes %> </p>
 
                         <div>
@@ -50,9 +58,10 @@
                             </form>
                             <% }%>  
                         </div>
+                      </div>
                     <% }); %>
                     
-                </div>
+                
             </div>
             <br>
         </div>

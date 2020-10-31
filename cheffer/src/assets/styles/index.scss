@@ -49,6 +49,20 @@ header {
             transition: 0.3s;
         }	
 }
+.delete-button{
+    color: black;
+    background-color:rgb(235, 235, 235);
+    border: 1px solid #6e6d6d;
+    padding: 4px 15px;
+    border-radius: 20px;
+    text-decoration: none;
+    cursor: pointer;
+    &:hover {
+        background-color: white;
+        color: #6e6d6d;
+        transition: 0.3s;
+    }	
+}
 .welcome {
     display: flex;
     justify-content: center;

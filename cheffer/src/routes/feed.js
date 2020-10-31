@@ -17,6 +17,8 @@ router.get("feed.show", "/", loadPublications, async (ctx) => {
     const { currentUser, publications } = ctx.state;
     for (let pub of publications){
         let likes= await pub.getLikedUsers()
+        const user = await pub.getUser()
+        pub.user = user
         pub.likes = likes.length;
         pub.currentUserLikedPublication = false;
         for (let us of likes){
@@ -34,7 +36,7 @@ router.get("feed.show", "/", loadPublications, async (ctx) => {
         // para irse a comentarios
         publicationsPath: ctx.router.url("publications.index", {userId: currentUser.id}),
         newPublicationPath: ctx.router.url("publications.new", {userId: currentUser.id}),
-        userPath: (user) => ctx.router.url("users.show", {id: currentUser.id}),
+        userPath: (user) => ctx.router.url("users.show", {id: user.id}),
         publicationPath: (publication) => ctx.router.url("publications.show", {id: publication.id, userId: publication.userId}),
         //para irse a mensajes
         messagesPath: ctx.router.url("messages.index", {userId: currentUser.id}),
