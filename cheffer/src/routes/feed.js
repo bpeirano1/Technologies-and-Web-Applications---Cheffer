@@ -14,8 +14,26 @@ async function loadPublication2(ctx, next) {
 };
 
 router.get("feed.show", "/", loadPublications, async (ctx) => {
-    const { currentUser, publications } = ctx.state;
+    const {currentUser, publications } = ctx.state;
+
+
+    //aqui filtramos por las publicaciones de los usuarios que sigue el current user
+    const currentUserFollowings = await currentUser.getFollowed()  // usuarios que sigue el current user
+    const currentUserFollowingsId = []
+    const publicationsFiltered = []
+
+    for (let following of currentUserFollowings) {
+        currentUserFollowingsId.push(following.id)
+    }
     for (let pub of publications){
+        if (currentUserFollowingsId.includes(pub.userId)){
+            publicationsFiltered.push(pub)
+        }
+        //console.log(currentUserFollowingsId.includes(pub.userId))
+    }
+    //console.log("Publicaciones Filtradas")
+    //console.log(publicationsFiltered)
+    for (let pub of publicationsFiltered){
         let likes= await pub.getLikedUsers()
         const user = await pub.getUser()
         pub.user = user
@@ -28,9 +46,10 @@ router.get("feed.show", "/", loadPublications, async (ctx) => {
         }
         
     }
+    ///aqui ya teminamos de filtar
     
     await ctx.render("feed/show", {
-        publications,
+        publicationsFiltered,
         usersPath: ctx.router.url("users.index"),
         editUserPath: ctx.router.url("users.edit", {id: currentUser.id}),
         // para irse a comentarios

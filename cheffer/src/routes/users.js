@@ -179,7 +179,7 @@ router.get("users.show", "/:id",loadUser, async (ctx) => {
             userFollowingData.beingFollowed = true;
         };
     };
-    userFollowingData.following = (await user.getFollowed()).length;
+    userFollowingData.following = (await user.getFollowed()).length;  //para obtener las perosnas que sigue el usuario
     userFollowingData.followedBy = (await user.getFollows()).length;
     // esto es para los likes
     for (let pub of publications){
@@ -220,6 +220,7 @@ router.get("users.show", "/:id",loadUser, async (ctx) => {
 
 router.get("users.edit", "/:id/edit", loadUser, async (ctx) => {
     const { user }= ctx.state;
+    console.log("Hola aqui en el editeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee")
     await ctx.render("users/edit", {
         user,
         //userPath: ctx.router.url("users.show",{id: user.id}),
@@ -230,10 +231,13 @@ router.get("users.edit", "/:id/edit", loadUser, async (ctx) => {
 });
 
 router.patch("users.update","/:id", loadUser, async (ctx) => {
-    const { user }  = ctx.state;
+    console.log("Holiwiiiiii bartaosfiamfkjankasjnkasdndkasnjnsdkanjaksnds")
+    const { cloudinary, user }  = ctx.state;
+    console.log("Aqui el cloudaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa")
+    console.log(cloudinary);
     try {
-        const {name, lastname, username, email, password,
-             picture, country, description} = ctx.request.body;
+        const {name, lastname, username, email, password, picture,
+             country, description} = ctx.request.body;
         await user.update({name, lastname, username, email, password, picture, country, description})
         ctx.redirect(ctx.router.url("users.show", {id: user.id}))
     } catch (validationError) {
