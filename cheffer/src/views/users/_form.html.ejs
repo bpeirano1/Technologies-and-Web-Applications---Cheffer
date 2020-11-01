@@ -23,7 +23,7 @@
         </div>
         <% } %>
 
-        <form action="<%= submitUserPath %>" method="POST">
+        <form action="<%= submitUserPath %>" method="POST" enctype="multipart/form-data">
             <% if (!user.isNewRecord) { %>
             <input type="hidden" name="_method" value="PATCH">
             <% } %>

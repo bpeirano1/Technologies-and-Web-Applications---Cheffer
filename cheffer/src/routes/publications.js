@@ -130,14 +130,30 @@ router.get("publications.edit", "/:id/edit",loadPublication, loadUser, async (ct
 });
 
 router.patch("publications.update","/:id", loadPublication, loadUser, async (ctx) => {
-    const { publication, user}  = ctx.state;
+    const { cloudinary, publication, user}  = ctx.state;
+    console.log("HOLAAAAA Baarrtt0")
+    console.log(ctx.request.files)
     try {
+        const image = ctx.request.files.recipesPictures;
+        c//onsole.log("HOLAAAAA Baarrtt1");
+        if (image.size > 0){
+            //console.log("HOLAAAAA Baarrtt2")
+            const uploadedImage = await cloudinary.uploader.upload(image.path);
+            ctx.request.body.recipesPictures = uploadedImage.public_id;
+            //console.log(typeof(uploadedImage.public_id))
+
+        }
+        //console.log("HOLAAAAA Baarrtt3")
         const {name, ingredients, time, steps, userId, 
             description, ranking, recipesPictures, recipesVideos , stepsPictures} = ctx.request.body;
+        console.log(recipesPictures)
+        //console.log("HOLAAAAA Baarrtt4");  
         await publication.update({name, ingredients, time, steps, userId, 
             description, ranking, recipesPictures, recipesVideos , stepsPictures})
         ctx.redirect(ctx.router.url("publications.show", {id: publication.id, userId: user.id}))
     } catch (validationError) {
+        console.log("Se levanto un error bartoo");
+        console.log(validationError);
         await ctx.render("publications/edit", {
             publication,
             publicationPath: ctx.router.url("publications.show",{id: publication.id, userId: user.id}),
