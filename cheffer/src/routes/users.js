@@ -219,7 +219,8 @@ router.get("users.show", "/:id",loadUser, async (ctx) => {
 // });
 
 router.get("users.edit", "/:id/edit", loadUser, async (ctx) => {
-    const { user }= ctx.state;
+    const { user } = ctx.state;
+    // const user = ctx.orm.user.build();
     console.log("Hola aqui en el editeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee")
     await ctx.render("users/edit", {
         user,
@@ -230,23 +231,36 @@ router.get("users.edit", "/:id/edit", loadUser, async (ctx) => {
     });
 });
 
-router.patch("users.update","/:id", loadUser, async (ctx) => {
-    console.log("Holiwiiiiii bartaosfiamfkjankasjnkasdndkasnjnsdkanjaksnds")
-    const { cloudinary, user }  = ctx.state;
-    console.log("Aqui el cloudaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa")
-    console.log(cloudinary);
+router.post("users.update","/:id", loadUser, async (ctx) => {
+    const {user, cloudinary} = ctx.state;
+    const {password, confirmPassword } = ctx.request.body;
+    console.log(user.name);
     try {
-        const {name, lastname, username, email, password, picture,
-             country, description} = ctx.request.body;
-        await user.update({name, lastname, username, email, password, picture, country, description})
-        ctx.redirect(ctx.router.url("users.show", {id: user.id}))
+        if (password === confirmPassword){
+            console.log("password igual");
+            const {name, lastname, username, email, password, picture,
+                country, description} = ctx.request.body;
+            console.log(name);
+            await user.update({name, lastname, username, email, password, picture, country, description})
+            const encodedId = hashids.encode(user.id, process.env.HASH_SECRET);
+            ctx.session.userId = encodedId;
+            ctx.redirect(ctx.router.url("users.show", {id: user.id}))
+            }
+        if (password != confirmPassword){
+            await ctx.render("users/edit", {
+                userPath: (user) => ctx.router.url("users.show", {id: user.id}),
+                submitUserPath: ctx.router.url("users.update", {id: user.id}),
+                deleteUserPath: ctx.router.url("users.delete", {id: user.id}),
+                errors: "C",
+            })
+        }
     } catch (validationError) {
         await ctx.render("users/edit", {
             user,
-            userPath: ctx.router.url("users.show",{id: user.id}),
+            userPath: (user) => ctx.router.url("users.show", {id: user.id}),
             submitUserPath: ctx.router.url("users.update", {id: user.id}),
             deleteUserPath: ctx.router.url("users.delete", {id: user.id}),
-            errors: validationError.errors
+            errors: "B",
         })
     }
 });
