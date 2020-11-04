@@ -144,6 +144,7 @@ router.patch("publications.update","/:id", loadPublication, loadUser, async (ctx
     //console.log("HOLAAAAA Baarrtt0")
     //console.log(ctx.request.files)
     try {
+        // Esto es para subir las fotos
         const image = ctx.request.files.recipesPictures;
         if (image.size > 0){
             //console.log("HOLAAAAA Baarrtt2")
@@ -152,6 +153,7 @@ router.patch("publications.update","/:id", loadPublication, loadUser, async (ctx
             //console.log(typeof(uploadedImage.public_id))
 
         }
+        //Aqui se termina para subir las fotos
         console.log("HOLAAAAA Baarrtt3")
         const {name, ingredients, time, steps, userId, 
             description, ranking, recipesPictures, recipesVideos , stepsPictures} = ctx.request.body;

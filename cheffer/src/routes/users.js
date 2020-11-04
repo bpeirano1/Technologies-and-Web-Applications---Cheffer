@@ -114,10 +114,32 @@ router.get("users.new", "/signup", loadUser, (ctx) => {
 });
 
 router.post("users.create", "/", async (ctx) => {
+    console.log(ctx.request)
+    console.log(ctx.request.body)
+    console.log(ctx.request.files)
     const user = ctx.orm.user.build(ctx.request.body);
     const { password, confirmPassword} = ctx.request.body;
+    const { cloudinary}  = ctx.state;
     try { 
         if (password === confirmPassword){
+
+        console.log("aqui estamos funcionando bien bart")
+        console.log(ctx.request.files)
+        const image = ctx.request.files.picture;
+        console.log("Problemas al cargar la imagen")
+        if (image.size > 0){
+            //console.log("HOLAAAAA Baarrtt2")
+            console.log("aqui estamos funcionando bien bart en el if")
+            const uploadedImage = await cloudinary.uploader.upload(image.path, {resource_type : "auto"}, function(error, result) {console.log(result, error); });
+            ctx.request.body.picture = uploadedImage.public_id;
+            user.picture = uploadedImage.public_id;
+            //console.log(typeof(uploadedImage.public_id))
+
+            console.log("aqui estamos funcionando bien termiando el if")
+        
+
+        }
+
         await user.save({ fields: ["name", "lastname", "username", "email", "password", "picture", "country", "description"] });
         const encodedId = hashids.encode(user.id, process.env.HASH_SECRET);
         ctx.session.userId = encodedId;
@@ -235,8 +257,22 @@ router.post("users.update","/:id", loadUser, async (ctx) => {
     const {user, cloudinary} = ctx.state;
     const {password, confirmPassword } = ctx.request.body;
     console.log(user.name);
+    console.log(ctx.request.files)
     try {
         if (password === confirmPassword){
+            const image = ctx.request.files.picture;
+            if (image.size > 0){
+                //console.log("HOLAAAAA Baarrtt2")
+                console.log("aqui estamos funcionando bien bart en el if")
+                const uploadedImage = await cloudinary.uploader.upload(image.path, {resource_type : "auto"}, function(error, result) {console.log(result, error); });
+                ctx.request.body.picture = uploadedImage.public_id;
+                
+                //console.log(typeof(uploadedImage.public_id))
+    
+                console.log("aqui estamos funcionando bien termiando el if")
+            
+    
+            }
             console.log("password igual");
             const {name, lastname, username, email, password, picture,
                 country, description} = ctx.request.body;

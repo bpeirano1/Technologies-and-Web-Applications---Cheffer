@@ -13,7 +13,7 @@
                 <div class="box-separator">
                   <div class="field-alignment-row">
                     <div class="round-pic">
-                      <img src="<%= assetPath('no-pic.png') %>" width="60" height="60">
+                      <img src="<%= cloudinary.url(user.picture, {transformation: [{width: 800, height: 800, gravity: 'face', radius: 'max', crop: 'crop'},{width: 200, crop: 'scale'}]}) %>" width="60" height="60">
                     </div>
                     <div class="field-alignment-column-sp">
                       <p><%= user.username %></p>
@@ -25,12 +25,12 @@
                         <% if (userFollowingData.beingFollowed){ %>
                         <form action="<%= unfollowPath %>" method="POST">
                           <input type="hidden" name="_method" value="DELETE">
-                          <input type="submit" value="unseguir">
+                          <input type="submit" value="Unfollow">
                         </form>
                         <% } else { %>
                         <form action="<%= followPath %>" method="POST">   
                           <input type="hidden" name="_method" value="PUT">
-                          <input type="submit" value="seguir">  
+                          <input type="submit" value="Follow">  
                         </form>
                         <% }%>
                         <% }%> 
