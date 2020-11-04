@@ -34,7 +34,7 @@
                       </div>
 
                         
-                        <p> Fotos: <%= publication.recipesPictures %></p>
+                        <p> <img class="photo-content" src="<%= cloudinary.url(publication.recipesPictures) %>" > </p>
                         <p> Ingredientes: <%= publication.ingredients %></p>
                         <p> Tiempo de Preparación: <%= publication.time %></p>
                         <p> Pasos: <%= publication.steps %></p>
