@@ -11,36 +11,35 @@
                 <h2> Edit User </h2>
               </div>
                
-<div>
+
     <% if (locals.errors) { %>
         <div class="errors">
-            You need to fix the following errors:
-            <ul>
-                <% errors.forEach(error => { %>
-                    <li><%= error.message %></li>
-                    <% }); %>
-            </ul>
+            <% if (errors == "B") { %>
+                <p> Missing Fields </p>    
+            <% } if (errors == "C") { %>
+                <p> Passwords don't match </p>
+                <% } %>
         </div>
-        <% } %>
+    <% } %>
 
-        <form action="<%= submitUserPath %>" method="POST">
-            <% if (!user.isNewRecord) { %>
+        <form action="<%= submitUserPath %>" method="POST" enctype="multipart/form-data">
+            <!-- <% if (!user.isNewRecord) { %>
             <input type="hidden" name="_method" value="PATCH">
-            <% } %>
+            <% } %> -->
             <div class="field">
-                <label for="name">Nombre:</label>
+                <label for="name">Name:</label>
                 <input type="text" name="name" id="name" value="<%= user.name%>">
             </div>
             <div class="field">
-                <label for="lastname">Apellido:</label>
+                <label for="lastname">Lastname</label>
                 <input type="text" name="lastname" id="lastname" value="<%= user.lastname%>">
             </div>
             <div class="field">
-                <label for="username">Username:</label>
+                <label for="username">Username</label>
                 <input type="text" name="username" id="username" value="<%= user.username%>">
             </div>
             <div class="field">
-                <label for="email">Email:</label>
+                <label for="email">Email</label>
                 <input type="email" name="email" id="email" value="<%= user.email%>">
             </div>
             <div class="field">
@@ -52,29 +51,32 @@
                 <input type="password" name="confirmPassword" />
             </div>
             <div class="field">
-                <label for="picture">Foto de perfil</label>
+                <label for="picture">Profile Picture</label>
                 <input type="file" name="picture" id="picture" value="<%= user.picture%>">
             </div>
             <div class="field">
-                <label for="country">País: </label>
+                <label for="country">Country</label>
                 <input type="text" name="country" id="country" value="<%= user.country%>">
             </div>
             <div class="field">
-                <label for="description">Descripcion: </label>
+                <label for="description">Description: </label>
                 <input name="description" id="description" rows="4" cols="30" value="<%= user.description%>">
-            </div>
-            <div class="field">
-                <% if (user.isNewRecord) { %>
-                <input type="submit" value="Create User">
-                <% } else { %>
+            </div>  
+            <div>
                 <input type="submit" value="Update User">
+            </div>
+            
+        </form>
+        <div class="field">
+            <% if (user.isNewRecord) { %>
+            <input type="submit" value="Create User">
+            <% } else { %>
                 <form action="<%= deleteUserPath %>" method="POST">
                     <input type="hidden" name="_method" value="delete"/>
                     <input type="submit" value="Delete User">
                 </form>
-                <% } %>
-            </div>     
-        </form>
+            <% } %>
+        </div>   
 </div> 
 
 

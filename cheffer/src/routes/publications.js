@@ -34,8 +34,18 @@ router.get("publications.new", "/new", loadUser, async (ctx) => {
 });
 
 router.post("publications.create", "/", loadUser, loadPublication, async (ctx) => {
-    const { user } = ctx.state;
+    const {cloudinary, user } = ctx.state;
     try {
+        const image = ctx.request.files.recipesPictures;
+        //onsole.log("HOLAAAAA Baarrtt1");
+        if (image.size > 0){
+            //console.log("HOLAAAAA Baarrtt2")
+            const uploadedImage = await cloudinary.uploader.upload(image.path,{resource_type : "auto"},function(error, result) {console.log(result, error); });
+            ctx.request.body.recipesPictures = uploadedImage.public_id;
+            
+            //console.log(typeof(uploadedImage.public_id))
+
+        }
         const publication = await user.createPublication(ctx.request.body);
         ctx.redirect(ctx.router.url("publications.show", {userId: user.id, id: publication.id}));
     } catch (validationError) {
@@ -89,6 +99,15 @@ router.get("publications.show", "/:id", loadPublication, loadUser, async (ctx) =
             publication.currentUserLikedPublication = true
         }
     }
+
+    //aqui para guardar publicaciones
+    publication.currentUserSaveddPublication = false;
+    const savedUsers= await publication.getSavedUsers();
+    for (let us2 of savedUsers){
+        if (us2.id===currentUser.id){
+            publication.currentUserSavedPublication = true
+        }
+    }
     
 
 
@@ -113,8 +132,10 @@ router.get("publications.show", "/:id", loadPublication, loadUser, async (ctx) =
         reportsPath: ctx.router.url("reports.index", {userId: user.id, publicationId: publication.id}),
         likePath: ctx.router.url("publications.like", {userId: user.id, id: publication.id}),
         unlikePath: ctx.router.url("publications.unlike", {userId: user.id,id: publication.id}),
-        likePublicationPath: (publication) => ctx.router.url("publicationsFeed.like", {publicationId: publication.id}),
-        unlikePublicationPath: (publication) => ctx.router.url("publicationsFeed.unlike", {publicationId: publication.id}),
+        likePublicationPath: (publication) => ctx.router.url("publications.like", {userId: user.id,id: publication.id}),
+        unlikePublicationPath: (publication) => ctx.router.url("publications.unlike", {userId: user.id,id: publication.id}),
+        savedPublicationPath: (publication) => ctx.router.url("publications.save", {userId: user.id,id: publication.id}),
+        unsavedPublicationPath: (publication) => ctx.router.url("publications.unsave", {userId: user.id,id: publication.id}),
     });
 });
 
@@ -130,14 +151,31 @@ router.get("publications.edit", "/:id/edit",loadPublication, loadUser, async (ct
 });
 
 router.patch("publications.update","/:id", loadPublication, loadUser, async (ctx) => {
-    const { publication, user}  = ctx.state;
+    const { cloudinary, publication, user}  = ctx.state;
+    //console.log("HOLAAAAA Baarrtt0")
+    //console.log(ctx.request.files)
     try {
+        // Esto es para subir las fotos
+        const image = ctx.request.files.recipesPictures;
+        if (image.size > 0){
+            //console.log("HOLAAAAA Baarrtt2")
+            const uploadedImage = await cloudinary.uploader.upload(image.path, {resource_type : "auto"}, function(error, result) {console.log(result, error); });
+            ctx.request.body.recipesPictures = uploadedImage.public_id;
+            //console.log(typeof(uploadedImage.public_id))
+
+        }
+        //Aqui se termina para subir las fotos
+        console.log("HOLAAAAA Baarrtt3")
         const {name, ingredients, time, steps, userId, 
             description, ranking, recipesPictures, recipesVideos , stepsPictures} = ctx.request.body;
+        console.log(recipesPictures)
+        //console.log("HOLAAAAA Baarrtt4");  
         await publication.update({name, ingredients, time, steps, userId, 
             description, ranking, recipesPictures, recipesVideos , stepsPictures})
         ctx.redirect(ctx.router.url("publications.show", {id: publication.id, userId: user.id}))
     } catch (validationError) {
+        console.log("Se levanto un error bartoo");
+        console.log(validationError);
         await ctx.render("publications/edit", {
             publication,
             publicationPath: ctx.router.url("publications.show",{id: publication.id, userId: user.id}),
@@ -167,8 +205,23 @@ router.del("publications.unlike","/:id/unlike", loadUser,loadPublication,async (
     await currentUser.removeLikedPublication(publication)
     ctx.redirect(ctx.router.url("publications.show",{userId: user.id, id: publication.id}))
     
+});
 
-})
+// Saved publications routes
+router.put("publications.save","/:id/save", loadUser, loadPublication,async (ctx) =>{
+    const {currentUser,publication,user} = ctx.state;
+    await currentUser.addSavedPublication(publication)
+    ctx.redirect(ctx.router.url("publications.show",{userId: user.id,id: publication.id}))
+
+});
+
+router.del("publications.unsave","/:id/unsave", loadUser,loadPublication,async (ctx) =>{
+    const {currentUser,publication,user} = ctx.state;
+    await currentUser.removeSavedPublication(publication)
+    ctx.redirect(ctx.router.url("publications.show",{userId: user.id, id: publication.id}))
+    
+
+});
 
 //comentarios routes
 

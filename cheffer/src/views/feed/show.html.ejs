@@ -9,12 +9,12 @@
         </div>
         <div id="recuadro">
             <div class="box-feed">
-              <% publications.forEach(publication => { %>
+              <% publicationsFiltered.forEach(publication => { %>
               <div class="field-alignment">
                 <div class="box-separator">
                   <div class="field-alignment-row-sp">
                     <div class="round-pic">
-                      <img src="<%= assetPath('no-pic.png') %>" width="60" height="60">
+                      <img src="<%= cloudinary.url(publication.user.picture, {transformation: [{width: 800, height: 800, gravity: 'face', radius: 'max', crop: 'crop'},{width: 200, crop: 'scale'}]}) %>" width="60" height="60">
                     </div>
                     <div class="search-alignment">
                         <h2> <a href="<%= userPath(publication.user) %>"><%= publication.user.username %> </a> </h2>
@@ -34,7 +34,7 @@
                       </div>
 
                         
-                        <p> Fotos: <%= publication.recipesPictures %></p>
+                        <p> <img class="photo-content" src="<%= cloudinary.url(publication.recipesPictures) %>" > </p>
                         <p> Ingredientes: <%= publication.ingredients %></p>
                         <p> Tiempo de Preparación: <%= publication.time %></p>
                         <p> Pasos: <%= publication.steps %></p>
@@ -55,6 +55,20 @@
                             <form action="<%= likePublicationPath(publication) %>" method="POST">
                               <input type="hidden" name="_method" value="PUT">
                               <input type="submit" value="like">
+                            </form>
+                            <% }%>  
+                        </div>
+
+                        <div>
+                          <% if (publication.currentUserSavedPublication){ %>
+                            <form action="<%= unsavedPublicationPath(publication)%>" method="POST">
+                              <input type="hidden" name="_method" value="DELETE">
+                              <input type="submit" value="unsave">
+                            </form>
+                            <% } else {%> 
+                            <form action="<%= savedPublicationPath(publication) %>" method="POST">
+                              <input type="hidden" name="_method" value="PUT">
+                              <input type="submit" value="save">
                             </form>
                             <% }%>  
                         </div>

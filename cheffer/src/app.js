@@ -1,3 +1,4 @@
+const dotenv = require('dotenv').config();
 const path = require('path');
 const Koa = require('koa');
 const koaBody = require('koa-body');
@@ -7,10 +8,13 @@ const koaStatic = require('koa-static');
 const render = require('koa-ejs');
 const session = require('koa-session');
 const override = require('koa-override-method');
+
+const cloudinary = require('cloudinary').v2;
 const assets = require('./assets');
 const mailer = require('./mailers');
 const routes = require('./routes');
 const orm = require('./models');
+
 
 // App constructor
 const app = new Koa();
@@ -82,6 +86,13 @@ render(app, {
 });
 
 mailer(app);
+
+app.use((ctx, next) =>{
+  if (process.env.CLOUDINARY_URL){
+    ctx.state.cloudinary = cloudinary;
+  }
+  return next()
+});
 
 // Routing middleware
 app.use(routes.routes());

@@ -30,7 +30,7 @@
                       <h2> <%= publication.name %></a></h2>
                     </div>
                   </div>
-                      <p> Foto: <%= publication.recipesPictures %></p>
+                      <p> <img class="photo-content" src="<%= cloudinary.url(publication.recipesPictures) %>" > </p>
                       <p> Ingredientes: <%= publication.ingredients %></p>
                       <p> Tiempo de Preparación: <%= publication.time %></p>
                       <p> Pasos: <%= publication.steps %></p>
@@ -55,6 +55,24 @@
                           <% }%>  
                       </div>  
                       </div>
+
+                      <div class="field-alignment-row-sp">
+                        <div>
+                          <% if (publication.currentUserSavedPublication){ %>
+                            <form action="<%= unsavedPublicationPath(publication) %>" method="POST">
+                              <input type="hidden" name="_method" value="DELETE">
+                              <input type="submit" value="unsave">
+                            </form>
+                            <% } else {%> 
+                            <form action="<%= savedPublicationPath(publication) %>" method="POST">
+                              <input type="hidden" name="_method" value="PUT">
+                              <input type="submit" value="save">
+                            </form>
+                            <% }%>  
+                        </div>  
+                        </div>
+
+
                       <div>
                         <% comments.forEach(comment => { %>
                           <p>  <a href="<%= userPath(comment.user) %>"><%= comment.user.username %> </a> : <%= comment.description %></p>
