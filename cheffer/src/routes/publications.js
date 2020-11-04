@@ -34,8 +34,18 @@ router.get("publications.new", "/new", loadUser, async (ctx) => {
 });
 
 router.post("publications.create", "/", loadUser, loadPublication, async (ctx) => {
-    const { user } = ctx.state;
+    const {cloudinary, user } = ctx.state;
     try {
+        const image = ctx.request.files.recipesPictures;
+        //onsole.log("HOLAAAAA Baarrtt1");
+        if (image.size > 0){
+            //console.log("HOLAAAAA Baarrtt2")
+            const uploadedImage = await cloudinary.uploader.upload(image.path,{resource_type : "auto"},function(error, result) {console.log(result, error); });
+            ctx.request.body.recipesPictures = uploadedImage.public_id;
+            
+            //console.log(typeof(uploadedImage.public_id))
+
+        }
         const publication = await user.createPublication(ctx.request.body);
         ctx.redirect(ctx.router.url("publications.show", {userId: user.id, id: publication.id}));
     } catch (validationError) {
@@ -131,14 +141,13 @@ router.get("publications.edit", "/:id/edit",loadPublication, loadUser, async (ct
 
 router.patch("publications.update","/:id", loadPublication, loadUser, async (ctx) => {
     const { cloudinary, publication, user}  = ctx.state;
-    console.log("HOLAAAAA Baarrtt0")
-    console.log(ctx.request.files)
+    //console.log("HOLAAAAA Baarrtt0")
+    //console.log(ctx.request.files)
     try {
         const image = ctx.request.files.recipesPictures;
-        //onsole.log("HOLAAAAA Baarrtt1");
         if (image.size > 0){
             //console.log("HOLAAAAA Baarrtt2")
-            const uploadedImage = await cloudinary.uploader.upload(image.path);
+            const uploadedImage = await cloudinary.uploader.upload(image.path, {resource_type : "auto"}, function(error, result) {console.log(result, error); });
             ctx.request.body.recipesPictures = uploadedImage.public_id;
             //console.log(typeof(uploadedImage.public_id))
 
