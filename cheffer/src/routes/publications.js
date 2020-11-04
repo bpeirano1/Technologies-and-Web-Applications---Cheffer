@@ -145,7 +145,6 @@ router.patch("publications.update","/:id", loadPublication, loadUser, async (ctx
     //console.log(ctx.request.files)
     try {
         const image = ctx.request.files.recipesPictures;
-        //console.log("HOLAAAAA Baarrtt1");
         if (image.size > 0){
             //console.log("HOLAAAAA Baarrtt2")
             const uploadedImage = await cloudinary.uploader.upload(image.path, {resource_type : "auto"}, function(error, result) {console.log(result, error); });
@@ -153,7 +152,7 @@ router.patch("publications.update","/:id", loadPublication, loadUser, async (ctx
             //console.log(typeof(uploadedImage.public_id))
 
         }
-        //console.log("HOLAAAAA Baarrtt3")
+        console.log("HOLAAAAA Baarrtt3")
         const {name, ingredients, time, steps, userId, 
             description, ranking, recipesPictures, recipesVideos , stepsPictures} = ctx.request.body;
         console.log(recipesPictures)
