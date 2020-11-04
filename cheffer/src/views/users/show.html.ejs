@@ -13,7 +13,7 @@
                 <div class="box-separator">
                   <div class="field-alignment-row">
                     <div class="round-pic">
-                      <img src="<%= assetPath('no-pic.png') %>" width="60" height="60">
+                      <img src="<%= cloudinary.url(user.picture, {transformation: [{width: 800, height: 800, gravity: 'face', radius: 'max', crop: 'crop'},{width: 200, crop: 'scale'}]}) %>" width="60" height="60">
                     </div>
                     <div class="field-alignment-column-sp">
                       <p><%= user.username %></p>
@@ -25,12 +25,12 @@
                         <% if (userFollowingData.beingFollowed){ %>
                         <form action="<%= unfollowPath %>" method="POST">
                           <input type="hidden" name="_method" value="DELETE">
-                          <input type="submit" value="unseguir">
+                          <input type="submit" value="Unfollow">
                         </form>
                         <% } else { %>
                         <form action="<%= followPath %>" method="POST">   
                           <input type="hidden" name="_method" value="PUT">
-                          <input type="submit" value="seguir">  
+                          <input type="submit" value="Follow">  
                         </form>
                         <% }%>
                         <% }%> 
@@ -42,8 +42,8 @@
                   <p><a href="<%= newMessagePath %>">Enviar mensaje a <%= user.username %> </a></p> 
                 <% }%> 
                 <div class="field-alignment-row-sp">
-                  <a href="#"><img src="<%= assetPath('posts.png') %>" alt="posts" width="25" height="20"/>Posts</a>
-                  <a href="#"><img src="<%= assetPath('saved.png') %>" alt="saved" width="25" height="20"/>Saved</a>
+                  <a href="<%= profilePath %>"><img src="<%= assetPath('posts.png') %>" alt="posts" width="25" height="20"/>Posts</a>
+                  <a href="<%= savedPublicationsViewPath %>"><img src="<%= assetPath('saved.png') %>" alt="saved" width="25" height="20"/>Saved</a>
                   <a href="#"><img src="<%= assetPath('tagged.png') %>" alt="tagged" width="25" height="20"/>Tagged</a>
                 </div>
                 

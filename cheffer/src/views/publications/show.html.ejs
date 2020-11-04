@@ -55,6 +55,24 @@
                           <% }%>  
                       </div>  
                       </div>
+
+                      <div class="field-alignment-row-sp">
+                        <div>
+                          <% if (publication.currentUserSavedPublication){ %>
+                            <form action="<%= unsavedPublicationPath(publication) %>" method="POST">
+                              <input type="hidden" name="_method" value="DELETE">
+                              <input type="submit" value="unsave">
+                            </form>
+                            <% } else {%> 
+                            <form action="<%= savedPublicationPath(publication) %>" method="POST">
+                              <input type="hidden" name="_method" value="PUT">
+                              <input type="submit" value="save">
+                            </form>
+                            <% }%>  
+                        </div>  
+                        </div>
+
+
                       <div>
                         <% comments.forEach(comment => { %>
                           <p>  <a href="<%= userPath(comment.user) %>"><%= comment.user.username %> </a> : <%= comment.description %></p>
