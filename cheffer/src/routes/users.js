@@ -235,6 +235,8 @@ router.get("users.show", "/:id",loadUser, async (ctx) => {
         userFollowingData,
         likePublicationPath: (publication2) => ctx.router.url("publicationsUser.like", {publicationId: publication2.id, id: user.id}),
         unlikePublicationPath: (publication2) => ctx.router.url("publicationsUser.unlike", {publicationId: publication2.id, id:user.id}),
+        savedPublicationsViewPath: ctx.router.url("users.savedPublications", {id: currentUser.id}),
+        profilePath: ctx.router.url("users.show", {id: currentUser.id}),  
     });
     }); 
 
@@ -332,8 +334,94 @@ router.del("publicationsUser.unlike","/:id/:publicationId/unlike",loadUser,loadP
     const {currentUser,publication,user} = ctx.state;
     await currentUser.removeLikedPublication(publication)
     ctx.redirect(ctx.router.url("users.show",{id: user.id}))
-    
+});
 
-})
+
+router.get("users.savedPublications", "/:id/savedPublications",loadUser, async (ctx) => {
+    const { user, currentUser } = ctx.state;
+    const publications = await user.getSavedPublication();
+    const followingList = await currentUser.getFollowed();
+    const userFollowingData = {beingFollowed:false}
+    console.log("Aqui viendo los que sigue");
+    //Aquì armamos un objeto pa mandar la informaciòn de los seguidores
+    for (let usuario of followingList){
+        if (usuario.id === user.id){
+            userFollowingData.beingFollowed = true;
+        };
+    };
+    userFollowingData.following = (await user.getFollowed()).length;  //para obtener las perosnas que sigue el usuario
+    userFollowingData.followedBy = (await user.getFollows()).length;
+    // esto es para los likes
+    for (let pub of publications){
+        let likes= await pub.getLikedUsers()
+        let savedUsers = await pub.getSavedUsers()
+        pub.likes = likes.length;
+        pub.currentUserLikedPublication = false;
+        for (let us of likes){
+            if (us.id===currentUser.id){
+                pub.currentUserLikedPublication = true
+            }
+        }    
+        // esto es para ver si el current user guardó a la publicacion
+        pub.currentUserSavedPublication = false;
+        for (let us2 of savedUsers){
+            if (us2.id===currentUser.id){
+                pub.currentUserSavedPublication = true
+            }
+        }  
+    }
+    
+    await ctx.render("users/savedpublications", {
+        user, 
+        publications,
+        //usersPath: ctx.router.url("users.index"),
+        editUserPath: ctx.router.url("users.edit", {id: user.id}),
+        newMessagePath: ctx.router.url("messages.new", {userId: user.id}),
+        // para irse a comentarios
+        publicationsPath: ctx.router.url("publications.index", {userId: user.id}),
+        //para irse a mensajes
+        newPublicationPath: ctx.router.url("publications.new", {userId: user.id}),
+        messagesPath: ctx.router.url("messages.index", {userId: user.id}),
+        userPath: (user) => ctx.router.url("users.show", {id: user.id}),
+        publicationPath: (publication) => ctx.router.url("publications.show", {id: publication.id, userId: user.id}),
+        feedPath: ctx.router.url("feed.show", {userId: user.id}),
+        followPath: ctx.router.url("users.follow", {id: user.id}),
+        unfollowPath: ctx.router.url("users.unfollow", {id: user.id}),
+        userFollowingData,
+        likePublicationPath: (publication2) => ctx.router.url("publicationsUser.like2", {publicationId: publication2.id, id: user.id}),
+        unlikePublicationPath: (publication2) => ctx.router.url("publicationsUser.unlike2", {publicationId: publication2.id, id:user.id}),
+        savedPublicationsViewPath: ctx.router.url("users.savedPublications", {id: currentUser.id}),
+        profilePath: ctx.router.url("users.show", {id: currentUser.id}),
+        savePublicationPath: (publication2) => ctx.router.url("publicationsUser.save", {publicationId: publication2.id, id: user.id}),
+        unsavePublicationPath: (publication2) => ctx.router.url("publicationsUser.unsave", {publicationId: publication2.id, id:user.id}), 
+    });
+    }); 
+
+    router.put("publicationsUser.save","/:id/:publicationId/save", loadUser,loadPublication2,async (ctx) =>{
+        const {currentUser,publication,user} = ctx.state;
+        await currentUser.addSavedPublication(publication)
+        ctx.redirect(ctx.router.url("users.savedPublications",{id: currentUser.id}))
+    
+    });
+    
+    router.del("publicationsUser.unsave","/:id/:publicationId/unsave",loadUser,loadPublication2,async (ctx) =>{
+        const {currentUser,publication,user} = ctx.state;
+        await currentUser.removeSavedPublication(publication)
+        ctx.redirect(ctx.router.url("users.savedPublications",{id: currentUser.id}))
+    });
+
+    /// para los likes de los guardados
+    router.put("publicationsUser.like2","/:id/:publicationId/like2", loadUser,loadPublication2,async (ctx) =>{
+        const {currentUser,publication,user} = ctx.state;
+        await currentUser.addLikedPublication(publication)
+        ctx.redirect(ctx.router.url("users.savedPublications",{id: currentUser.id}))
+    
+    });
+    
+    router.del("publicationsUser.unlike2","/:id/:publicationId/unlike2",loadUser,loadPublication2,async (ctx) =>{
+        const {currentUser,publication,user} = ctx.state;
+        await currentUser.removeLikedPublication(publication)
+        ctx.redirect(ctx.router.url("users.savedPublications",{id: currentUser.id}))
+    });
 
 module.exports = router

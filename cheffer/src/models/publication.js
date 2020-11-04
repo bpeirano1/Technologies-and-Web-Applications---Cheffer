@@ -53,6 +53,13 @@ module.exports = (sequelize, DataTypes) => {
       foreignKey: "publicationId",
 
     });
+
+    models.publication.belongsToMany(models.user,{
+      through: "saved_publications",
+      as: "savedUsers",
+      foreignKey: "publicationId",
+
+    });
   };
   return publication;
 }; 

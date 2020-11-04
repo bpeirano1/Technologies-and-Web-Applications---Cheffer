@@ -99,6 +99,15 @@ router.get("publications.show", "/:id", loadPublication, loadUser, async (ctx) =
             publication.currentUserLikedPublication = true
         }
     }
+
+    //aqui para guardar publicaciones
+    publication.currentUserSaveddPublication = false;
+    const savedUsers= await publication.getSavedUsers();
+    for (let us2 of savedUsers){
+        if (us2.id===currentUser.id){
+            publication.currentUserSavedPublication = true
+        }
+    }
     
 
 
@@ -123,8 +132,10 @@ router.get("publications.show", "/:id", loadPublication, loadUser, async (ctx) =
         reportsPath: ctx.router.url("reports.index", {userId: user.id, publicationId: publication.id}),
         likePath: ctx.router.url("publications.like", {userId: user.id, id: publication.id}),
         unlikePath: ctx.router.url("publications.unlike", {userId: user.id,id: publication.id}),
-        likePublicationPath: (publication) => ctx.router.url("publicationsFeed.like", {publicationId: publication.id}),
-        unlikePublicationPath: (publication) => ctx.router.url("publicationsFeed.unlike", {publicationId: publication.id}),
+        likePublicationPath: (publication) => ctx.router.url("publications.like", {userId: user.id,id: publication.id}),
+        unlikePublicationPath: (publication) => ctx.router.url("publications.unlike", {userId: user.id,id: publication.id}),
+        savedPublicationPath: (publication) => ctx.router.url("publications.save", {userId: user.id,id: publication.id}),
+        unsavedPublicationPath: (publication) => ctx.router.url("publications.unsave", {userId: user.id,id: publication.id}),
     });
 });
 
@@ -194,8 +205,23 @@ router.del("publications.unlike","/:id/unlike", loadUser,loadPublication,async (
     await currentUser.removeLikedPublication(publication)
     ctx.redirect(ctx.router.url("publications.show",{userId: user.id, id: publication.id}))
     
+});
 
-})
+// Saved publications routes
+router.put("publications.save","/:id/save", loadUser, loadPublication,async (ctx) =>{
+    const {currentUser,publication,user} = ctx.state;
+    await currentUser.addSavedPublication(publication)
+    ctx.redirect(ctx.router.url("publications.show",{userId: user.id,id: publication.id}))
+
+});
+
+router.del("publications.unsave","/:id/unsave", loadUser,loadPublication,async (ctx) =>{
+    const {currentUser,publication,user} = ctx.state;
+    await currentUser.removeSavedPublication(publication)
+    ctx.redirect(ctx.router.url("publications.show",{userId: user.id, id: publication.id}))
+    
+
+});
 
 //comentarios routes
 
