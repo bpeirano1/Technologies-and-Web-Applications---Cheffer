@@ -1,4 +1,5 @@
 const KoaRouter = require("koa-router");
+const sendSingupEmail = require('../mailers/singup');
 
 const Hashids = require('hashids/cjs');
 const { or } = require("sequelize");
@@ -122,8 +123,9 @@ router.post("users.create", "/", async (ctx) => {
     const { cloudinary}  = ctx.state;
     try { 
         if (password === confirmPassword){
-
-        console.log("aqui estamos funcionando bien bart")
+        console.log("Antes de mail 1")
+        await sendSingupEmail(ctx, ctx.request.body);
+        console.log("Después de mail")
         console.log(ctx.request.files)
         const image = ctx.request.files.picture;
         console.log("Problemas al cargar la imagen")
@@ -139,7 +141,7 @@ router.post("users.create", "/", async (ctx) => {
         
 
         }
-
+        console.log("Despues mail 2")
         await user.save({ fields: ["name", "lastname", "username", "email", "password", "picture", "country", "description"] });
         const encodedId = hashids.encode(user.id, process.env.HASH_SECRET);
         ctx.session.userId = encodedId;

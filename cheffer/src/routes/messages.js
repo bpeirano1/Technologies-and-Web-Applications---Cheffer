@@ -1,5 +1,5 @@
 const KoaRouter = require("koa-router");
-
+const sendMessageEmail = require('../mailers/message');
 const router = new KoaRouter();
 
 async function loadMessage(ctx, next) {
@@ -33,7 +33,9 @@ router.post("messages.create", "/", loadUser, async (ctx) => {
     message.senderId = ctx.state.currentUser.id
     message.receiverId = user.id
     message.ReceiverUsername = user.username
+    message.ReceiverEmail = user.email
     try {
+        await sendMessageEmail(ctx, user.email);
         await message.save({ fields: ["senderId", "receiverId", "description"] });
         ctx.redirect(ctx.router.url("messages.show", {id: message.id, userId: user.id}));
     } catch (validationError) {
