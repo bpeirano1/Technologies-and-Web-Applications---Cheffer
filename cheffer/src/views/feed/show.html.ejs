@@ -43,21 +43,11 @@
                         <!-- <p> Video: <%= publication.recipesVideos %></p> -->
                         <p>Descripcion: <%= publication.description %></p>
                         <div class="field-alignment-row-sp">
-                        <p>Likes: <%= publication.likes %> </p>
-
-                        <div>
-                          <% if (publication.currentUserLikedPublication){ %>
-                            <form action="<%= unlikePublicationPath(publication) %>" method="POST">
-                              <input type="hidden" name="_method" value="DELETE">
-                              <input type="submit" value="unlike">
-                            </form>
-                            <% } else {%> 
-                            <form action="<%= likePublicationPath(publication) %>" method="POST">
-                              <input type="hidden" name="_method" value="PUT">
-                              <input type="submit" value="like">
-                            </form>
-                            <% }%>  
+                        
+                        
+                        <div class='react-like' data-publication="<%= JSON.stringify(publication.currentUserLikedPublication) %>" data-pub="<%= JSON.stringify(publication)%>" data-likes="<%= JSON.stringify(publication.likes)%>" >
                         </div>
+                        
 
                         <div>
                           <% if (publication.currentUserSavedPublication){ %>

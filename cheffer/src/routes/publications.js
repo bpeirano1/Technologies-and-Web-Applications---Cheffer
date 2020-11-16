@@ -195,16 +195,16 @@ router.del("publications.delete", "/:id",loadPublication, async (ctx)=>{
 //like routes
 router.put("publications.like","/:id/like", loadUser, loadPublication,async (ctx) =>{
     const {currentUser,publication,user} = ctx.state;
-    await currentUser.addLikedPublication(publication)
-    ctx.redirect(ctx.router.url("publications.show",{userId: user.id,id: publication.id}))
-
+    const like = await currentUser.addLikedPublication(publication)
+    // ctx.redirect(ctx.router.url("publications.show",{userId: user.id,id: publication.id}))
+    ctx.body = like;
 });
 
 router.del("publications.unlike","/:id/unlike", loadUser,loadPublication,async (ctx) =>{
     const {currentUser,publication,user} = ctx.state;
     await currentUser.removeLikedPublication(publication)
-    ctx.redirect(ctx.router.url("publications.show",{userId: user.id, id: publication.id}))
-    
+    // ctx.redirect(ctx.router.url("publications.show",{userId: user.id, id: publication.id}))
+    ctx.body = 'Todo ok';
 });
 
 // Saved publications routes

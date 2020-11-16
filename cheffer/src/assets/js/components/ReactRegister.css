@@ -1,0 +1,87 @@
+
+
+* {
+    font-family: 'Roboto', sans-serif;
+}
+
+label {
+    display: flex;
+    margin-bottom: 5px;
+    z-index: 1;
+}
+
+input[type='text'],
+input[type='email'],
+input[type='password'], 
+textarea {
+    display: block;
+    width: 400px;
+    padding: 6px 12px;
+    font-size: 14px;
+    line-height: 1.42857143;
+    color: #555;
+    background-color: #fff;
+    background-image: none;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    z-index: 1;
+}
+#banderajsx {
+    display:inline-block;
+    margin-left: 0;
+    top: 0;
+    bottom: 0;
+}
+
+.form-control {
+    margin-bottom: 20px;
+}
+
+.errors {
+    color: red;
+}
+
+.mainjsx {
+    position: relative;
+    z-index: 1;
+}
+
+.alignmentjsx {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+#recuadro {
+    display:inline-block;
+}
+
+.boxjsx {
+    color: black;
+    background-color: white;
+    border: 1px solid #63615e;
+    padding: 4px 15px;
+    border-radius: 10px;
+    text-decoration: none;
+    z-index: 1;
+    margin-top: 20%;
+    margin-bottom: 20%;
+}
+
+.cheffer-written {
+    text-align: center;
+}
+
+.fillerjsx {
+    background-color: transparent;
+}
+
+.grey-backroundjsx {
+    position: absolute;
+    z-index: 0;
+    top: 0;
+    left: 0;
+    width: 100%;
+    opacity: 0.7;
+    background-color: #d6d5d1;
+}

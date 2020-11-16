@@ -44,10 +44,12 @@
     "webpack-manifest-plugin": "^2.2.0"
   },
   "dependencies": {
+    "axios": "^0.21.0",
     "bcrypt": "^5.0.0",
     "cloudinary": "^1.23.0",
     "core-js": "^3.6.5",
     "dotenv": "^8.2.0",
+    "formik": "^2.2.5",
     "hashids": "^2.2.1",
     "koa": "^2.11.0",
     "koa-body": "^4.1.1",
@@ -66,7 +68,8 @@
     "react-dom": "^16.13.1",
     "react-hot-loader": "^4.12.21",
     "sequelize": "^5.21.7",
-    "sequelize-cli": "^5.5.1"
+    "sequelize-cli": "^5.5.1",
+    "yup": "^0.29.3"
   },
   "engines": {
     "node": "10.x || 12.x",
