@@ -55,7 +55,10 @@
                   <!-- <p> Ranking: <%= publication.ranking %></p> -->
                   <!-- <p> Video: <%= publication.recipesVideos %></p> -->
                   <p>Descripcion: <%= publication.description %></p>
-                  <p>Likes: <%= publication.likes %> </p>
+
+                  <div class='react-like' data-publication="<%= JSON.stringify(publication.currentUserLikedPublication) %>" data-pub="<%= JSON.stringify(publication)%>" data-likes="<%= JSON.stringify(publication.likes)%>" >
+                  </div>
+                  <!-- <p>Likes: <%= publication.likes %> </p>
 
                   <div>
                     <% if (publication.currentUserLikedPublication){ %>
@@ -69,7 +72,7 @@
                         <input type="submit" value="like">
                       </form>
                       <% }%>  
-                  </div>
+                  </div> -->
                   
                 <% }); %>
               
