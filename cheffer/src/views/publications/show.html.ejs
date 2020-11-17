@@ -38,8 +38,10 @@
                       
                       <!-- <p> Video: <%= publication.recipesVideos %></p> -->
                       <p>Descripcion: <%= publication.description %></p>
+                      <div class='react-like' data-publication="<%= JSON.stringify(publication.currentUserLikedPublication) %>" data-pub="<%= JSON.stringify(publication)%>" data-likes="<%= JSON.stringify(publication.likes)%>" >
+                      </div>
                 </div>
-                    <div class="field-alignment-row-sp">
+                    <!-- <div class="field-alignment-row-sp">
                       <p>Likes: <%= publication.likes %> </p>
                       <div>
                         <% if (publication.currentUserLikedPublication){ %>
@@ -54,7 +56,7 @@
                           </form>
                           <% }%>  
                       </div>  
-                      </div>
+                      </div> -->
 
                       <div class="field-alignment-row-sp">
                         <div>
