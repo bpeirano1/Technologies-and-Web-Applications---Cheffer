@@ -14,7 +14,7 @@
                 <div class="box-separator">
                   <div class="field-alignment-row-sp">
                     <div class="round-pic">
-                      <img src="<%= cloudinary.url(publication.user.picture, {transformation: [{width: 800, height: 800, gravity: 'face', radius: 'max', crop: 'crop'},{width: 200, crop: 'scale'}]}) %>" width="60" height="60">
+                      <img class="profile-pic" src="<%= cloudinary.url(publication.user.picture, {transformation: [{width: 800, height: 800, gravity: 'face', radius: 'max', crop: 'crop'},{width: 200, crop: 'scale'}]}) %>" width="60" height="60">
                     </div>
                     <div class="search-alignment">
                         <h2> <a href="<%= userPath(publication.user) %>"><%= publication.user.username %> </a> </h2>
