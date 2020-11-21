@@ -1,6 +1,7 @@
 const KoaRouter = require("koa-router");
 const sendSingupEmail = require('../mailers/singup');
 
+
 const Hashids = require('hashids/cjs');
 const { or } = require("sequelize");
 
@@ -115,37 +116,22 @@ router.get("users.new", "/signup", loadUser, (ctx) => {
 });
 
 router.post("users.create", "/", async (ctx) => {
-    console.log(ctx.request)
-    console.log(ctx.request.body)
-    console.log(ctx.request.files)
-    const user = ctx.orm.user.build(ctx.request.body);
     const { password, confirmPassword} = ctx.request.body;
     const { cloudinary}  = ctx.state;
     try { 
         if (password === confirmPassword){
-        console.log("Antes de mail 1")
-        await sendSingupEmail(ctx, ctx.request.body);
-        console.log("Después de mail")
-        console.log(ctx.request.files)
-        const image = ctx.request.files.picture;
-        console.log("Problemas al cargar la imagen")
-        if (image.size > 0){
-            //console.log("HOLAAAAA Baarrtt2")
-            console.log("aqui estamos funcionando bien bart en el if")
-            const uploadedImage = await cloudinary.uploader.upload(image.path, {resource_type : "auto"}, function(error, result) {console.log(result, error); });
-            ctx.request.body.picture = uploadedImage.public_id;
-            user.picture = uploadedImage.public_id;
-            //console.log(typeof(uploadedImage.public_id))
-
-            console.log("aqui estamos funcionando bien termiando el if")
-        
-
-        }
-        console.log("Despues mail 2")
-        await user.save({ fields: ["name", "lastname", "username", "email", "password", "picture", "country", "description"] });
-        const encodedId = hashids.encode(user.id, process.env.HASH_SECRET);
-        ctx.session.userId = encodedId;
-        ctx.redirect(ctx.router.url("users.show", {id: user.id}));
+            // const image = ctx.request.files.picture;
+            // if (image.size > 0){
+            //     const uploadedImage = await cloudinary.uploader.upload(image.path, {resource_type : "auto"}, function(error, result) {console.log(result, error); });
+            //     ctx.request.body.picture = uploadedImage.public_id;
+            //     objeto.picture = uploadedImage.public_id;
+            // }
+            const user = await ctx.orm.user.create(ctx.request.body);
+            await sendSingupEmail(ctx, ctx.request.body);
+            // await user.save({ fields: ["name", "lastname", "username", "email", "password", "country", "description"] });
+            const encodedId = hashids.encode(user.id, process.env.HASH_SECRET);
+            ctx.session.userId = encodedId;
+            ctx.body = user;
         }
         if (password != confirmPassword){
             await ctx.render("users/signup", {
@@ -158,17 +144,9 @@ router.post("users.create", "/", async (ctx) => {
         }
         
     } catch (validationError) {
-            await ctx.render("users/signup", {
-            user,
-            //submitUserPath: ctx.router.url("users.create"),
-            //usersPath: ctx.router.url("users.index"), 
-            createUserPath: ctx.router.url("users.create"),
-            createUserFormPath: ctx.router.url("users.new"),
-            usersPath: ctx.router.url("users.index"),
-            errors: validationError.errors,  
-            });
+           ctx.status = 500;
+           ctx.body = validationError.errors;
         }
-
 });
 
 router.del("users.delete", "/:id/delete", loadUser, async (ctx)=>{
@@ -314,14 +292,16 @@ router.del("users.session.destroy", "/", (ctx) => {
 }); 
 router.put("users.follow","/:id/follow",loadUser,async (ctx) => {
     const { user, currentUser} = ctx.state;
-    await currentUser.addFollowed(user)
-    ctx.redirect(ctx.router.url("users.show",{id: user.id}))
+    await currentUser.addFollowed(user);
+    ctx.body = user
+    //ctx.redirect(ctx.router.url("users.show",{id: user.id}))
 
 })
 router.del("users.unfollow","/:id/unfollow",loadUser,async (ctx) => {
     const { user, currentUser} = ctx.state;
     await currentUser.removeFollowed(user)
-    ctx.redirect(ctx.router.url("users.show",{id: user.id}))
+    ctx.body = user
+    //ctx.redirect(ctx.router.url("users.show",{id: user.id}))
 
 });
 

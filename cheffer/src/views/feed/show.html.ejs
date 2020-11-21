@@ -14,7 +14,7 @@
                 <div class="box-separator">
                   <div class="field-alignment-row-sp">
                     <div class="round-pic">
-                      <img src="<%= cloudinary.url(publication.user.picture, {transformation: [{width: 800, height: 800, gravity: 'face', radius: 'max', crop: 'crop'},{width: 200, crop: 'scale'}]}) %>" width="60" height="60">
+                      <img class="profile-pic" src="<%= cloudinary.url(publication.user.picture, {transformation: [{width: 800, height: 800, gravity: 'face', radius: 'max', crop: 'crop'},{width: 200, crop: 'scale'}]}) %>" width="60" height="60">
                     </div>
                     <div class="search-alignment">
                         <h2> <a href="<%= userPath(publication.user) %>"><%= publication.user.username %> </a> </h2>
@@ -43,21 +43,11 @@
                         <!-- <p> Video: <%= publication.recipesVideos %></p> -->
                         <p>Descripcion: <%= publication.description %></p>
                         <div class="field-alignment-row-sp">
-                        <p>Likes: <%= publication.likes %> </p>
-
-                        <div>
-                          <% if (publication.currentUserLikedPublication){ %>
-                            <form action="<%= unlikePublicationPath(publication) %>" method="POST">
-                              <input type="hidden" name="_method" value="DELETE">
-                              <input type="submit" value="unlike">
-                            </form>
-                            <% } else {%> 
-                            <form action="<%= likePublicationPath(publication) %>" method="POST">
-                              <input type="hidden" name="_method" value="PUT">
-                              <input type="submit" value="like">
-                            </form>
-                            <% }%>  
+                        
+                        
+                        <div class='react-like' data-publication="<%= JSON.stringify(publication.currentUserLikedPublication) %>" data-pub="<%= JSON.stringify(publication)%>" data-likes="<%= JSON.stringify(publication.likes)%>" >
                         </div>
+                        
 
                         <div>
                           <% if (publication.currentUserSavedPublication){ %>

@@ -12,14 +12,17 @@
                 <div class="box-separator">
                   <div class="field-alignment-row">
                     <div class="round-pic">
-                      <img src="<%= cloudinary.url(user.picture, {transformation: [{width: 800, height: 800, gravity: 'face', radius: 'max', crop: 'crop'},{width: 200, crop: 'scale'}]}) %>" width="60" height="60">
+                      <img class="profile-pic" src="<%= cloudinary.url(user.picture, {transformation: [{width: 800, height: 800, gravity: 'face', radius: 'max', crop: 'crop'},{width: 200, crop: 'scale'}]}) %>" width="60" height="60">
                     </div>
                     <div class="field-alignment-column-sp">
                       <p><%= user.username %></p>
                       <p><%= user.name %> <%= user.lastname %></p>
-                      <p> Following <%= userFollowingData.following %> Followed <%= userFollowingData.followedBy %></p>
+                      
+                      <!--<p> Following <%= userFollowingData.following %> Followed <%= userFollowingData.followedBy %></p> -->
                       <!-- En el siguiente div se hace el boton para seguir y no seguir-->
-                      <div>
+                      <div class='react-follow' data-user="<%= JSON.stringify(userFollowingData.beingFollowed)%>" data-userId="<%= JSON.stringify(user)%>" >
+                      </div>
+                      <!--<div>
                         <% if (currentUser.id != user.id){ %>
                         <% if (userFollowingData.beingFollowed){ %>
                         <form action="<%= unfollowPath %>" method="POST">
@@ -33,7 +36,8 @@
                         </form>
                         <% }%>
                         <% }%> 
-                      </div>
+                      </div> -->
+
                     </div>
                   </div>
                 </div>
@@ -55,7 +59,10 @@
                   <!-- <p> Ranking: <%= publication.ranking %></p> -->
                   <!-- <p> Video: <%= publication.recipesVideos %></p> -->
                   <p>Descripcion: <%= publication.description %></p>
-                  <p>Likes: <%= publication.likes %> </p>
+
+                  <div class='react-like' data-publication="<%= JSON.stringify(publication.currentUserLikedPublication) %>" data-pub="<%= JSON.stringify(publication)%>" data-likes="<%= JSON.stringify(publication.likes)%>" >
+                  </div>
+                  <!-- <p>Likes: <%= publication.likes %> </p>
 
                   <div>
                     <% if (publication.currentUserLikedPublication){ %>
@@ -69,7 +76,7 @@
                         <input type="submit" value="like">
                       </form>
                       <% }%>  
-                  </div>
+                  </div> -->
                   
                 <% }); %>
               
