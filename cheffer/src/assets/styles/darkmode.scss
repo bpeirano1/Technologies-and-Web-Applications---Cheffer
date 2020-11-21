@@ -1,6 +1,6 @@
 .dark-mode {
     filter: invert(1) hue-rotate(180deg);
-    .logo,.profile-pic,.photo-content, #bandera {
+    .logo,.profile-pic,.photo-content, #bandera, .like-button {
         filter: invert(1) hue-rotate(180deg);
     }
   }

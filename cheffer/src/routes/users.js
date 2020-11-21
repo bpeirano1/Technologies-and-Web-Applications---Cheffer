@@ -292,14 +292,16 @@ router.del("users.session.destroy", "/", (ctx) => {
 }); 
 router.put("users.follow","/:id/follow",loadUser,async (ctx) => {
     const { user, currentUser} = ctx.state;
-    await currentUser.addFollowed(user)
-    ctx.redirect(ctx.router.url("users.show",{id: user.id}))
+    await currentUser.addFollowed(user);
+    ctx.body = user
+    //ctx.redirect(ctx.router.url("users.show",{id: user.id}))
 
 })
 router.del("users.unfollow","/:id/unfollow",loadUser,async (ctx) => {
     const { user, currentUser} = ctx.state;
     await currentUser.removeFollowed(user)
-    ctx.redirect(ctx.router.url("users.show",{id: user.id}))
+    ctx.body = user
+    //ctx.redirect(ctx.router.url("users.show",{id: user.id}))
 
 });
 
