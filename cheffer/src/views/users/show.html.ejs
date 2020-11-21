@@ -17,9 +17,12 @@
                     <div class="field-alignment-column-sp">
                       <p><%= user.username %></p>
                       <p><%= user.name %> <%= user.lastname %></p>
-                      <p> Following <%= userFollowingData.following %> Followed <%= userFollowingData.followedBy %></p>
+                      
+                      <!--<p> Following <%= userFollowingData.following %> Followed <%= userFollowingData.followedBy %></p> -->
                       <!-- En el siguiente div se hace el boton para seguir y no seguir-->
-                      <div>
+                      <div class='react-follow' data-user="<%= JSON.stringify(userFollowingData.beingFollowed)%>" data-userId="<%= JSON.stringify(user)%>" >
+                      </div>
+                      <!--<div>
                         <% if (currentUser.id != user.id){ %>
                         <% if (userFollowingData.beingFollowed){ %>
                         <form action="<%= unfollowPath %>" method="POST">
@@ -33,7 +36,8 @@
                         </form>
                         <% }%>
                         <% }%> 
-                      </div>
+                      </div> -->
+
                     </div>
                   </div>
                 </div>

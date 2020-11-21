@@ -32,6 +32,7 @@ export default function Button({ onClick, publication, pub, likes}) {
             setQuantityLikes(quantityLikes - 1);
         })
     };
+    console.log(userLikes)
     return (
         <div>
             {userLikes ? (
