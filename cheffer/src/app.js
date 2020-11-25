@@ -8,7 +8,7 @@ const koaStatic = require('koa-static');
 const render = require('koa-ejs');
 const session = require('koa-session');
 const override = require('koa-override-method');
-
+const apiRoutes = require('./routes/api');
 const cloudinary = require('cloudinary').v2;
 const assets = require('./assets');
 const mailer = require('./mailers');
@@ -93,6 +93,10 @@ app.use((ctx, next) =>{
   }
   return next()
 });
+
+// API routing middleware
+app.use(apiRoutes.routes());
+
 
 // Routing middleware
 app.use(routes.routes());
