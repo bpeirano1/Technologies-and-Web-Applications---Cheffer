@@ -1,13 +1,29 @@
 const KoaRouter = require('koa-router');
-
+const jwt = require('jsonwebtoken');
 const router = new KoaRouter();
 
-// router.param('id', async (id, ctx, next) => {
-//   const publication = await ctx.orm.publication.findByPk(id, ctx.params.id);
-//   if (!publication) ctx.throw(404);
-//   ctx.state.publication = publication;
-//   return next();
-// });
+// async function loadUser1(ctx, next) {
+//     const { currentUser } = ctx;
+  
+//     if (currentUser.dataValues.id.toString() !== ctx.params.id) {
+//       return (ctx.body = {
+//         error: 'No puedes ver/modificar información de otros clientes',
+//       });
+//     }
+  
+//     return next(ctx);
+//   };
+
+async function loadUser(ctx, next) {
+  // const authorization = ctx.get('Authorization');
+  // const token = authorization.replace('Bearer ', '');
+    const { jwtDecoded: { sub } } = ctx.state;
+    const user = await ctx.orm.user.findByPk(sub);
+    ctx.body = user;
+    console.log(user);
+  return next();
+};
+
 
 async function loadPublication(ctx, next) {
     const publication = "";
@@ -24,7 +40,12 @@ async function loadComment(ctx, next) {
     return next();
 };
 
-
+async function loadToken(ctx, next) {
+  if (await ctx.orm.comment.findByPk(ctx.params.id)){
+      ctx.state.comment = await ctx.orm.comment.findByPk(ctx.params.id);
+  }
+  return next();
+};
 router.get('/', loadPublication,  async (ctx) => {
   const publications = await ctx.orm.publication.findAll();
   ctx.body = publications.map((publication) => ({
@@ -45,8 +66,6 @@ router.get('publication', '/:id', loadPublication, async (ctx) => {
   }
  
 });
-
-
 
 router.get('publication', '/:id/comments', loadPublication, loadComment, async (ctx) => {
     const comments = await ctx.orm.comment.findAll();
@@ -89,11 +108,12 @@ router.get('publication', '/:id/comments/:id', loadPublication, loadComment, asy
 //       }));
 // });
 
-// router.post('publication.new', '/new', async (ctx) => {
-//     const new_publication = await user.createPublication(ctx.request.body);
-//     // const new_publication = await ctx.db.publication.create(body);
-//     ctx.body = new_publication;
-//   });
+router.post('publication.new', '/new', loadUser, async (ctx) => {
+    const { currentUser } = ctx.state;
+    const new_publication = await currentUser.createPublication(ctx.request.body);
+    // const new_publication = await ctx.db.publication.create(body);
+    ctx.body = new_publication;
+  });
   
 
 
