@@ -15,10 +15,12 @@ router.get('/', async (ctx) => {
 });
 
 router.use('/auth', auth.routes());
-router.use('/publications', publications.routes());
+//router.use('/publications', publications.routes());
 
 router.use(jwt({ secret: process.env.JWT_SECRET, key: 'jwtDecoded' }));
 
 router.use('/users', users.routes());
+router.use('/publications', publications.routes());
+
 
 module.exports = router;
