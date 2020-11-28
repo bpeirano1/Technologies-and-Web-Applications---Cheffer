@@ -1,47 +1,46 @@
 import React, {useState} from "react";
 import axios from 'axios';
-import likepic from '../../images/like.png';
-import unlikepic from '../../images/unlike.JPG';
-import './LikeButton.css';
-export default function Button({ onClick, user, userId}) {
+import './FollowButton.css';
+export default function Button({ onClick, user, userId, following,followed}) {
 
     const [userFollowed, setUserFollowed] = useState(user);
-    //const [userFollowInfo, setUserFollowInfo] = useState(followInfo);
+    const [quantityFollowed, setQuantityFollowed] = useState(followed);
     
     const Follow = () => {
         axios({
-            url: `${userId.id}/follow`,
+            url: `${userId}/follow`,
             method: 'put',
             data: user
         })
         .then(response => {
             const followed = response.data;
             setUserFollowed(true);
-            //setUserFollowInfo(userFollowInfo.followedby + 1);
+            setQuantityFollowed(quantityFollowed + 1);
         })
     };
     const UnFollow = () => {
         axios({
-            url: `${userId.id}/unfollow`,
+            url: `${userId}/unfollow`,
             method: 'delete',
             data: user
         })
         .then(response => {
             const followed = response.data;
             setUserFollowed(false);
-            //setUserFollowInfo(userFollowInfo.followedby - 1);
+            setQuantityFollowed(quantityFollowed - 1);
         })
     };
     console.log(userFollowed)
-    console.log(userId.id)
+    console.log(userId)
     return (
         <div>
+            <p>Following {following} Followed {quantityFollowed}</p>
 
             {userFollowed ? (
-                <button className='follow-button' onClick={Follow}>Follow</button>
+                <button className='unfollow-button' onClick={UnFollow}>unFollow</button>
                 
             ) : (
-                <button className='follow-button' onClick={UnFollow}> Unfollow</button>
+                <button className='follow-button' onClick={Follow}> Follow</button>
             )}        
         </div>
     ); 

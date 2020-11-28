@@ -1,29 +1,29 @@
+
+const axios = require("axios");
+
 const KoaRouter = require("koa-router");
 
 const router = new KoaRouter();
 
+
+
 router.get("api.show", "/", async (ctx) => {
-    var unirest = require("unirest");
-    var req = unirest("GET", "https://spoonacular-recipe-food-nutrition-v1.p.rapidapi.com/recipes/mealplans/generate");
 
-    req.query({
-        "targetCalories": "2000",
-        "timeFrame": "day"
-    });
-
-    req.headers({
-        "x-rapidapi-key": "03a700419bmshdf633e7b98069b2p152403jsn06c98d618261",
-        "x-rapidapi-host": "spoonacular-recipe-food-nutrition-v1.p.rapidapi.com",
-        "useQueryString": true
-    });
-
-
-    req.end(function (res) {
-        if (res.error) throw new Error(res.error);
-        console.log(res.body);
-        console.log("bartolitooooooooooooooooooooo");
-    });
+    const options = {
+        method: 'GET',
+        url: 'https://spoonacular-recipe-food-nutrition-v1.p.rapidapi.com/recipes/quickAnswer',
+        params: {q: 'How much vitamin c is in 2 apples?'},
+        headers: {
+        'x-rapidapi-key': 'f643b8fc06msh3ce76efe81c8531p18b404jsn812065b87303',
+        'x-rapidapi-host': 'spoonacular-recipe-food-nutrition-v1.p.rapidapi.com'
+        }
+        };
+    const respuesta = await axios.request(options)
+    console.log(respuesta.data)
+    
+    
     await ctx.render("api-rest/show", {
+        nd: respuesta.data.answer
         
     });
 });
