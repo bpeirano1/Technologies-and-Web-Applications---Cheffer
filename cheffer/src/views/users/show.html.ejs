@@ -17,11 +17,21 @@
                     <div class="field-alignment-column-sp">
                       <p><%= user.username %></p>
                       <p><%= user.name %> <%= user.lastname %></p>
+
+                      <% if (currentUser.id === user.id){ %>
+                      <p> Following <%= userFollowingData.following %> Followed <%= userFollowingData.followedBy %></p>
+                      <% }%> 
                       
                       <!--<p> Following <%= userFollowingData.following %> Followed <%= userFollowingData.followedBy %></p> -->
-                      <!-- En el siguiente div se hace el boton para seguir y no seguir-->
-                      <div class='react-follow' data-user="<%= JSON.stringify(userFollowingData.beingFollowed)%>" data-userId="<%= JSON.stringify(user)%>" >
+                      <!-- En el siguiente div se hace el boton para seguir 
+                        y no seguir-->
+                      
+                      
+                      
+                      <% if (currentUser.id != user.id){ %>
+                      <div class='react-follow' data-user="<%= JSON.stringify(userFollowingData.beingFollowed)%>" data-user-id="<%= JSON.stringify(user.id)%>" data-following="<%= JSON.stringify(userFollowingData.following)%>" data-followed="<%= JSON.stringify(userFollowingData.followedBy)%>" >
                       </div>
+                      <% }%> 
                       <!--<div>
                         <% if (currentUser.id != user.id){ %>
                         <% if (userFollowingData.beingFollowed){ %>

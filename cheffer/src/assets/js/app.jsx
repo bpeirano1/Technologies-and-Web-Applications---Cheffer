@@ -29,6 +29,6 @@ const reactFollow = document.getElementsByClassName('react-follow');
 
 if (reactFollow) {
   reactFollow.forEach(container => 
-    { ReactDOM.render(<FollowButton user ={JSON.parse(container.dataset.user)} userId ={JSON.parse(container.dataset.userId)}  />, container);
+    { ReactDOM.render(<FollowButton user ={JSON.parse(container.dataset.user)} userId={JSON.parse(container.dataset.userId)} following={JSON.parse(container.dataset.following)} followed={JSON.parse(container.dataset.followed)}  />, container);
     })
 }

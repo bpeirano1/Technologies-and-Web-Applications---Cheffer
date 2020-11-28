@@ -15,8 +15,6 @@ async function loadPublication2(ctx, next) {
 
 router.get("feed.show", "/", loadPublications, async (ctx) => {
     const {currentUser, publications } = ctx.state;
-
-
     //aqui filtramos por las publicaciones de los usuarios que sigue el current user
     const currentUserFollowings = await currentUser.getFollowed()  // usuarios que sigue el current user
     const currentUserFollowingsId = []

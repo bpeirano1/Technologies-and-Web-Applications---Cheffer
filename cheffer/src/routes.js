@@ -13,6 +13,7 @@ const messages = require('./routes/messages');
 const reports = require('./routes/reports');
 const feed = require('./routes/feed');
 const admins = require('./routes/admins');
+const apiRest = require('./routes/api/api-rest');
 
 const router = new KoaRouter();
 const hashids = new Hashids(); 
@@ -53,6 +54,7 @@ router.use('/users/:userId/publications/:publicationId/reports', reports.routes(
 router.use('/users/:userId/messages', messages.routes());
 router.use('/feed', feed.routes());
 router.use('/admins', admins.routes());
+router.use('/api-rest', apiRest.routes());
 
 
 module.exports = router;
