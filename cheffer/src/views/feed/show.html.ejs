@@ -35,13 +35,11 @@
 
                         
                         <p> <img class="photo-content" src="<%= cloudinary.url(publication.recipesPictures) %>" > </p>
-                        <p> Ingredientes: <%= publication.ingredients %></p>
-                        <p> Tiempo de Preparación: <%= publication.time %></p>
-                        <p> Pasos: <%= publication.steps %></p>
-                        <!-- <p> Ranking: <%= publication.ranking %></p> -->
-                        
-                        <!-- <p> Video: <%= publication.recipesVideos %></p> -->
-                        <p>Descripcion: <%= publication.description %></p>
+                        <p> Ingredients: <%= publication.ingredients %></p>
+                        <p> Preparation time (hours): <%= publication.time %></p>
+                        <p> Steps: <%= publication.steps %></p>
+                        <p>Description: <%= publication.description %></p>
+                        <p>Know how many calories this preparation has! <a href="<%= questionApiPath(publication) %>">Click here</a> </p>
                         <div class="field-alignment-row-sp">
                         
                         

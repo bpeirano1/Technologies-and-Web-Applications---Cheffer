@@ -117,7 +117,7 @@ router.get("publications.show", "/:id", loadPublication, loadUser, async (ctx) =
         feedPath: ctx.router.url("feed.show", {userId: user.id}),
         newReportPath: ctx.router.url("reports.new", {userId: user.id, publicationId: publication.id}),
         editPublicationPath: ctx.router.url("publications.edit", {userId: user.id, id: publication.id}),
-        
+        questionApiPath: (publication) => ctx.router.url("api.show", {publicationId: publication.id, id: publication.id}),
         // para que los comentarios aparezcan en publicacion
         comment,
         commentsPath: ctx.router.url("comments.index", {

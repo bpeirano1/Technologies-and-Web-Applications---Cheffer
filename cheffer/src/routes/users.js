@@ -210,6 +210,7 @@ router.get("users.show", "/:id",loadUser, async (ctx) => {
         userPath: (user) => ctx.router.url("users.show", {id: user.id}),
         publicationPath: (publication) => ctx.router.url("publications.show", {id: publication.id, userId: user.id}),
         feedPath: ctx.router.url("feed.show", {userId: user.id}),
+        questionApiPath: (publication) => ctx.router.url("api.show", {publicationId: publication.id, id: publication.id}),
         followPath: ctx.router.url("users.follow", {id: user.id}),
         unfollowPath: ctx.router.url("users.unfollow", {id: user.id}),
         userFollowingData,

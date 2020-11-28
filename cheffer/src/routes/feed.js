@@ -19,6 +19,7 @@ router.get("feed.show", "/", loadPublications, async (ctx) => {
     const currentUserFollowings = await currentUser.getFollowed()  // usuarios que sigue el current user
     const currentUserFollowingsId = []
     const publicationsFiltered = []
+    const question = []
 
     for (let following of currentUserFollowings) {
         currentUserFollowingsId.push(following.id)
@@ -66,6 +67,7 @@ router.get("feed.show", "/", loadPublications, async (ctx) => {
         publicationPath: (publication) => ctx.router.url("publications.show", {id: publication.id, userId: publication.userId}),
         //para irse a mensajes
         messagesPath: ctx.router.url("messages.index", {userId: currentUser.id}),
+        questionApiPath: (publication) => ctx.router.url("api.show", {publicationId: publication.id, id: publication.id}),
         likePublicationPath: (publication) => ctx.router.url("publicationsFeed.like", {publicationId: publication.id}),
         unlikePublicationPath: (publication) => ctx.router.url("publicationsFeed.unlike", {publicationId: publication.id}),
         savedPublicationPath: (publication) => ctx.router.url("publicationsFeed.save", {publicationId: publication.id}),
