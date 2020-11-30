@@ -1,5 +1,5 @@
 <h2>Publications</h2>
-<p>Cantidad de Publications: <%= publications.length %></p>
+<p>Amount of Publications: <%= publications.length %></p>
 <div>
     <% publications.forEach(publication => { %>
         <p><a href="<%= publicationPath(publication) %>"><%= publication.name %></a></p>

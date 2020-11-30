@@ -1,22 +1,18 @@
-<div class="alignment-cheffer">
-  <div class="main">
-      <img class="welcome" src="<%= assetPath('cheffer-inicio.png') %>">
-  </div>
-</div>
-
-<div class="alignment-button">
-  <div class="main">
-  <% if (currentUser) { %>
+<nav class="nav">
+  <ul class="menu">
+  <li> <img class="welcome" src="<%= assetPath('cheffer-inicio.png') %>"> </li>
+  <li>
+<% if (currentUser) { %>
       <form action="<%= signOutPath %>" method="post">
         <input type="hidden" name="_method" value="delete" />
-        <input type="submit" value="Sign Out" />
+        <input class="index-sign-in-button" type="submit" value="Sign Out" />
       </form>
       <% } else { %>
-        <a class="sign-in-button" href="<%= signInPath %>">Sign In</a>
+        <a href="<%= signInPath %>"><button class="index-sign-in-button">Sign In</button> </a>
       <% } %>
-  </div> 
-</div> 
+    </li>
+  </ul>
+  </nav>
 
-<img class="background" src="<%= assetPath('background.jpg') %>">
+<img class="background" src="<%= assetPath('baking.jpg') %>">
 
-</div>

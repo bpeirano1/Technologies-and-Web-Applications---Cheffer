@@ -15,3 +15,4 @@ import '../images/no-pic.png';
 import '../images/mymessages.jpeg';
 import '../images/like.png';
 import '../images/unlike.JPG';
+import '../images/baking.jpg';

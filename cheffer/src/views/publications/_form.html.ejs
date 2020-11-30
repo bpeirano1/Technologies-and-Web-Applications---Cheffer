@@ -3,18 +3,18 @@
   <div class="main">
     <div class="alignment">
         <div id="bandera">
-            <img src="<%= assetPath('bandera-lateral.png') %>" width="40" height="498">
+            <img src="<%= assetPath('bandera-lateral.png') %>" width="40" height="100%">
         </div>
         <div id="recuadro">
             <div class="box-feed">
               <div class="field-alignment">
                 <div class="box-separator">
-                  <h2> Nueva publicación </h2>
+                  <h2> New publication </h2>
                 </div>
                     <div>
                     <% if (locals.errors) { %>
                             <div class="errors">
-                                <p> La publicacion no se puede crear debido a:</p>
+                                <p> This post can not be created because:</p>
                                 <ul>
                                     <% errors.forEach(validationError => { %>
                                         <li> <%= validationError.path %>: <%= validationError.message %></li>
@@ -28,41 +28,29 @@
                         <input type="hidden" name="_method" value="PATCH">
                         <% } %>
                         <div class="field">
-                            <label for="name">Nombre:</label>
+                            <label for="name">Name:</label>
                             <input type="text" name="name" id="name" value="<%= publication.name %>">
                         </div>
                         <div class="field">
-                            <label for="ingredients">Ingredientes:</label>
+                            <label for="ingredients">Ingredients:</label>
                             <input type="text" name="ingredients" id="ingredients" value="<%= publication.ingredients %>">
                         </div>
                         <div class="field">
-                            <label for="time">Tiempo de preparacion:</label>
+                            <label for="time">Preparation time (hours):</label>
                             <input type="number" name="time" id="time" value="<%= publication.time %>">
                         </div>
                         <div class="field">
-                            <label for="steps">Pasos a seguir:</label>
+                            <label for="steps">Steps:</label>
                             <input type="text" name="steps" id="steps" value="<%= publication.steps %>">
                         </div>
                         <div class="field">
-                            <label for="description">Descripcion: </label>
+                            <label for="description">Description: </label>
                             <input type="text" name="description" id="description" value="<%= publication.description %>">
                         </div>
-                        <!-- <div class="field">
-                            <label for="ranking">Ranking: </label>
-                            <input type="number" name="ranking" id="ranking" value="<%= publication.ranking %>">
-                        </div> -->
                         <div class="field">
-                            <label for="recipesPictures">Fotos de la receta </label>
+                            <label for="recipesPictures">Recipe's Pictures </label>
                             <input type="file" name="recipesPictures" id="recipesPictures" value="<%= publication.recipesPictures %>">
                         </div>
-                        <div class="field">
-                            <label for="recipesVideos">Videos de la receta </label>
-                            <input type="file" name="recipesVideos" id="recipesVideos" value="<%= publication.recipesVideos %>">
-                        </div>
-                        <!-- <div class="field">
-                            <label for="stepsPictures">Fotos de los pasos </label>
-                            <input type="file" name="stepsPictures" id="stepsPictures" value="<%= publication.stepsPictures %>">
-                        </div> -->
                         <div class="field" >
                             <% if (publication.isNewRecord) { %>
                             

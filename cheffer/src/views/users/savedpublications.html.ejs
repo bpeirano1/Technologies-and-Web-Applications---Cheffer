@@ -1,7 +1,7 @@
 <div class="main">
     <div class="alignment">
         <div id="bandera">
-            <img src="<%= assetPath('bandera-lateral.png') %>" width="40" height="498">
+            <img src="<%= assetPath('bandera-lateral.png') %>" width="40" height="100%">
         </div>
         <div id="recuadro">
             <div class="box-feed">
@@ -35,7 +35,7 @@
                     </div>
                   </div>
                   <% if (currentUser.id != user.id){ %>
-                    <p><a href="<%= newMessagePath %>">Enviar mensaje a <%= user.username %> </a></p> 
+                    <p><a class="button1" href="<%= newMessagePath %>">Send message to <span><%= user.username %> </span></a></p> 
                   <% }%> 
                   <div class="field-alignment-row-sp">
                     <a href="<%= profilePath %>"><img src="<%= assetPath('posts.png') %>" alt="posts" width="25" height="20"/>Posts</a>
