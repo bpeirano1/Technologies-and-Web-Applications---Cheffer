@@ -42,6 +42,9 @@
     text-decoration: none;
     z-index: 1;
 }
+.cheffer-logo-inicio {
+    text-align:center;
+}
 .insert-text {
     color: #63615e;
     background-color: #e7e4e0;
@@ -101,6 +104,11 @@
     display: flex;
     flex-direction: row;
 }
+.line-clamp {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;  
+  }
 
 .options-alignment {
     display: flex;
