@@ -1,18 +1,4 @@
-<nav class="nav">
-  <ul class="menu">
-  <li> <img class="welcome" src="<%= assetPath('cheffer-inicio.png') %>"> </li>
-  <li>
-<% if (currentUser) { %>
-      <form action="<%= signOutPath %>" method="post">
-        <input type="hidden" name="_method" value="delete" />
-        <input class="index-sign-in-button" type="submit" value="Sign Out" />
-      </form>
-      <% } else { %>
-        <a href="<%= signInPath %>"><button class="index-sign-in-button">Sign In</button> </a>
-      <% } %>
-    </li>
-  </ul>
-  </nav>
+
 
 <img class="background" src="<%= assetPath('baking.jpg') %>">
 

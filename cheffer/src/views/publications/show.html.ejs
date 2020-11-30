@@ -44,8 +44,22 @@
                       <p> Steps: <%= publication.steps %></p>
                       <p>Description: <%= publication.description %></p>
                       <p>Know how many calories this preparation has! <a class="button" href="<%= questionApiPath(publication) %>"><span>Click here</span></a> </p>
+                      <div class="field-alignment-row-sp">
                       <div class='react-like' data-publication="<%= JSON.stringify(publication.currentUserLikedPublication) %>" data-pub="<%= JSON.stringify(publication)%>" data-likes="<%= JSON.stringify(publication.likes)%>" >
                       </div>
+                      <div><% if (publication.currentUserSavedPublication){ %>
+                        <form action="<%= unsavedPublicationPath(publication) %>" method="POST">
+                          <input type="hidden" name="_method" value="DELETE">
+                          <button class="save-button" type="submit" ><img src="<%=assetPath('saved.png')%>" width="25" height="25"></button>
+                        </form>
+                        <% } else {%> 
+                        <form action="<%= savedPublicationPath(publication) %>" method="POST">
+                          <input type="hidden" name="_method" value="PUT">
+                          <button class="save-button" type="submit"><img src="<%=assetPath('save.png')%>" width="25" height="25"></button>
+                        </form>
+                        <% }%>  
+                      </div>
+                    </div>
                 </div>
                     <!-- <div class="field-alignment-row-sp">
                       <p>Likes: <%= publication.likes %> </p>
@@ -64,21 +78,6 @@
                       </div>  
                       </div> -->
 
-                      <div class="field-alignment-row-sp">
-                        <div>
-                          <% if (publication.currentUserSavedPublication){ %>
-                            <form action="<%= unsavedPublicationPath(publication) %>" method="POST">
-                              <input type="hidden" name="_method" value="DELETE">
-                              <input type="submit" value="unsave">
-                            </form>
-                            <% } else {%> 
-                            <form action="<%= savedPublicationPath(publication) %>" method="POST">
-                              <input type="hidden" name="_method" value="PUT">
-                              <input type="submit" value="save">
-                            </form>
-                            <% }%>  
-                        </div>  
-                        </div>
 
 
                       <div>

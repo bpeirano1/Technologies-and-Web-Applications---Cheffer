@@ -9,7 +9,11 @@
                   <div class="box-separator">
                     <div class="field-alignment-row">
                       <div class="round-pic">
-                        <img src="<%= cloudinary.url(user.picture, {transformation: [{width: 800, height: 800, gravity: 'face', radius: 'max', crop: 'crop'},{width: 200, crop: 'scale'}]}) %>" width="60" height="60">
+                        <% if (user.picture){ %>
+                      <img class="profile-pic" src="<%= cloudinary.url(user.picture, {transformation: [{width: 800, height: 800, gravity: 'face', radius: 'max', crop: 'crop'},{width: 200, crop: 'scale'}]}) %>" width="60" height="60">
+                      <% } else {%> 
+                      <img src="<%=assetPath('no-pic.png')%>" width="60" height="60">
+                      <% }%>  
                       </div>
                       <div class="field-alignment-column-sp">
                         <p><%= user.username %></p>
@@ -39,7 +43,7 @@
                   <% }%> 
                   <div class="field-alignment-row-sp">
                     <a href="<%= profilePath %>"><img src="<%= assetPath('posts.png') %>" alt="posts" width="25" height="20"/>Posts</a>
-                    <a href="<%= savedPublicationsViewPath %>"><img src="<%= assetPath('saved.png') %>" alt="saved" width="25" height="20"/>Saved</a>
+                    <a href="<%= savedPublicationsViewPath %>"><img src="<%= assetPath('save.png') %>" alt="saved" width="25" height="20"/>Saved</a>
                     <a href="#"><img src="<%= assetPath('tagged.png') %>" alt="tagged" width="25" height="20"/>Tagged</a>
                   </div>
                   
@@ -52,37 +56,28 @@
                     <!-- <p> Ranking: <%= publication.ranking %></p> -->
                     <!-- <p> Video: <%= publication.recipesVideos %></p> -->
                     <p>Descripcion: <%= publication.description %></p>
-                    <p>Likes: <%= publication.likes %> </p>
-  
+                    <div class="field-alignment-row-sp">
+                    <div class='react-like' data-publication="<%= JSON.stringify(publication.currentUserLikedPublication) %>" data-pub="<%= JSON.stringify(publication)%>" data-likes="<%= JSON.stringify(publication.likes)%>" >
+                    </div>
                     <div>
-                      <% if (publication.currentUserLikedPublication){ %>
-                        <form action="<%= unlikePublicationPath(publication) %>" method="POST">
+                      <% if (publication.currentUserSavedPublication){ %>
+                        <form action="<%= unsavePublicationPath(publication) %>" method="POST">
                           <input type="hidden" name="_method" value="DELETE">
-                          <input type="submit" value="unlike">
+                          <button class="save-button" type="submit" ><img src="<%=assetPath('saved.png')%>" width="25" height="25"></button>
                         </form>
                         <% } else {%> 
-                        <form action="<%= likePublicationPath(publication) %>" method="POST">
+                        <form action="<%= savePublicationPath(publication) %>" method="POST">
                           <input type="hidden" name="_method" value="PUT">
-                          <input type="submit" value="like">
+                          <button class="save-button" type="submit"><img src="<%=assetPath('save.png')%>" width="25" height="25"></button>
                         </form>
-                        <% }%>  
+                        <% }%> 
+                      </div>
                     </div>
 
-                    <div>
-                        <% if (publication.currentUserSavedPublication){ %>
-                          <form action="<%= unsavePublicationPath(publication) %>" method="POST">
-                            <input type="hidden" name="_method" value="DELETE">
-                            <input type="submit" value="unsave">
-                          </form>
-                          <% } else {%> 
-                          <form action="<%= savePublicationPath(publication) %>" method="POST">
-                            <input type="hidden" name="_method" value="PUT">
-                            <input type="submit" value="save">
-                          </form>
-                          <% }%>  
-                      </div>
+                    
                     
                   <% }); %>
+                </div>
                 
                   <!-- Publicaciones hacia abajo  hacer un fieldalign column sp y para el lado un for que haga fieldalign row sp-->
                 

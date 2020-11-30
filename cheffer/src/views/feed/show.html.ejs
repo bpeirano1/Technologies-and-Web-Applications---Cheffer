@@ -56,16 +56,16 @@
 
                         <div>
                           <% if (publication.currentUserSavedPublication){ %>
-                            <form action="<%= unsavedPublicationPath(publication)%>" method="POST">
+                            <form action="<%= unsavedPublicationPath(publication) %>" method="POST">
                               <input type="hidden" name="_method" value="DELETE">
-                              <input type="submit" value="unsave">
+                              <button class="save-button" type="submit" ><img src="<%=assetPath('saved.png')%>" width="25" height="25"></button>
                             </form>
                             <% } else {%> 
                             <form action="<%= savedPublicationPath(publication) %>" method="POST">
                               <input type="hidden" name="_method" value="PUT">
-                              <input type="submit" value="save">
+                              <button class="save-button" type="submit"><img src="<%=assetPath('save.png')%>" width="25" height="25"></button>
                             </form>
-                            <% }%>  
+                            <% }%> 
                         </div>
                       </div>
                     <% }); %>
