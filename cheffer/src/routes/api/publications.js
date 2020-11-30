@@ -97,9 +97,16 @@ router.get('publication', '/comments/:id', loadPublication, loadComment, async (
 
 router.post('publication.new', '/new', loadUser, async (ctx) => {
     const { user } = ctx.state;
-    const new_publication = await user.createPublication(ctx.request.body);
-    // const new_publication = await ctx.db.publication.create(body);
-    ctx.body = new_publication;
+    try {
+      const new_publication = await user.createPublication(ctx.request.body);
+      // const new_publication = await ctx.db.publication.create(body);
+      ctx.body = new_publication;
+      //console.log(ctx.body.name, "NOMBREEEE")
+    } catch (validationError) {
+       errors = validationError.errors
+       ctx.body = { errorValidation: validationError.message};
+    }
+    
   });
   
 router.post('publication', '/:id/comments/new', loadPublication, loadUser,  async (ctx) => {
@@ -107,14 +114,18 @@ router.post('publication', '/:id/comments/new', loadPublication, loadUser,  asyn
     const { user, publication } = ctx.state;
     //
     comment.userId = user.id;
-    if (publication){
-      comment.publicationId = publication.id;
-      await comment.save({ fields: ["publicationId", "userId", "description"] });
-    ctx.body = comment;
-    } else {
-      ctx.body = { errorNotFound: 'This id does not exist' };
+    try {
+      if (publication){
+        comment.publicationId = publication.id;
+        await comment.save({ fields: ["publicationId", "userId", "description"] });
+      ctx.body = comment;
+      } else {
+        ctx.body = { errorNotFound: 'This id does not exist' };
+      }
+    } catch (validationError) {
+      errors = validationError.errors
+      ctx.body = { errorValidation: validationError.message};
     }
-    
   });
 
 

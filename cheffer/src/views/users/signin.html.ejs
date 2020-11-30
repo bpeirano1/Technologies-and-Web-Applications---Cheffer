@@ -5,7 +5,7 @@
         </div>
         <div id="recuadro">
             <div class="box">
-                <h1 style="text-align:center"> <img src="<%= assetPath('cheffer-inicio.png') %>" width="100" height="50"></h1>
+                <h1 class="cheffer-logo-inicio"> <img src="<%= assetPath('cheffer-inicio.png') %>" width="100" height="50"></h1>
                 <% if (locals.errors) { %>
                     <div class="errors">
                         <% if (errors == "A") { %>
@@ -26,14 +26,14 @@
                         <input class="insert-text" type="password" name="password" />
                         <br>
                         <div class="field" style="text-align:center"> 
-                            <input type="submit" name="sign-in" value="Sign In">
+                            <input class="delete-button" type="submit" name="sign-in" value="Sign In">
                         </div>
                     </div>
                 </form>
             </div>
             <br>
             <div class="box">
-                <p>Don't have an account? <a href="<%= createUserFormPath %>">Sign Up</a></p>
+                <p>Don't have an account? <a href="<%= createUserFormPath %>"><button class="button2"><span>Sign Up</span></button></a></p>
             </div>
         </div>
         <div class='filler'></div>

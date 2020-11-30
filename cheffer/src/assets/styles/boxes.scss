@@ -15,6 +15,8 @@
     border-radius: 50%;
     text-decoration: none;
     z-index: 1;
+    width: 60px;
+    height: 60px;
     .profile-pic {
         border-radius: 50%;
     }
@@ -39,6 +41,9 @@
     padding: 4px 15px;
     text-decoration: none;
     z-index: 1;
+}
+.cheffer-logo-inicio {
+    text-align:center;
 }
 .insert-text {
     color: #63615e;
@@ -99,6 +104,11 @@
     display: flex;
     flex-direction: row;
 }
+.line-clamp {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;  
+  }
 
 .options-alignment {
     display: flex;
@@ -112,11 +122,16 @@
 }
 
 #bandera {
-    display:inline-block;
+    display: inline-block;
     vertical-align:top;
     height: 100%;
-}
+    width: 40;
 
+}
+.box-img{
+    width: 40;
+    height:100%;
+}
 #recuadro {
     display:inline-block;
 }

@@ -5,7 +5,7 @@
   <div class="main">
     <div class="alignment">
         <div id="bandera">
-            <img src="<%= assetPath('bandera-lateral.png') %>" width="40" height="498">
+          <img src="<%= assetPath('bandera-lateral.png') %>" width="40" height="100%">
         </div>
         <div id="recuadro">
             <div class="box-feed">
@@ -14,7 +14,12 @@
                 <div class="box-separator">
                   <div class="field-alignment-row-sp">
                     <div class="round-pic">
-                      <img class="profile-pic" src="<%= cloudinary.url(publication.user.picture, {transformation: [{width: 800, height: 800, gravity: 'face', radius: 'max', crop: 'crop'},{width: 200, crop: 'scale'}]}) %>" width="60" height="60">
+                      <% if (publication.user.picture){ %>
+                        <img class="profile-pic" src="<%= cloudinary.url(publication.user.picture, {transformation: [{width: 800, height: 800, gravity: 'face', radius: 'max', crop: 'crop'},{width: 200, crop: 'scale'}]}) %>" width="60" height="60">
+                        <% } else {%> 
+                        <img src="<%=assetPath('no-pic.png')%>" width="60" height="60">
+                        <% }%> 
+            
                     </div>
                     <div class="search-alignment">
                         <h2> <a href="<%= userPath(publication.user) %>"><%= publication.user.username %> </a> </h2>
@@ -33,13 +38,15 @@
                         </div>
                       </div>
 
-                        
+                      <% if (publication.recipesPictures){ %>
                         <p> <img class="photo-content" src="<%= cloudinary.url(publication.recipesPictures) %>" > </p>
+                        <% }%>
+                        
                         <p> Ingredients: <%= publication.ingredients %></p>
                         <p> Preparation time (hours): <%= publication.time %></p>
                         <p> Steps: <%= publication.steps %></p>
                         <p>Description: <%= publication.description %></p>
-                        <p>Know how many calories this preparation has! <a href="<%= questionApiPath(publication) %>">Click here</a> </p>
+                        <p>Know how many calories this preparation has! <a class="button" href="<%= questionApiPath(publication) %>"><span>Click here</span></a> </p>
                         <div class="field-alignment-row-sp">
                         
                         
@@ -49,16 +56,16 @@
 
                         <div>
                           <% if (publication.currentUserSavedPublication){ %>
-                            <form action="<%= unsavedPublicationPath(publication)%>" method="POST">
+                            <form action="<%= unsavedPublicationPath(publication) %>" method="POST">
                               <input type="hidden" name="_method" value="DELETE">
-                              <input type="submit" value="unsave">
+                              <button class="save-button" type="submit" ><img src="<%=assetPath('saved.png')%>" width="25" height="25"></button>
                             </form>
                             <% } else {%> 
                             <form action="<%= savedPublicationPath(publication) %>" method="POST">
                               <input type="hidden" name="_method" value="PUT">
-                              <input type="submit" value="save">
+                              <button class="save-button" type="submit"><img src="<%=assetPath('save.png')%>" width="25" height="25"></button>
                             </form>
-                            <% }%>  
+                            <% }%> 
                         </div>
                       </div>
                     <% }); %>
