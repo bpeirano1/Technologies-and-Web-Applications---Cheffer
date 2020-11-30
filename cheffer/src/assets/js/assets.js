@@ -8,6 +8,7 @@ import '../images/messages.png';
 import '../images/upload.png';
 import '../images/lupa.png';
 import '../images/mamapapa.JPG';
+import '../images/save.png';
 import '../images/saved.png';
 import '../images/tagged.png';
 import '../images/posts.png';
