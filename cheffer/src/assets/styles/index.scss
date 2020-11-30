@@ -8,7 +8,7 @@
     font-family: 'Roboto', sans-serif;
 }
 
-.background {
+.background1 {
     position: absolute;
     z-index: 0;
     top: 0;
@@ -16,6 +16,22 @@
     width: 100%;
     opacity: 0.8;
 }
+
+.background {
+    width: 100vw;
+    height: 100vh; 
+    top: 0;
+    left: 0;
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+    } 
+
+
+
+.nav
+    {
+    overflow: auto;
+    }
 .grey-backround{
     position: absolute;
     z-index: 0;
@@ -49,6 +65,57 @@ header {
             transition: 0.3s;
         }	
 }
+.save-button{
+    color: white;
+    background-color: white;
+    border: 1px solid white;
+    padding: 4px 15px;
+    border-radius: 5px;
+    text-decoration: none;
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+    &:hover {
+        background-color: white;
+        color: black;
+        transition: 0.3s;
+    }	
+}
+.index-sign-in-button{
+    color: black;
+    background-color: #f0ebe4;
+    border: 1px solid #7c7469;
+    padding: 4px 15px;
+    border-radius: 20px;
+    text-decoration: none;
+    width: 100px;
+    height: 30px;
+    text-align: center;
+    cursor: pointer;
+    &:hover {
+        background-color: white;
+        color: black;
+        transition: 0.3s;
+    }	
+}
+
+.submit-button {
+    color: black;
+    background-color: #ffffff;
+    border: 1px solid #7c7469;
+    padding: 4px 15px;
+    border-radius: 5px;
+    text-decoration: none;
+    width: 100px;
+    height: 30px;
+    text-align: center;
+    cursor: pointer;
+    &:hover {
+        background-color: white;
+        color: rgb(97, 90, 90);
+        transition: 0.3s;
+    }	
+}
 .delete-button{
     color: black;
     background-color:rgb(235, 235, 235);
@@ -69,3 +136,118 @@ header {
     flex-direction: row;
     z-index: 1;
 }
+
+.button {
+    border-radius: 4px;
+    background-color: #ffffff;
+    border: none;
+    color: #eb7a7a;
+    text-align: center;
+    font-size: 14px;
+    padding: 20px;
+    width: 50px;
+    transition: all 0.5s;
+    cursor: pointer;
+    // margin: 5px;
+  }
+  .button1 {
+    border-radius: 4px;
+    background-color: #ffffff;
+    border: none;
+    color: #474343;
+    text-align: center;
+    font-size: 14px;
+    padding: 20px;
+    width: 50px;
+    transition: all 0.5s;
+    cursor: pointer;
+    // margin: 5px;
+  }
+  .button span {
+    cursor: pointer;
+    display: inline-block;
+    position: relative;
+    transition: 0.5s;
+  }
+  
+  .button span:after {
+    content: '\00bb';
+    position: absolute;
+    opacity: 0;
+    top: 0;
+    right: -20px;
+    transition: 0.5s;
+  }
+  
+  .button:hover span {
+    padding-right: 25px;
+  }
+  
+  .button:hover span:after {
+    opacity: 1;
+    right: 0;
+  }
+
+  .button1 span {
+    cursor: pointer;
+    display: inline-block;
+    position: relative;
+    transition: 0.5s;
+  }
+  
+  .button1 span:after {
+    content: '\00bb';
+    position: absolute;
+    opacity: 0;
+    top: 0;
+    right: -20px;
+    transition: 0.5s;
+  }
+  
+  .button1:hover span {
+    padding-right: 25px;
+  }
+  
+  .button1:hover span:after {
+    opacity: 1;
+    right: 0;
+  }
+
+  .button2 {
+    border-radius: 4px;
+    background-color: #ffffff;
+    border: none;
+    color: black;
+    text-align: center;
+    font-size: 14px;
+    padding: 20px;
+    width: 120px;
+    height: 50px;
+    transition: all 0.5s;
+    cursor: pointer;
+    // margin: 5px;
+  }
+  .button2 span {
+    cursor: pointer;
+    display: inline-block;
+    position: relative;
+    transition: 0.5s;
+  }
+  
+  .button2 span:after {
+    content: '\00bb';
+    position: absolute;
+    opacity: 0;
+    top: 0;
+    right: -20px;
+    transition: 0.5s;
+  }
+  
+  .button2:hover span {
+    padding-right: 25px;
+  }
+  
+  .button2:hover span:after {
+    opacity: 1;
+    right: 0;
+  }
