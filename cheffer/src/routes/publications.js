@@ -187,9 +187,9 @@ router.patch("publications.update","/:id", loadPublication, loadUser, async (ctx
 });
 
 router.del("publications.delete", "/:id",loadPublication, async (ctx)=>{
-    const { publication } = ctx.state;
+    const { publication, currentUser } = ctx.state;
     await publication.destroy();
-    ctx.redirect(ctx.router.url("publications.index"));
+    ctx.redirect(ctx.router.url("users.show",{id: currentUser.id}));
 });
 
 //like routes
@@ -216,7 +216,7 @@ router.put("publications.save","/:id/save", loadUser, loadPublication,async (ctx
 });
 
 router.del("publications.unsave","/:id/unsave", loadUser,loadPublication,async (ctx) =>{
-    const {currentUser,publication,user} = ctx.state;
+    const {currentUser,pubherolication,user} = ctx.state;
     await currentUser.removeSavedPublication(publication)
     ctx.redirect(ctx.router.url("publications.show",{userId: user.id, id: publication.id}))
     
